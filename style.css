@@ -438,3 +438,6 @@ html{scroll-padding-top:20px}
  .nums .u{font-size:1.1rem}
  .nums p{font-size:13.5px}
 }
+/* v18 */
+.top.nohero .hero{padding:72px 0 120px}
+@media(max-width:700px){.top.nohero .hero{padding:48px 0 90px}}
