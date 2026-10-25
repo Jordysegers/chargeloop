@@ -1,0 +1,105 @@
+<!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Beheer – ChargeLoop</title><meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;500;600;700&display=swap"><link rel="stylesheet" href="style.css"></head><body data-page="beheer">
+<div class="top small"><div class="wrap"><header id="hdr"></header><div class="hero"><h1>Beheer<em>omgeving</em></h1><p class="lead">Pas hier de contactgegevens, de FAQ en de stationslocaties aan. Wijzigingen staan direct op de site.</p></div></div><div data-wave></div></div>
+<main><section style="padding-top:20px"><div class="wrap adm" style="max-width:960px"><div id="gate" class="card pad" style="text-align:center">Even laden...</div><div id="panel" hidden>
+<div class="tabs" id="tabs"><button data-t="contact" class="on">Contactgegevens</button><button data-t="faq">FAQ</button><button data-t="stations">Locaties</button><button data-t="images">Foto's en logo's</button><button data-t="vert">Vertalingen</button><button data-t="leads">Berichten</button></div>
+<div class="card pad" id="body"></div></div></div></section></main>
+<footer id="ftr"></footer><script src="i18n.js"></script><script src="sb-config.js"></script><script src="sb.js"></script><script src="app.js"></script>
+<script>
+(function(){
+var esc=CL.esc,DEF=CL.DEF,body=document.getElementById('body'),db=null,tab='contact';
+function $(s,r){return (r||document).querySelector(s)}
+var lastErr='';function LE(e){lastErr=(e&&(e.code||e.name||'')+' '+(e.message||e))||String(e)}
+function toast(t,err){if(err&&lastErr)t+=' ('+lastErr+')';var n=$('#toast');if(!n){n=document.createElement('p');n.id='toast';n.className='msg';n.style.cssText='position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:99;background:#fff;padding:12px 22px;border-radius:999px;box-shadow:0 8px 28px rgba(0,0,0,.22);max-width:92vw;text-align:center';n.setAttribute('role','status');document.body.appendChild(n)}n.className='msg on'+(err?' err':'');n.textContent=t;setTimeout(function(){n.className='msg'},9000)}
+async function init(){
+ db=window.SBDB;var g=$('#gate');
+ function loginForm(msg){g.hidden=false;$('#panel').hidden=true;g.style.textAlign='left';g.innerHTML='<h3 style="font-size:1.5rem;margin-bottom:6px">Inloggen</h3><p style="color:var(--muted);margin-bottom:14px">Alleen voor beheerders.</p><form id="lf" class="it" style="max-width:380px"><label>E-mailadres<input id="le" type="email" autocomplete="username" required></label><label>Wachtwoord<input id="lp" type="password" autocomplete="current-password" required></label><p id="lm" style="color:#C0392B;font-weight:700;margin:4px 0 0">'+(msg||'')+'</p><div class="acts" style="margin-top:10px"><button type="submit">Inloggen</button></div></form>';
+  $('#lf').onsubmit=function(e){e.preventDefault();$('#lm').textContent='Bezig...';$('#lm').style.color='#022943';SBAUTH.login($('#le').value.trim(),$('#lp').value).then(function(){init()},function(x){$('#lm').style.color='#C0392B';$('#lm').textContent='Inloggen mislukt: controleer je e-mailadres en wachtwoord.'})}}
+ if(!SBAUTH.session()){loginForm();return}
+ g.hidden=true;$('#panel').hidden=false;
+ if(!$('#lo')){var lo=document.createElement('p');lo.style.cssText='text-align:right;margin:0 0 10px;font-size:14px';lo.innerHTML='Ingelogd als '+esc(SBAUTH.session().email||'')+' &middot; <a href="#" id="lo" style="font-weight:700">Uitloggen</a>';$('#panel').insertBefore(lo,$('#tabs'));$('#lo').onclick=function(e){e.preventDefault();SBAUTH.logout();location.reload()}}
+ $('#tabs').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;tab=b.dataset.t;[].forEach.call($('#tabs').children,function(x){x.classList.toggle('on',x===b)});show()});show()}
+function show(){({contact:vContact,faq:vFaq,stations:vStations,images:vImages,vert:vVert,leads:vLeads})[tab]()}
+/* contact */
+async function vContact(){var c=await CL.contact();
+ var F=[['adres1','Straat en nummer'],['adres2','Postcode en plaats'],['land','Land'],['tel','Telefoonnummer'],['email','E-mailadres'],['facebook','Facebook-link'],['instagram','Instagram-link'],['linkedin','LinkedIn-link']];
+ body.innerHTML='<h2 style="font-size:2rem;margin-bottom:6px">Contactgegevens</h2><p class="note">Deze gegevens staan in de footer en op de contact- en bedrijvenpagina.</p><div class="it">'+F.map(function(f){return '<label>'+f[1]+'<input data-k="'+f[0]+'" value="'+esc(c[f[0]])+'"></label>'}).join('')+'<div class="acts"><button id="sv">Opslaan</button></div></div>';
+ $('#sv').onclick=async function(){var d={};body.querySelectorAll('[data-k]').forEach(function(i){d[i.dataset.k]=i.value.trim()});try{await db.doc('settings/contact').set(d);toast('Opgeslagen.')}catch(e){LE(e);toast('Opslaan lukt niet.',1)}}}
+/* faq */
+async function vFaq(){
+ var snap=await db.collection('faq').get(),seeded=snap.docs.length>0,items=seeded?snap.docs.map(function(d){var o=Object.assign({},d.data());o.id=d.id;return o}):DEF.faq.map(function(x){return Object.assign({},x)});
+ items.sort(function(a,b){return (a.order||0)-(b.order||0)});
+ function row(f){return '<div class="it" data-id="'+esc(f.id)+'"><label>Categorie<input data-k="cat" value="'+esc(f.cat||'')+'"></label><label>Vraag<input data-k="q" value="'+esc(f.q)+'"></label><label>Antwoord<textarea data-k="a">'+esc(f.a)+'</textarea></label><label>Vraag (Engels)<input data-k="q_en" value="'+esc(f.q_en||'')+'"></label><label>Antwoord (Engels)<textarea data-k="a_en">'+esc(f.a_en||'')+'</textarea></label><div class="g2"><label>Volgorde<input data-k="order" type="number" value="'+(f.order||0)+'"></label><label style="display:flex;gap:8px;align-items:center;margin-top:22px"><input data-k="home" type="checkbox" style="width:auto"'+(f.home?' checked':'')+'> Tonen op de homepage</label></div><div class="acts"><button class="sv">Opslaan</button><button class="del">Verwijderen</button></div></div>'}
+ body.innerHTML='<h2 style="font-size:2rem;margin-bottom:6px">FAQ</h2><p class="note">'+(seeded?'Pas vragen aan, voeg er een toe of verwijder ze.':'Dit zijn de standaardvragen. Klik op "Standaardvragen opslaan" om ze te gaan beheren.')+'</p>'+(seeded?'':'<div class="acts" style="margin-bottom:16px"><button class="btn btn-or" id="seed">Standaardvragen opslaan</button></div>')+'<div class="acts" style="margin-bottom:16px"><button id="add">+ Nieuwe vraag</button></div><div id="items">'+items.map(row).join('')+'</div>';
+ async function ensureFq(){for(var i=0;i<items.length;i++){var o=Object.assign({},items[i]);delete o.id;await db.collection('faq').doc(items[i].id).set(o)}seeded=true}
+ if(!seeded)$('#seed').onclick=async function(){try{await ensureFq();toast('Opgeslagen.');vFaq()}catch(e){LE(e);toast('Opslaan lukt niet.',1)}};
+ $('#add').onclick=async function(){try{await db.collection('faq').add({cat:'Huren en betalen',q:'Nieuwe vraag',a:'Antwoord',order:items.length+1,home:false});vFaq()}catch(e){LE(e);toast('Toevoegen lukt niet.',1)}};
+ body.addEventListener('click',h);function h(e){var b=e.target.closest('button');var it=e.target.closest('.it[data-id]');if(!b||!it||tab!=='faq')return;var id=it.dataset.id;if(!seeded){b.disabled=true;ensureFq().then(function(){h(e)}).catch(function(e2){LE(e2);toast('Opslaan lukt niet.',1)});return}
+  if(b.classList.contains('del')){if(confirm('Deze vraag verwijderen?'))db.doc('faq/'+id).delete().then(vFaq)}
+  if(b.classList.contains('sv')){var d={};it.querySelectorAll('[data-k]').forEach(function(i){d[i.dataset.k]=i.type==='checkbox'?i.checked:i.type==='number'?+i.value:i.value.trim()});db.doc('faq/'+id).set(d).then(function(){toast('Opgeslagen.')},function(e){LE(e);toast('Opslaan lukt niet.',1)})}}
+ body._h&&body.removeEventListener('click',body._h);body._h=h}
+/* stations */
+var smap=null;
+async function vStations(){
+ try{
+ var snap=await db.collection("stations").get(),saved={},off=false;
+ snap.docs.forEach(function(d){var o=Object.assign({},d.data());o.id=d.id;saved[d.id]=o});
+ try{var od=await db.doc('settings/demo_off').get();off=!!(od&&od.exists&&od.data().off)}catch(e){}
+ var items=Object.keys(saved).map(function(k){return saved[k]});
+ var demos=off?[]:DEF.stations.filter(function(x){return !saved[x.id]}).map(function(x){var o=Object.assign({},x);o._demo=1;return o});
+ items=demos.concat(items);
+ function row(s){return '<div class="it" data-id="'+esc(s.id)+'"'+(s._demo?' data-demo="1"':'')+'><div class="g2"><label>Naam<input data-k="naam" value="'+esc(s.naam)+'"></label><label>Plaats<input data-k="plaats" value="'+esc(s.plaats)+'"></label></div><label>Adres<input data-k="adres" value="'+esc(s.adres||'')+'"></label><div class="g2"><label>Breedtegraad<input data-k="lat" value="'+esc(s.lat)+'"></label><label>Lengtegraad<input data-k="lng" value="'+esc(s.lng)+'"></label></div><div class="g2"><label style="display:flex;gap:8px;align-items:center;margin-top:22px"><input data-k="status" type="checkbox" style="width:auto"'+(s.status==='soon'?' checked':'')+'> Binnenkort (toont een label)</label><label>Aantal slots<input data-k="slots" type="number" value="'+esc(s.slots||'')+'"></label></div>'+(s._demo?'<p class="note" style="margin:6px 0">Voorbeeldlocatie, nog niet opgeslagen. Klik op Opslaan om hem echt te maken, of op Verwijderen om hem weg te halen.</p>':'')+'<div class="acts"><button type="button" class="geo">Zoek positie op adres</button><button type="button" class="sv">Opslaan</button><button type="button" class="del">Verwijderen</button></div></div>'}
+ body.innerHTML='<h2 style="font-size:2rem;margin-bottom:6px">Locaties</h2><p class="note">Zonder vinkje is een station actief en staat het gewoon in de lijst. Met het vinkje komt er een label Binnenkort bij. Het aantal stations op de homepage wordt hieruit berekend. Klik op de kaart om de positie van een nieuw station te kiezen.</p><div class="cmap" id="amap" style="height:340px;margin-bottom:12px"></div><p class="note" id="clickp">Klik op de kaart om de coördinaten over te nemen: <b id="pos">–</b></p><div class="acts" style="margin-bottom:16px"><button type="button" id="add">+ Nieuw station</button>'+(off?'<button type="button" id="demoback">Voorbeeldlocaties terugzetten</button>':'')+'<span id="addmsg" style="align-self:center;font-weight:700"></span></div><div id="items">'+items.map(row).join('')+'</div>';
+ var go=function(p){return p.then(function(){return vStations()})};
+ $('#add').onclick=function(){var sp=$('#addmsg');sp.textContent='Bezig met toevoegen...';sp.style.color='#1B7F3B';Promise.race([db.collection('stations').add({naam:'Nieuw station',plaats:'',adres:'',lat:51.5,lng:3.8,status:'soon',slots:6}),new Promise(function(_,r){setTimeout(function(){r({code:'timeout',message:'geen reactie van de database'})},12000)})]).then(function(){sp.textContent='Station toegevoegd.';toast('Station toegevoegd.');setTimeout(vStations,800)},function(e){LE(e);sp.textContent='Toevoegen lukt niet: '+(e.code||'')+' '+(e.message||e);sp.style.color='#C0392B'})};
+ var dbk=$('#demoback');if(dbk)dbk.onclick=function(){db.doc('settings/demo_off').set({off:false}).then(function(){vStations()},function(e){LE(e);toast('Terugzetten lukt niet.',1)})};
+ [].forEach.call(document.querySelectorAll('#items .it'),function(it){
+  var id=it.dataset.id,demo=!!it.dataset.demo;
+  function get(){var d={};it.querySelectorAll('[data-k]').forEach(function(i){d[i.dataset.k]=i.type==='checkbox'?(i.checked?'soon':'live'):i.type==='number'?(+i.value||0):i.value.trim()});d.lat=parseFloat(String(d.lat).replace(',','.'));d.lng=parseFloat(String(d.lng).replace(',','.'));if(demo)d.demo=true;return d}
+  var msg=document.createElement('p');msg.className='note';msg.style.cssText='margin:8px 0 0;font-weight:700';it.appendChild(msg);
+  function say(t,bad){msg.textContent=t;msg.style.color=bad?'#C0392B':'#1B7F3B';try{msg.scrollIntoView({block:'center',behavior:'smooth'})}catch(e){}}
+  function W(p){return Promise.race([p,new Promise(function(_,rej){setTimeout(function(){rej({code:'timeout',message:'geen reactie van de database na 12 seconden'})},12000)})])}
+  it.querySelector('.sv').onclick=function(){var d=get();if(isNaN(d.lat)||isNaN(d.lng)){say('Vul geldige coördinaten in.',1);return}
+   say('Bezig met opslaan...');
+   W(db.doc('stations/'+id).set(d)).then(function(){return W(db.doc('stations/'+id).get())}).then(function(r){
+     var ok=r&&r.exists!==false&&r.data&&r.data().naam===d.naam;
+     if(!ok)throw {code:'controle',message:'opgeslagen maar niet teruggevonden'};
+     say('Opgeslagen en gecontroleerd.');toast('Opgeslagen.');setTimeout(vStations,1200)},function(e){LE(e);say('Opslaan lukt niet: '+(e.code||'')+' '+(e.message||e),1);toast('Opslaan lukt niet.',1)}).catch(function(e){LE(e);say('Fout: '+(e.code||'')+' '+(e.message||e),1)})};
+  it.querySelector('.del').onclick=function(){
+   var btn=it.querySelector('.del');
+   if(demo){it.remove();if(!document.querySelector('#items .it[data-demo]'))W(db.doc('settings/demo_off').set({off:true})).then(function(){toast('Voorbeeldlocaties verborgen.')},function(e){LE(e);toast('Opslaan lukt niet.',1)});return}
+   btn.textContent='Zeker? Klik nogmaals';say('Klik nogmaals op Verwijderen om dit station definitief te verwijderen.',1);
+   btn.onclick=function(){say('Bezig met verwijderen...');try{
+    W(db.doc('stations/'+id).delete()).then(function(){say('Verwijderd.');toast('Verwijderd.');it.style.opacity='.4';setTimeout(vStations,1000)},function(e){LE(e);say('Verwijderen lukt niet: '+(e.code||'')+' '+(e.message||e),1)})}catch(x){say('Fout bij verwijderen: '+x,1)}}};
+  it.querySelector('.geo').onclick=function(){var d2=get();fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q='+encodeURIComponent((d2.adres+' '+d2.plaats).trim())).then(function(r){return r.json()}).then(function(j){if(!j.length)throw 0;it.querySelector('[data-k=lat]').value=(+j[0].lat).toFixed(5);it.querySelector('[data-k=lng]').value=(+j[0].lon).toFixed(5);toast('Positie gevonden. Klik op Opslaan.')}).catch(function(){toast('Niet gevonden. Klik op de kaart en kopieer de coördinaten.',1)})};
+ });
+ try{smap=CL.ChMap($('#amap'),{lat:51.5,lng:3.8,z:9,onclick:function(la,ln){$('#pos').textContent=la.toFixed(5)+', '+ln.toFixed(5);navigator.clipboard&&navigator.clipboard.writeText(la.toFixed(5)+', '+ln.toFixed(5)).catch(function(){})}});smap.set(items.filter(function(s){return s.lat}));smap.fit()}catch(e){LE(e)}
+ }catch(e){LE(e);toast('Locaties laden lukt niet.',1)}}
+/* images */
+var SLOTS=[['step1','Homepage stap 1 (Tap)'],['step2','Homepage stap 2 (Charge)'],['step3','Homepage stap 3 (Go)'],['logo','Logo in de menubalk (bovenaan)'],['logo_footer','Logo in de footer (wit logo, bij voorkeur PNG met transparante achtergrond)'],['hero','Homepage: hero (bovenaan)'],['station','Homepage: uitleg station'],['cables','Homepage: bij kabels'],['business','Homepage: ChargeLoop in je zaak'],['festival','Evenementen: foto van stations op een festival'],['st6','Voor bedrijven: station 6 slots'],['st12','Voor bedrijven: station 12 slots'],['st24','Voor bedrijven: station 24 slots'],['st48','Voor bedrijven: station 48 slots']];
+function shrink(file,png){return new Promise(function(res,rej){var r=new FileReader();r.onerror=rej;r.onload=function(){var im=new Image();im.onerror=rej;im.onload=function(){var m=1400,k=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);var x=c.getContext('2d');if(!png){x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height)}x.drawImage(im,0,0,c.width,c.height);res(png?c.toDataURL('image/png'):c.toDataURL('image/jpeg',.8))};im.src=r.result};r.readAsDataURL(file)})}
+async function vImages(){
+ var s=await db.collection('settings').get(),cur={};s.docs.forEach(function(d){if(d.id.indexOf('img_')===0)cur[d.id.slice(4)]=d.data().src});
+ body.innerHTML='<h2 style="font-size:2rem;margin-bottom:6px">Foto\'s</h2><p class="note">Kies per plek een foto. Zonder eigen foto toont de site de standaardafbeelding. Foto\'s worden automatisch verkleind.</p>'+SLOTS.map(function(x){return '<div class="it" data-k="'+x[0]+'"><b>'+x[1]+'</b>'+(cur[x[0]]?'<img src="'+cur[x[0]]+'" alt="" style="max-height:140px;width:auto;border-radius:12px;justify-self:start;'+(x[0]==='logo_footer'?'background:#022943;padding:12px':'')+'">':'<span style="color:var(--muted);font-size:14px">Standaardafbeelding</span>')+'<div class="acts"><label class="btn btn-navy" style="padding:9px 18px;font-size:14px;cursor:pointer">Foto kiezen<input type="file" accept="image/*" hidden></label>'+(cur[x[0]]?'<button class="del">Terug naar standaard</button>':'')+'</div></div>'}).join('');
+ body._h&&body.removeEventListener('click',body._h);function h(e){var b=e.target.closest('button.del');var it=e.target.closest('.it[data-k]');if(b&&it&&tab==='images')db.doc('settings/img_'+it.dataset.k).delete().then(vImages)}body.addEventListener('click',h);body._h=h;
+ body.querySelectorAll('input[type=file]').forEach(function(f){f.addEventListener('change',async function(){var it=f.closest('.it');if(!f.files[0])return;try{var isLogo=it.dataset.k.indexOf('logo')===0;var d=await shrink(f.files[0],isLogo&&/png|svg|webp/.test(f.files[0].type));await db.doc('settings/img_'+it.dataset.k).set({src:d});toast('Foto opgeslagen.');vImages()}catch(e){LE(e);toast('Opslaan lukt niet. Probeer een kleinere foto.',1)}})})}
+/* vertalingen */
+async function vVert(){
+ var NL=window.CL_NL||{},base=window.CL_EN||{},ids=Object.keys(NL),cur=Object.assign({},base);
+ try{var d=await db.doc('settings/i18n').get();if(d.exists&&d.data().m)Object.assign(cur,d.data().m)}catch(e){}
+ body.innerHTML='<h2 style="font-size:2rem;margin-bottom:6px">Vertalingen</h2><p class="note">De site is standaard Nederlands. Bezoekers kiezen Engels via de taalkeuze bovenin. Pas hier de Engelse tekst per Nederlandse zin aan. Lege velden blijven Nederlands. Vragen en antwoorden van de FAQ vertaal je bij het tabblad FAQ.</p><div class="it"><input id="vq" placeholder="Zoek in de teksten" aria-label="Zoek"><div class="acts"><button id="vs">Alles opslaan</button><span id="vc" class="note" style="margin:0;align-self:center"></span></div></div><div id="vl"></div>';
+ function cnt(){var n=0;ids.forEach(function(k){if(!(cur[k]||'').trim())n++});$('#vc').textContent=n?(n+' van '+ids.length+' nog niet vertaald'):'Alles vertaald'}
+ function draw(q){q=(q||'').toLowerCase();$('#vl').innerHTML=ids.filter(function(k){return !q||NL[k].toLowerCase().indexOf(q)>=0||(cur[k]||'').toLowerCase().indexOf(q)>=0}).map(function(k){return '<div class="it" data-id="'+k+'"><small style="color:var(--muted)">Nederlands</small><div>'+esc(NL[k])+'</div><label>Engels<textarea data-k="'+k+'" style="min-height:62px">'+esc(cur[k]||'')+'</textarea></label></div>'}).join('')||'<p class="note">Niets gevonden.</p>'}
+ draw('');cnt();
+ $('#vq').oninput=function(){draw(this.value)};
+ $('#vl').addEventListener('input',function(e){var k=e.target.dataset.k;if(k){cur[k]=e.target.value;cnt()}});
+ $('#vs').onclick=async function(){var m={};ids.forEach(function(k){if((cur[k]||'').trim())m[k]=cur[k].trim()});try{await db.doc('settings/i18n').set({m:m});toast('Vertalingen opgeslagen.')}catch(e){LE(e);toast('Opslaan lukt niet.',1)}}}
+/* leads */
+async function vLeads(){
+ var snap=await db.collection('leads').get(),L=snap.docs.map(function(d){var o=Object.assign({},d.data());o.id=d.id;return o}).sort(function(a,b){return (b.createdAt||0)-(a.createdAt||0)});
+ var T={contact:'Contact',bedrijf:'Station aanvragen',locatie:'Locatie aangedragen',festival:'Evenement aangemeld'};
+ body.innerHTML='<h2 style="font-size:2rem;margin-bottom:6px">Berichten</h2><p class="note">Alles wat via de formulieren binnenkomt. Voor een echte site koppel je de formulieren aan e-mail (bijvoorbeeld in WordPress).</p>'+(L.length?L.map(function(l){var rest=Object.keys(l).filter(function(k){return ['id','type','createdAt','status'].indexOf(k)<0&&l[k]}).map(function(k){return '<b>'+esc(k)+':</b> '+esc(l[k])}).join(' &middot; ');return '<div class="ld"><b>'+esc(T[l.type]||l.type)+'</b> &middot; '+new Date(l.createdAt||0).toLocaleString('nl-NL')+'<br>'+rest+'<div class="acts" style="margin-top:8px"><button class="del" data-del="'+esc(l.id)+'">Verwijderen</button></div></div>'}).join(''):'<p style="color:var(--muted)">Nog geen berichten.</p>');
+ body._h&&body.removeEventListener('click',body._h);function h(e){var b=e.target.closest('[data-del]');if(b&&confirm('Bericht verwijderen?'))db.doc('leads/'+b.dataset.del).delete().then(vLeads)}body.addEventListener('click',h);body._h=h}
+init();
+})();
+</script></body></html>
