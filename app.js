@@ -1,7 +1,7 @@
 (function(){
 'use strict';
 var DEF={
- contact:{adres1:'Piet Heinstraat 24-101',adres2:'4461 GL Goes',land:'Nederland',tel:'+31 6 21135776',email:'info@chargeloop.nl',facebook:'',instagram:'',linkedin:''},
+ contact:{kvk:'76119890',btw:'NL003047446B03',tel:'+31 6 21135776',email:'info@chargeloop.nl',facebook:'',instagram:'',linkedin:''},
  faq:[
  {id:'d1',cat:'Huren en betalen',order:1,home:true,slug:'prijs',q:'Wat kost een powerbank huren?',a:'Je betaalt €3,00 per uur. Vanaf 3 uur gaat het dagtarief in, en dat is nooit hoger dan €7,50 per dag. Daarnaast reserveren we €30 borg. Die krijg je bij het inleveren terug, min de huurkosten. Op sommige locaties kan het tarief afwijken.'},
  {id:'d2',cat:'Huren en betalen',order:2,home:true,q:'Waarom is er geen app?',a:'Omdat je er niets aan hebt. Je pinpas of telefoon is genoeg: tikken, pakken en gaan. Geen download, geen account en geen QR-code.'},
@@ -72,7 +72,7 @@ var bpages={bedrijven:1,festivals:1,verwijs:1};
 if(hdr){hdr.innerHTML='<div class="pill"><a class="lg" href="/" aria-label="ChargeLoop, naar de homepage"><img data-img="logo" src="logo.jpg" alt="ChargeLoop"></a>'+
  '<button class="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>'+
  '<nav class="main" id="nav"><a href="/#hoe-het-werkt">Hoe het werkt</a>'+
- '<div class="dd'+(bpages[page]?' on':'')+'"><button class="ddb" type="button" aria-expanded="false" aria-haspopup="true">Voor bedrijven'+CHEV+'</button><div class="ddm"><div class="ddi"><a href="voor-bedrijven">Partner worden</a><a href="festivals">Evenementen &amp; Festivals</a><a href="tip-een-locatie">Tip een locatie</a></div></div></div>'+
+ '<div class="dd'+(bpages[page]?' on':'')+'"><button class="ddb" type="button" aria-expanded="false" aria-haspopup="true">Voor bedrijven'+CHEV+'</button><div class="ddm"><div class="ddi"><a href="voor-bedrijven">Partner worden</a><a href="festivals">Evenementen &amp; Festivals</a></div></div></div>'+
  '<a href="faq"'+(page==='faq'?' class="on"':'')+'>FAQ</a><a href="contact"'+(page==='contact'?' class="on"':'')+'>Contact</a>'+
  '<div class="lang"><button class="lb" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Taal"><span class="fl">'+FLAG[LANG]+'</span><span class="lc">'+LANG.toUpperCase()+'</span>'+CHEV+'</button><div class="lm"><div class="ddi"><button type="button" data-l="nl"><span class="fl">'+FLAG.nl+'</span>Nederlands</button><button type="button" data-l="en"><span class="fl">'+FLAG.en+'</span>English</button></div></div></div>'+
  '<a class="btn btn-or find" href="vind-een-station">'+PINI+'Vind een station</a></nav></div>';
@@ -97,8 +97,7 @@ var IC={pin:'<svg viewBox="0 0 24 24" fill="none" stroke="#FE6615" stroke-width=
 function telhref(t){return 'tel:'+t.replace(/[^+\d]/g,'')}
 var SOC={facebook:'<svg viewBox="0 0 24 24"><path d="M13.5 22v-8.2h2.8l.5-3.3h-3.3V8.4c0-.9.4-1.7 1.8-1.7h1.6V3.8S15.6 3.5 14.3 3.5c-2.700 0-4.400 1.600-4.400 4.500v2.500H7.100v3.300h2.800V22z"/></svg>',instagram:'<svg viewBox="0 0 24 24"><path d="M7.500 2h9A5.500 5.500 0 0122 7.500v9a5.500 5.500 0 01-5.500 5.500h-9A5.500 5.500 0 012 16.500v-9A5.500 5.500 0 017.500 2zm0 2A3.500 3.500 0 004 7.500v9A3.500 3.500 0 007.500 20h9a3.500 3.500 0 003.500-3.500v-9A3.500 3.500 0 0016.500 4zM12 7a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6zm5.300-3.100a1.200 1.200 0 110 2.400 1.200 1.200 0 010-2.400z"/></svg>',linkedin:'<svg viewBox="0 0 24 24"><path d="M4.500 3A1.800 1.800 0 106.300 4.800 1.800 1.800 0 004.500 3zM3 8.500h3V21H3zm5.500 0h2.900v1.700c.5-.9 1.700-2 3.600-2 3.400 0 4 2.200 4 5.100V21h-3v-6.700c0-1.600 0-3.200-2-3.200s-2.400 1.500-2.400 3.100V21h-3z"/></svg>'};
 var SOCN={facebook:'Facebook',instagram:'Instagram',linkedin:'LinkedIn'};
-function cinfo(c){return '<div class="ci">'+IC.pin+'<div><b>Adres</b><span>'+esc(c.adres1)+'<br>'+esc(c.adres2)+'<br>'+esc(c.land)+'</span></div></div>'+
- '<div class="ci">'+IC.tel+'<div><b>Telefoon</b><a href="'+telhref(c.tel)+'">'+esc(c.tel)+'</a></div></div>'+
+function cinfo(c){return '<div class="ci">'+IC.tel+'<div><b>Telefoon</b><a href="'+telhref(c.tel)+'">'+esc(c.tel)+'</a></div></div>'+
  '<div class="ci">'+IC.mail+'<div><b>E-mail</b><a href="mailto:'+esc(c.email)+'">'+esc(c.email)+'</a></div></div>'}
 function soc(c){return ['facebook','instagram','linkedin'].map(function(k){return '<a href="'+esc(c[k]||'#')+'" target="_blank" rel="noopener" aria-label="'+SOCN[k]+'">'+SOC[k]+'</a>'}).join('')}
 async function footer(){
@@ -109,8 +108,8 @@ async function footer(){
  if(f)f.innerHTML='<div class="wrap"><div class="fcols"><div><a class="lg" href="/"><img src="logo.jpg" alt="ChargeLoop"></a><p class="fp">Tap, Charge &amp; Go. Altijd en overal opgeladen.</p><div class="soc">'+soc(c)+'</div></div>'+
  '<div><h4>Voor jou</h4><a href="/#hoe-het-werkt">Hoe het werkt</a><a href="vind-een-station">Vind een station</a><a href="faq">FAQ</a><a href="contact">Contact</a></div>'+
  '<div><h4>Voor bedrijven</h4><a href="voor-bedrijven">Partner worden</a><a href="voor-bedrijven#stations">Onze stations</a><a href="festivals">Evenementen &amp; festivals</a><a href="tip-een-locatie">Tip een locatie</a></div>'+
- '<div><h4>Contact</h4><a class="cl" href="'+wa+'" target="_blank" rel="noopener">'+IC.wa+'<span>'+esc(c.tel)+'</span></a><a class="cl" href="mailto:'+esc(c.email)+'">'+IC.mailm+'<span>'+esc(c.email)+'</span></a><div class="cl">'+IC.pinm+'<span>'+esc(c.adres1)+'<br>'+esc(c.adres2)+'<br>'+esc(c.land)+'</span></div></div></div>'+
- '<div class="copy"><span>© 2026 ChargeLoop</span><span><a href="contact" style="display:inline">Contact</a> · <a href="beheer" style="display:inline">Beheer</a></span></div></div>';
+ '<div><h4>Contact</h4><a class="cl" href="'+wa+'" target="_blank" rel="noopener">'+IC.wa+'<span>'+esc(c.tel)+'</span></a><a class="cl" href="mailto:'+esc(c.email)+'">'+IC.mailm+'<span>'+esc(c.email)+'</span></a></div></div>'+
+ '<div class="copy"><span>© 2026 ChargeLoop</span><span>KvK '+esc(c.kvk||DEF.contact.kvk)+' · BTW '+esc(c.btw||DEF.contact.btw)+'</span></div></div>';
  document.querySelectorAll('[data-contact]').forEach(function(n){n.innerHTML=cinfo(c)});
  trTree(document.body);applyImgs()}
 footer();
@@ -151,7 +150,7 @@ if(LANG==='en'){
 var FORMS={
  contact:{title:'Stuur ons een bericht',btn:'Verstuur bericht',ok:N('Bedankt! We reageren zo snel mogelijk.'),f:[['naam','Naam','text',1],['email','E-mailadres','email',1],['telefoon','Telefoonnummer','tel',0],['onderwerp','Onderwerp','select',0,['Vraag over huren','Storing','Voor bedrijven','Overig']],['bericht','Bericht','textarea',1,0,1]]},
  bedrijf:{title:'Station aanvragen',btn:'Informatie aanvragen',ok:N('Bedankt! We nemen binnen een werkdag contact met je op.'),f:[['naam','Naam','text',1],['bedrijf','Bedrijfsnaam','text',1],['email','E-mailadres','email',1],['telefoon','Telefoonnummer','tel',1],['soort','Wat voor zaak is het?','select',0,['Horeca','Hotel','Winkel of centrum','Sport en leisure','Evenement','Anders']],['plaats','Plaats','text',0]]},
- festival:{title:'',btn:'Evenement aanmelden',ok:N('Bedankt! We reageren binnen een werkdag met een voorstel.'),f:[['naam','Naam','text',1],['bedrijf','Organisatie','text',1],['email','E-mailadres','email',1],['telefoon','Telefoonnummer','tel',1],['evenement','Naam van het evenement','text',1],['datum','Datum of periode','text',0],['bezoekers','Verwachte bezoekers','text',0],['plaats','Plaats of locatie','text',0],['opmerking','Opmerking (optioneel)','textarea',0,0,1]]},
+ festival:{title:'',btn:'Verstuur aanvraag',ok:N('Bedankt! We reageren binnen een werkdag met een voorstel.'),f:[['naam','Naam','text',1],['bedrijf','Organisatie','text',1],['email','E-mailadres','email',1],['telefoon','Telefoonnummer','tel',1],['evenement','Naam van het evenement','text',1],['datum','Datum of periode','text',0],['bezoekers','Verwachte bezoekers','text',0],['plaats','Plaats of locatie','text',0],['opmerking','Opmerking (optioneel)','textarea',0,0,1]]},
  locatie:{title:'',btn:'Locatie aandragen',ok:N('Bedankt voor je tip! Draait er over een maand een station, dan krijg je €50.'),f:[['naam','Jouw naam','text',1],['email','Jouw e-mailadres','email',1],['bedrijf','Naam van de locatie','text',1],['plaats','Plaats','text',1],['opmerking','Contactpersoon of opmerking (optioneel)','text',0,0,1]]}};
 function buildForm(host){
  var ft=host.dataset.form,d=FORMS[ft];if(!d)return;
@@ -220,3 +219,7 @@ if(mb){(async function(){
 })()}
 (async function(){var n=document.querySelector('[data-stcount]');if(!n)return;var st=await col('stations');n.textContent=st.length;var l=document.querySelector('[data-stlabel]');if(l)l.textContent=st.length===1?'station':'stations'})();
 })();
+
+;(function(){var b=document.createElement('button');b.id='totop';b.type='button';b.setAttribute('aria-label','Terug naar boven');b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';document.body.appendChild(b);
+b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})});
+function u(){b.classList.toggle('on',window.scrollY>500)}window.addEventListener('scroll',u,{passive:true});u()})();
