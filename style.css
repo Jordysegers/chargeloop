@@ -743,3 +743,8 @@ body[data-page=home] .hk{margin-bottom:18px}
 /* v48: portaal fijnslijpen */
 .pt-chk input{width:20px;height:20px;padding:0;flex:none}
 @media(max-width:860px){.pt-kpis .pt-k:last-child{grid-column:1/-1}}
+
+/* v49: terminals-tab */
+.pt-st{display:inline-flex;align-items:center;gap:7px;font-size:.85rem;font-weight:600}.pt-st i{width:9px;height:9px;border-radius:50%;background:#9AA7B5;flex:none}.pt-st.on i{background:#1E9E5A}.pt-st.on{color:#1E7A4B}.pt-st.off{color:var(--muted)}
+.pt-free{font-style:normal;font-size:.78rem;font-weight:700;color:#8A4B00;background:#FFF4E5;border-radius:999px;padding:3px 10px}
+.pt-tt .pt-tr small{overflow-wrap:anywhere}

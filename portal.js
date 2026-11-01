@@ -60,7 +60,7 @@ function demoLayer(){
  return {
   portal:function(range,pid){var rg={key:range,label:LABEL[range]};if(st.demoAdmin&&!pid)return wait({ok:true,admin:true,range:rg,generated_at:Date.now(),partners:P.map(function(p){return build(p,range)})});
    var p=P.filter(function(x){return x.id===(pid||'d1')})[0];return wait({ok:true,admin:st.demoAdmin,range:rg,generated_at:Date.now(),partner:build(p,range)})},
-  readers:function(){return wait({ok:true,readers:[{id:'tmr_demo_1',label:'Bar',status:'online'},{id:'tmr_demo_2',label:'Terras',status:'online'},{id:'tmr_demo_3',label:'Lobby',status:'online'},{id:'tmr_demo_4',label:'Hoofdpodium',status:'online'},{id:'tmr_demo_5',label:'Camping',status:'offline'},{id:'tmr_demo_6',label:'Foodcourt',status:'online'},{id:'tmr_demo_7',label:'Nieuw station',status:'online'}],linked:[]})},
+  readers:function(){return wait({ok:true,recent:{total:100,without_reader:6,by_reader:{tmr_demo_1:31,tmr_demo_2:22,tmr_demo_3:19,tmr_demo_4:12,tmr_demo_6:10}},readers:[{id:'tmr_demo_1',label:'Bar',status:'online',device_type:'bbpos_wisepos_e'},{id:'tmr_demo_2',label:'Terras',status:'online'},{id:'tmr_demo_3',label:'Lobby',status:'online'},{id:'tmr_demo_4',label:'Hoofdpodium',status:'online'},{id:'tmr_demo_5',label:'Camping',status:'offline'},{id:'tmr_demo_6',label:'Foodcourt',status:'online'},{id:'tmr_demo_7',label:'Nieuw station',status:'online'}],linked:[]})},
   list:function(){return wait(P)},
   savePartner:function(p){if(!p.id){p.id='d'+(P.length+1+Math.floor(Math.random()*999));P.push({id:p.id,name:p.name,email:p.email,share_pct:p.share_pct,active:p.active,partner_readers:p.readers.map(function(r){return {reader_id:r.reader_id,label:r.label}})})}else{var x=P.filter(function(q){return q.id===p.id})[0];x.name=p.name;x.email=p.email;x.share_pct=p.share_pct;x.active=p.active;x.partner_readers=p.readers.map(function(r){return {reader_id:r.reader_id,label:r.label}})}return wait(p.id)},
   deletePartner:function(id){P=P.filter(function(x){return x.id!==id});return wait(1)}}}
@@ -113,7 +113,7 @@ function dash(d,rangeLabel,backBtn){
 function render(){
  var d=st.data;if(!d)return;var admin=isAdmin(),html='',who;
  if(admin&&d.partners){ // overzicht van alle partners
-  html=bar('Alle partners','')+tabsAdmin()+(st.tab==='beheer'?'<div id="pt-manage"></div>':rangeTabs()+overview(d));
+  html=bar('Alle partners','')+tabsAdmin()+(st.tab==='beheer'?'<div id="pt-manage"></div>':st.tab==='terminals'?rangeTabs()+'<div id="pt-term"></div>':rangeTabs()+overview(d));
  }else{
   var p=d.partner;who=p.name;
   var back=admin?'<button class="pt-link" id="pt-back">← Alle partners</button>':'';
@@ -122,10 +122,11 @@ function render(){
  root.innerHTML=html;bind();stamp();
  var b=$('#pt-back');if(b)b.onclick=function(){st.partnerId=null;st.view='overview';load(true)};
  root.querySelectorAll('[data-open]').forEach(function(r){r.onclick=function(){st.partnerId=r.getAttribute('data-open');load(true)}});
- root.querySelectorAll('[data-tab]').forEach(function(b){b.onclick=function(){st.tab=b.getAttribute('data-tab');render();if(st.tab==='beheer')manage()}});
+ root.querySelectorAll('[data-tab]').forEach(function(b){b.onclick=function(){st.tab=b.getAttribute('data-tab');render();if(st.tab==='beheer')manage();if(st.tab==='terminals')terminals(true)}});
  if(admin&&d.partners&&st.tab==='beheer')manage();
+ if(admin&&d.partners&&st.tab==='terminals')terminals(!st.tr);
 }
-function tabsAdmin(){return '<div class="tabs pt-tabs"><button data-tab="cijfers" class="'+(st.tab==='cijfers'?'on':'')+'">Cijfers</button><button data-tab="beheer" class="'+(st.tab==='beheer'?'on':'')+'">Partners beheren</button></div>'}
+function tabsAdmin(){return '<div class="tabs pt-tabs"><button data-tab="cijfers" class="'+(st.tab==='cijfers'?'on':'')+'">Cijfers</button><button data-tab="terminals" class="'+(st.tab==='terminals'?'on':'')+'">Terminals</button><button data-tab="beheer" class="'+(st.tab==='beheer'?'on':'')+'">Partners beheren</button></div>'}
 function overview(d){
  var gt=0,pt=0,rn=0;d.partners.forEach(function(p){gt+=p.totals.gross_cents;pt+=p.totals.partner_cents;rn+=p.totals.rentals});
  return '<div class="pt-kpis"><div class="pt-k main"><small>Totale omzet</small><b>'+eur(gt)+'</b><span>'+esc(d.range.label)+' · alle partners</span></div><div class="pt-k"><small>Verhuren</small><b>'+rn+'</b><span>keer gebruikt</span></div><div class="pt-k"><small>Naar partners</small><b>'+eur(pt)+'</b><span>afgesproken percentage</span></div><div class="pt-k"><small>Voor ChargeLoop</small><b>'+eur(gt-pt)+'</b><span>na partnerdeel</span></div></div>'+
@@ -140,7 +141,7 @@ async function load(spin){
  try{
   var d=await N.portal(st.range,st.partnerId);st.data=d;st.stamp=d.generated_at||Date.now();root.classList.remove('busy');
   if(st.first&&!DEMO){st.first=false}
-  if(!(isAdmin()&&d.partners&&st.tab==='beheer'&&$('#pt-manage')))render();else stamp();
+  if(isAdmin()&&d.partners&&st.tab==='beheer'&&$('#pt-manage'))stamp();else if(isAdmin()&&d.partners&&st.tab==='terminals'&&$('#pt-term')){drawTerminals();stamp()}else render();
   schedule();
  }catch(e){
   root.classList.remove('busy');
@@ -155,6 +156,34 @@ async function load(spin){
 function schedule(){stop();if(st.tab==='beheer'&&isAdmin()&&!st.partnerId)return;st.timer=setTimeout(function(){if(document.hidden){schedule();return}load(false)},30000)}
 function stop(){clearTimeout(st.timer);st.timer=null}
 document.addEventListener('visibilitychange',function(){if(!document.hidden&&st.data&&!st.loading&&st.timer!==null&&Date.now()-(st.stamp||0)>20000)load(false)});
+
+/* ---------- terminals (alleen beheerder) ---------- */
+async function terminals(fetchNow){
+ if(!fetchNow){drawTerminals();return}
+ var host=$('#pt-term');if(host)host.innerHTML='<div class="pt-card"><p class="pt-sub">Terminals ophalen uit Stripe...</p></div>';
+ try{var r=await N.readers();st.tr={readers:r.readers||[],recent:r.recent||null,err:''}}
+ catch(e){st.tr={readers:[],recent:null,err:e.message||'Ophalen mislukt'}}
+ drawTerminals()}
+function statusPill(s){var on=s==='online';return '<span class="pt-st '+(on?'on':'off')+'"><i></i>'+(on?'Online':s==='offline'?'Offline':esc(s||'Onbekend'))+'</span>'}
+function drawTerminals(){
+ var host=$('#pt-term');if(!host||!st.tr)return;var t=st.tr,d=st.data,link={};
+ ((d&&d.partners)||[]).forEach(function(p){(p.readers||[]).forEach(function(r){link[r.id]={partner:p.name,rentals:r.rentals,gross:r.gross_cents,last:r.last_at,label:r.label}})});
+ var seen={};t.readers.forEach(function(r){seen[r.id]=1});
+ var rows=t.readers.map(function(r){return {id:r.id,label:r.label||(link[r.id]&&link[r.id].label)||'',status:r.status,device:r.device_type,serial:r.serial,l:link[r.id]}});
+ // terminals die wel in betalingen voorkomen maar niet in de Stripe-lijst staan
+ var by=(t.recent&&t.recent.by_reader)||{};Object.keys(by).forEach(function(id){if(!seen[id])rows.push({id:id,label:'',status:'',unknown:true,l:link[id]})});
+ var free=rows.filter(function(r){return !r.l}).length;
+ var h='<div class="pt-card"><div class="pt-ch"><h3>Terminals</h3><button class="pt-link" id="pt-rf">Vernieuwen</button></div>';
+ if(t.err)h+='<p class="pt-warn" style="margin:0 0 14px">Terminals ophalen uit Stripe lukt niet: '+esc(t.err)+'. Controleer of de Stripe-sleutel in Vercel staat en het recht <b>Terminal</b> op Lezen heeft.</p>';
+ if(rows.length){
+  h+='<div class="pt-t pt-t6 pt-tt"><div class="pt-th"><span>Terminal</span><span>Status</span><span>Partner</span><span>Verhuren</span><span>Omzet</span><span>Laatste verhuur</span></div>'+rows.map(function(r){
+   var l=r.l;
+   return '<div class="pt-tr"><span data-l="Terminal"><b>'+esc(r.label||'Zonder naam')+'</b><small>'+esc(r.id)+(r.device?' · '+esc(r.device):'')+'</small></span><span data-l="Status">'+(r.unknown?'<span class="pt-st off"><i></i>Niet in Stripe-lijst</span>':statusPill(r.status))+'</span><span data-l="Partner">'+(l?esc(l.partner):'<em class="pt-free">Niet gekoppeld</em>')+'</span><span data-l="Verhuren">'+(l?l.rentals:'-')+'</span><span data-l="Omzet">'+(l?eur(l.gross):'-')+'</span><span data-l="Laatste verhuur">'+(l&&l.last?ago(l.last):'-')+'</span></div>'}).join('')+'</div>';
+  if(free)h+='<p class="pt-sub" style="margin-top:12px">'+free+' '+(free===1?'terminal is':'terminals zijn')+' nog niet aan een partner gekoppeld. Doe dat onder "Partners beheren".</p>'}
+ else if(!t.err)h+='<p class="pt-empty">Stripe geeft geen terminals terug. Staan ze in een ander Stripe-account of in testmodus?</p>';
+ if(t.recent&&t.recent.total)h+='<p class="pt-sub" style="margin-top:12px">Controle: van de laatste '+t.recent.total+' betalingen in Stripe zijn er '+(t.recent.total-t.recent.without_reader)+' op een terminal gedaan en '+t.recent.without_reader+' zonder terminal (bijvoorbeeld online).</p>';
+ host.innerHTML=h+'</div>';
+ var rf=$('#pt-rf');if(rf)rf.onclick=function(){terminals(true)}}
 
 /* ---------- beheer van partners (alleen beheerder) ---------- */
 var M={list:[],readers:[],linked:{}};
