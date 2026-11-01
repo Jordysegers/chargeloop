@@ -78,7 +78,7 @@ if(hdr){hdr.innerHTML='<div class="pill"><a class="lg" href="/" aria-label="Char
  '<button class="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>'+
  '<nav class="main" id="nav"><a href="/#hoe-het-werkt">Hoe het werkt</a><a href="voor-bedrijven#stations">Onze modellen</a>'+
  '<div class="dd'+(bpages[page]?' on':'')+'"><button class="ddb" type="button" aria-expanded="false" aria-haspopup="true">Voor bedrijven'+CHEV+'</button><div class="ddm"><div class="ddi"><a href="voor-bedrijven">Partner worden</a><a href="festivals">Evenementen &amp; Festivals</a></div></div></div>'+
- '<a href="faq"'+(page==='faq'?' class="on"':'')+'>FAQ</a><a href="contact"'+(page==='contact'?' class="on"':'')+'>Contact</a>'+
+ '<a href="faq"'+(page==='faq'?' class="on"':'')+'>FAQ</a><a href="contact"'+(page==='contact'?' class="on"':'')+'>Contact</a>'+(function(){var show=!window.SB_CONFIG;try{show=show||!!localStorage.getItem('cl_session')}catch(e){}return show?'<a href="portaal"'+(page==='portaal'?' class="on"':'')+' data-i18n-skip>Portaal</a>':''})()+
  '<div class="lang"><button class="lb" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Taal"><span class="fl">'+FLAG[LANG]+'</span><span class="lc">'+LANG.toUpperCase()+'</span>'+CHEV+'</button><div class="lm"><div class="ddi"><button type="button" data-l="nl"><span class="fl">'+FLAG.nl+'</span>Nederlands</button><button type="button" data-l="en"><span class="fl">'+FLAG.en+'</span>English</button></div></div></div>'+
  '<a class="btn btn-or find" href="vind-een-station">'+PINI+'Vind een station</a></nav></div>';
  var bg=hdr.querySelector('.burger'),nv=document.getElementById('nav');
