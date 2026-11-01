@@ -74,7 +74,7 @@ var CHEV='<svg class="chev" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1.
 var PINI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></svg>';
 var hdr=document.getElementById('hdr');
 var bpages={bedrijven:1,festivals:1,verwijs:1};
-if(hdr){hdr.innerHTML='<div class="pill"><a class="lg" href="/" aria-label="ChargeLoop, naar de homepage"><img data-img="logo" src="logo.jpg" alt="ChargeLoop"></a>'+
+if(hdr){hdr.innerHTML='<div class="pill"><a class="lg" href="/" aria-label="ChargeLoop, naar de homepage"><img data-img="logo" src="logo.png" alt="ChargeLoop"></a>'+
  '<button class="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>'+
  '<nav class="main" id="nav"><a href="/#hoe-het-werkt">Hoe het werkt</a><a href="voor-bedrijven#stations">Onze modellen</a>'+
  '<div class="dd'+(bpages[page]?' on':'')+'"><button class="ddb" type="button" aria-expanded="false" aria-haspopup="true">Voor bedrijven'+CHEV+'</button><div class="ddm"><div class="ddi"><a href="voor-bedrijven">Partner worden</a><a href="festivals">Evenementen &amp; Festivals</a></div></div></div>'+
@@ -110,7 +110,7 @@ async function footer(){
  var wa='https://wa.me/'+c.tel.replace(/[^\d]/g,'');
  document.querySelectorAll('[data-wa]').forEach(function(a){a.href=wa});document.querySelectorAll('[data-tel]').forEach(function(a){a.href=telhref(c.tel);a.textContent=c.tel});
  document.querySelectorAll('[data-soc]').forEach(function(n){n.innerHTML=soc(c)});
- if(f)f.innerHTML='<div class="wrap"><div class="fcols"><div><a class="lg" href="/"><img src="logo.jpg" alt="ChargeLoop"></a><p class="fp">Tap, Charge &amp; Go. Altijd en overal opgeladen.</p><div class="soc">'+soc(c)+'</div></div>'+
+ if(f)f.innerHTML='<div class="wrap"><div class="fcols"><div><a class="lg" href="/"><img src="logo.png" alt="ChargeLoop"></a><p class="fp">Tap, Charge &amp; Go. Altijd en overal opgeladen.</p><div class="soc">'+soc(c)+'</div></div>'+
  '<div><h4>Voor jou</h4><a href="/#hoe-het-werkt">Hoe het werkt</a><a href="vind-een-station">Vind een station</a><a href="faq">FAQ</a><a href="contact">Contact</a></div>'+
  '<div><h4>Voor bedrijven</h4><a href="voor-bedrijven">Partner worden</a><a href="voor-bedrijven#stations">Onze modellen</a><a href="festivals">Evenementen &amp; festivals</a><a href="tip-een-locatie">Tip een locatie</a></div>'+
  '<div><h4>Contact</h4><a class="cl" href="'+wa+'" target="_blank" rel="noopener">'+IC.wa+'<span>WhatsApp</span></a><a class="cl" href="mailto:'+esc(c.email)+'">'+IC.mailm+'<span>'+esc(c.email)+'</span></a></div></div>'+

@@ -627,3 +627,51 @@ body.hassbar #totop{bottom:calc(88px + env(safe-area-inset-bottom,0px)*.4);right
 @media(hover:none){.mdl:hover{transform:none;box-shadow:none;border-color:transparent}.mdl.feat:hover{border-color:rgba(254,102,21,.45)}.card:hover,.usp:hover,.evc:hover,.br:hover{transform:none}}
 @media(max-width:700px){.mst .mchip{top:auto;bottom:8px;right:8px}.mmore{font-size:12px}}
 body[data-page=home] .top h1{font-size:clamp(4rem,13vw,9rem)!important;line-height:.92!important}
+
+/* v38: mobiel menu mag buiten de header uitsteken */
+.top{overflow:visible}
+html,body{overflow-x:clip}
+.top>.wrap{z-index:5}
+
+/* v39: hero-kicker + voordeel-chips op de homepage */
+.hk{display:inline-flex;align-items:center;gap:8px;margin:0 auto 18px;padding:9px 18px 9px 14px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);color:#fff;font-weight:700;font-size:.95rem;letter-spacing:.01em;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.hk svg{width:16px;height:16px;color:var(--or);flex:none}
+.hchips{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 10px;margin:26px auto 0;padding:0;max-width:640px}
+.hchips li{color:rgba(255,255,255,.88);font-weight:600;font-size:.88rem;padding:7px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.2);background:rgba(2,41,67,.35)}
+@media(max-width:700px){.hk{font-size:.85rem;padding:8px 14px 8px 12px;margin-bottom:14px}.hchips{gap:6px 8px;margin-top:20px}.hchips li{font-size:.8rem;padding:6px 11px}}
+
+/* v40: kicker minder rond, geen chips */
+.hk{border-radius:12px;padding:9px 16px 9px 12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2)}
+
+/* v41: kicker weer volledig rond, passend bij navbar en knoppen */
+.hk{border-radius:999px;padding:9px 18px 9px 14px}
+
+/* v42: hero-label met oplaadbatterij */
+.hk{gap:10px;padding:9px 18px 9px 13px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22)}
+.hbat{position:relative;width:28px;height:14px;border:2px solid #fff;border-radius:5px;padding:1.5px;flex:none}
+.hbat:after{content:"";position:absolute;right:-5px;top:2.5px;width:3px;height:5px;background:#fff;border-radius:0 2px 2px 0}
+.hbat u{display:block;height:100%;width:22%;background:#FE6615;border-radius:2px;animation:hcharge 2.8s ease-in-out infinite}
+@keyframes hcharge{0%{width:22%}70%,100%{width:100%}}
+@media(prefers-reduced-motion:reduce){.hbat u{animation:none;width:35%}}
+
+/* v43: homepage-titel vaste regelbreuk */
+body[data-page=home] .top h1 .l1,body[data-page=home] .top h1 .l2,body[data-page=home] .top h1 em{display:block}
+body[data-page=home] .top h1{font-size:clamp(2.4rem,12.5vw,7.2rem)!important;line-height:.95!important;white-space:nowrap}
+@media(min-width:701px){body[data-page=home] .top h1{font-size:clamp(3.6rem,6.2vw,6rem)!important}body[data-page=home] .top h1 .l2,body[data-page=home] .top h1 em{display:inline}}
+
+/* v44: label terug, titel iets kleiner, minder ruimte tussen label en titel */
+body[data-page=home] .top h1{font-size:clamp(2.4rem,11.5vw,6.6rem)!important;line-height:.95!important}
+@media(min-width:701px){body[data-page=home] .top h1{font-size:clamp(3.4rem,7vw,6.6rem)!important}}
+body[data-page=home] .hk{margin-bottom:6px}
+
+/* v45: titel weer op oude grootte, alleen het label kleiner */
+body[data-page=home] .top h1{font-size:clamp(4rem,13vw,9rem)!important;line-height:.92!important;white-space:nowrap}
+@media(min-width:701px){body[data-page=home] .top h1{font-size:clamp(4rem,13vw,9rem)!important;white-space:normal}body[data-page=home] .top h1 .l1,body[data-page=home] .top h1 .l2,body[data-page=home] .top h1 em{display:inline}}
+body[data-page=home] .hk{font-size:.76rem;gap:8px;padding:6px 13px 6px 10px;margin-bottom:8px}
+body[data-page=home] .hbat{width:21px;height:10px;border-width:1.5px;border-radius:3px;padding:1px}
+body[data-page=home] .hbat:after{right:-4px;top:1.5px;width:2px;height:4px}
+@media(max-width:700px){body[data-page=home] .hk{font-size:.72rem;padding:5px 12px 5px 9px}}
+
+/* v46: iets meer ruimte tussen label en titel */
+body[data-page=home] .hk{margin-bottom:18px}
+@media(max-width:700px){body[data-page=home] .hk{margin-bottom:16px}}
