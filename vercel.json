@@ -1,1 +1,37 @@
-{"cleanUrls":true,"trailingSlash":false}
+{
+ "cleanUrls": true,
+ "trailingSlash": false,
+ "functions": {
+  "api/*.js": {
+   "maxDuration": 30
+  }
+ },
+ "headers": [
+  {
+   "source": "/portaal",
+   "headers": [
+    {
+     "key": "X-Robots-Tag",
+     "value": "noindex, nofollow"
+    },
+    {
+     "key": "Cache-Control",
+     "value": "no-cache"
+    }
+   ]
+  },
+  {
+   "source": "/api/(.*)",
+   "headers": [
+    {
+     "key": "X-Robots-Tag",
+     "value": "noindex"
+    },
+    {
+     "key": "Cache-Control",
+     "value": "no-store"
+    }
+   ]
+  }
+ ]
+}

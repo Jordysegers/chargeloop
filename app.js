@@ -265,7 +265,7 @@ function u(){b.classList.toggle('on',window.scrollY>500)}window.addEventListener
  document.addEventListener('click',function(e){var a=e.target.closest('[data-callback]');if(!a)return;e.preventDefault();var o=open('<div class="mcb"><span class="label">Terugbelverzoek</span><h3>Wij bellen jou terug</h3><p>Laat je nummer achter, dan bellen we je binnen een werkdag. Je hoeft zelf niet te bellen.</p><div data-form="terugbel"></div></div>','cb');window.buildForm(o.querySelector('[data-form]'));window.trTree&&window.trTree(o)});
 })();
 /* ---------- vaste CTA-balk (mobiel) ---------- */
-(function(){var pg=document.body.dataset.page;if(pg==='beheer'||pg==='verwijs')return;var form=document.getElementById('aanvragen');
+(function(){var pg=document.body.dataset.page;if(pg==='beheer'||pg==='verwijs'||pg==='portaal')return;var form=document.getElementById('aanvragen');
  var lbl=pg==='festivals'?'Evenement aanmelden':'Gratis station aanvragen';
  var bar=document.createElement('div');bar.id='sbar';
  bar.innerHTML='<div class="sb-t"><b>'+(pg==='festivals'?'ChargeLoop op jouw festival':'ChargeLoop in jouw zaak')+'</b></div><a class="sb-b" href="'+(form?'#aanvragen':'voor-bedrijven#aanvragen')+'">'+(pg==='festivals'?'Evenement aanmelden':'Gratis station aanvragen')+'</a><button type="button" class="sb-x" aria-label="Sluiten">&times;</button>';
