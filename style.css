@@ -1085,3 +1085,9 @@ p:has(>.wai){margin-top:18px}
 .tagwrap span{transition:scale .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s;cursor:default;will-change:scale}
 .tagwrap span:hover{scale:1.07;box-shadow:0 12px 26px rgba(2,41,67,.22)!important}
 @media(prefers-reduced-motion:reduce){.tagwrap span{transition:none}}
+
+/* v82: powerbank + telefoon */
+.cpz-seg{fill:#27445d}.cpz-seg.f{fill:#FE6615}
+.cpz-svg{width:min(78%,380px);top:22px}
+@media(max-width:860px){.cpz-svg{width:min(72%,310px)}}
+.cpz-svg{width:min(76%,370px)}
