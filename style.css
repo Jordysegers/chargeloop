@@ -884,3 +884,10 @@ nav.main .megai a.mg-lnk{border:0;padding:0;margin:0;font-size:14.5px;gap:8px;ju
 p:has(>.wai){margin-top:18px}
 
 .cbbtn{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:6px 0 26px}
+
+/* v63: WhatsApp-icoon strak rond, adreskleur gelijk, kopuitlijning in tweekoloms blokken */
+.wai{flex:none;aspect-ratio:1;width:48px;height:48px;padding:0}.wai svg{width:27px;height:27px;display:block}
+.ci span{color:var(--ink)!important;font-weight:600!important}
+.cl-l .label,.cl-r .label{display:inline-block;margin:0 0 10px}
+.cl-l h2,.cl-r h2{margin-top:0;line-height:1.08;font-size:clamp(1.9rem,3.2vw,2.6rem)}
+.cl-l h2{margin-bottom:14px}.cl-l .sub{margin-top:0}
