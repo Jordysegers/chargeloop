@@ -1051,3 +1051,12 @@ p:has(>.wai){margin-top:18px}
  .mg-card{align-content:center}
  .mg-intro{order:2}
 }
+
+/* v78: mobiel menu: ruimte onder uitklap, titel en uitleg strak uitgelijnd */
+@media(max-width:1120px){
+ nav.main .megai a.mg-card{gap:2px 14px;align-content:center}
+ nav.main .megai a.mg-card .mg-row{align-self:end;line-height:1.2}
+ nav.main .megai a.mg-card small{align-self:start;line-height:1.4;margin:0}
+ .dd.mega .ddm{padding:0 0 14px}
+ .dd.mega .ddb[aria-expanded=true]{margin-bottom:6px}
+}
