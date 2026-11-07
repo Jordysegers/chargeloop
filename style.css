@@ -1107,3 +1107,9 @@ p:has(>.wai){margin-top:18px}
 .gro-r p{margin:0;font-size:14.5px;line-height:1.45;color:rgba(255,255,255,.75)}
 @media(max-width:900px){.gro-box{grid-template-columns:1fr;gap:30px;padding:38px 28px}}
 @media(max-width:560px){.gro{padding:32px 0 60px}.gro-box{padding:30px 22px;border-radius:28px}.gro-r li{padding:14px 16px}}
+
+/* v86: invoervelden altijd licht, ook als het toestel in donkere modus staat */
+:root{color-scheme:light}
+.lst input,.lst input[type=search]{-webkit-appearance:none;appearance:none;background:var(--bg);color:var(--navy);border:1px solid var(--line)}
+.lst input::placeholder{color:#7b8794;opacity:1}
+.b-white .lst input{background:#fff}
