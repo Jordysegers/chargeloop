@@ -891,3 +891,9 @@ p:has(>.wai){margin-top:18px}
 .cl-l .label,.cl-r .label{display:inline-block;margin:0 0 10px}
 .cl-l h2,.cl-r h2{margin-top:0;line-height:1.08;font-size:clamp(1.9rem,3.2vw,2.6rem)}
 .cl-l h2{margin-bottom:14px}.cl-l .sub{margin-top:0}
+
+/* v64: FAQ-banner: knop verticaal gecentreerd, link in tekstkolom */
+.hlp{align-items:center}.hlp-i{align-self:center}.hlp-b{align-self:center;justify-self:end}
+.hlp-t{display:grid;gap:3px;align-content:center}
+.hlp-l{grid-column:auto;margin-top:8px;justify-self:start}
+@media(max-width:700px){.hlp-b{justify-self:stretch}}
