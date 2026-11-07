@@ -1093,3 +1093,17 @@ p:has(>.wai){margin-top:18px}
  .lv .box .mapc .cmap{flex:1;height:auto;min-height:560px}
  .lv.tall .box .mapc .cmap{min-height:640px}
 }
+
+/* v85: Help ons groeien */
+.gro{padding:48px 0 84px}
+.gro-box{display:grid;grid-template-columns:1.05fr 1fr;gap:44px;align-items:center;background:var(--navy) url(hero-pattern.svg) 60% 50%/cover no-repeat;border-radius:36px;padding:52px 56px;color:#fff;overflow:hidden}
+.gro-l .label{display:inline-block;margin-bottom:12px;color:var(--or)}
+.gro-l h2{color:#fff;margin:0 0 14px;text-wrap:balance}
+.gro-l p{color:rgba(255,255,255,.82);line-height:1.65;margin:0 0 28px;max-width:44ch;font-size:1.05rem}
+.gro-r{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.gro-r li{display:flex;align-items:center;gap:16px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:22px;padding:16px 20px;backdrop-filter:blur(4px)}
+.gro-i{display:grid;place-items:center;flex:none;width:46px;height:46px;border-radius:14px;background:var(--or);color:#fff}.gro-i svg{width:23px;height:23px}
+.gro-r b{display:block;font:800 1.05rem/1.2 var(--b);color:#fff;margin-bottom:3px}
+.gro-r p{margin:0;font-size:14.5px;line-height:1.45;color:rgba(255,255,255,.75)}
+@media(max-width:900px){.gro-box{grid-template-columns:1fr;gap:30px;padding:38px 28px}}
+@media(max-width:560px){.gro{padding:32px 0 60px}.gro-box{padding:30px 22px;border-radius:28px}.gro-r li{padding:14px 16px}}
