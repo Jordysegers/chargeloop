@@ -1071,3 +1071,17 @@ p:has(>.wai){margin-top:18px}
 .crow.on .crow-n{opacity:1;transform:none}
 .crow .crow-p span.crow-n{color:var(--or);font-size:1.3rem}
 @media(max-width:560px){.crow img{width:72px}.crow[data-k]{gap:14px;padding:12px 16px 18px}}
+
+/* v80: powerbank-beeld opnieuw: laadring 0-100 */
+.cpz-d{display:none!important}
+.cpz-svg{top:26px;width:min(72%,340px);filter:drop-shadow(0 24px 30px rgba(0,0,0,.4))}
+.cpz .pl,.cpz .pl.on{transform:none}
+.cpz .pl{opacity:0;transition:opacity .35s}.cpz .pl.on{opacity:1}
+.cpz-ring{transition:none}
+.cpz-seg{fill:#DDD6C8;transition:fill .2s}.cpz-seg.f{fill:#FE6615}
+@media(max-width:860px){.cabs .cph.cpz{min-height:470px}.cpz-svg{width:min(62%,270px);top:22px}}
+
+/* v81: locatie-labels worden iets groter bij hover */
+.tagwrap span{transition:scale .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s;cursor:default;will-change:scale}
+.tagwrap span:hover{scale:1.07;box-shadow:0 12px 26px rgba(2,41,67,.22)!important}
+@media(prefers-reduced-motion:reduce){.tagwrap span{transition:none}}
