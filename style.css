@@ -1003,3 +1003,17 @@ p:has(>.wai){margin-top:18px}
 .wap i{width:46px;height:46px;border-radius:14px}
 .wap span{flex:1;display:grid;gap:2px;font:inherit}.wap b{font:800 15.5px var(--b);color:var(--navy)}.wap small{font:500 14px var(--b);color:var(--muted)}
 .wap .wap-a{width:16px;height:12px;color:var(--navy);flex:none;transition:transform .2s}.wap:hover .wap-a{transform:translateX(4px)}
+
+/* v75: partnerportaal-sectie */
+.pt{padding:64px 0}
+.pt-box{display:grid;grid-template-columns:1fr 1.1fr;gap:48px;align-items:center;background:var(--navy);color:#fff;border-radius:36px;padding:52px 52px}
+.pt-l .label{display:inline-block;margin-bottom:10px;color:var(--or)}
+.pt-l h2{color:#fff;margin:0 0 14px;text-wrap:balance}
+.pt-l p{color:rgba(255,255,255,.8);line-height:1.65;margin:0 0 26px;max-width:46ch}
+.pt-r{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pt-r li{display:flex;flex-direction:column;gap:12px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:20px 20px 22px}
+.pt-i{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:var(--or);color:#fff}.pt-i svg{width:22px;height:22px}
+.pt-r b{display:block;font:800 1.05rem/1.2 var(--b);color:#fff;margin-bottom:5px}
+.pt-r p{margin:0;font-size:14.5px;line-height:1.5;color:rgba(255,255,255,.74)}
+@media(max-width:960px){.pt-box{grid-template-columns:1fr;gap:32px;padding:40px 32px}}
+@media(max-width:560px){.pt-box{padding:30px 22px;border-radius:28px}.pt-r{grid-template-columns:1fr}.pt{padding:44px 0}}
