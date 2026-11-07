@@ -912,3 +912,12 @@ p:has(>.wai){margin-top:18px}
 @keyframes pgin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .cbbtn{gap:12px}.cbbtn .btn{background:var(--navy);color:#fff;border-color:var(--navy);height:52px;padding:0 26px}.cbbtn .btn:hover{filter:brightness(1.15)}
 .cbbtn .wai{width:52px;height:52px}
+
+/* v66: melding op de kaart zolang er geen actieve locatie is */
+.mapc{position:relative}
+.mapnote{position:absolute;left:16px;bottom:16px;z-index:6;max-width:360px;background:rgba(255,255,255,.97);border-radius:22px;padding:20px 22px;box-shadow:0 16px 40px rgba(2,41,67,.22);animation:pgin .5s ease both}
+.mapnote b{display:block;font:800 1.08rem/1.25 var(--b);color:var(--navy)}.mapnote p{margin:6px 0 0;color:var(--muted);font-size:14.5px;line-height:1.5}
+.mn-a{display:flex;align-items:center;flex-wrap:wrap;gap:12px 18px;margin-top:16px}.mn-a .btn{padding:12px 20px;font-size:14.5px}
+.mn-l{display:inline-flex;align-items:center;gap:8px;color:var(--navy);font:700 14px var(--b);text-decoration:none}.mn-l svg{width:14px;height:10px;transition:transform .2s}.mn-l:hover svg{transform:translateX(4px)}
+@media(max-width:700px){.mapnote{left:10px;right:10px;bottom:10px;max-width:none;padding:16px 18px}}
+@media(max-width:700px){.mapc:has(.mapnote) .cmap{height:480px}}

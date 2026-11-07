@@ -247,6 +247,7 @@ if(mb){(async function(){
   rows.innerHTML=f.length?f.map(function(s){return '<button class="row'+(s.id===sel?' sel':'')+'" data-id="'+esc(s.id)+'"><b>'+esc(s.naam)+'</b><small>'+esc(s.adres||'')+(s.adres?', ':'')+esc(s.plaats||'')+'</small>'+stat(s)+'</button>'}).join(''):'<p style="color:var(--muted);padding:8px">'+N('Geen station gevonden. We breiden snel uit!')+'</p>';
   map.set(f);map.select(sel)}
  rows.addEventListener('click',function(e){var r=e.target.closest('.row');if(!r)return;pick(st.find(function(s){return s.id===r.dataset.id}))});
+ var mc=mb.querySelector('.mapc');if(mc&&!st.some(function(s){return s.status!=='soon'})){var nt=document.createElement('div');nt.className='mapnote';nt.innerHTML='<b>'+N('Binnenkort vind je hier onze eerste stations')+'</b><p>'+N('Met adres en route, zodra een station actief is.')+'</p><div class="mn-a"><a class="btn btn-or" href="voor-bedrijven#aanvragen">'+N('Station voor jouw zaak')+'</a><a class="mn-l" href="#terugbel" data-callback>'+N('Laat ons terugbellen')+'<svg viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 6h13M9 1l5 5-5 5"/></svg></a></div>';mc.appendChild(nt)}
  q.addEventListener('input',list);list();map.fit();if(st.length===1)map.setView(+st[0].lat,+st[0].lng,12);
  if(st.some(function(s){return s.demo})){var n=mb.querySelector('.demo');if(n)n.hidden=false}
 })()}
