@@ -978,3 +978,15 @@ p:has(>.wai){margin-top:18px}
 .lst .lstbtn{order:3}
 .sk:nth-child(4){opacity:.45}.sk:nth-child(5){opacity:.3}
 @media(max-width:900px){.sk:nth-child(n+4){display:none}}
+
+/* v73: stappenbalk en WhatsApp-pil */
+.stp{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stp i{display:none}
+.stp span{position:relative;padding-top:14px;gap:10px}
+.stp span::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;border-radius:4px;background:var(--line);transition:background .3s}
+.stp span.on::before,.stp span.done::before{background:var(--or,#FE6615)}
+.stp span.done{color:var(--navy)}.stp span.done b{background:var(--or,#FE6615)}
+.wai.wap{width:auto;height:auto;aspect-ratio:auto;border-radius:999px;background:#fff;color:var(--navy);box-shadow:0 6px 18px rgba(2,41,67,.1);display:inline-flex;align-items:center;gap:12px;padding:7px 22px 7px 7px;font:700 15px var(--b);text-decoration:none}
+.wai.wap:hover{box-shadow:0 10px 24px rgba(2,41,67,.16)}
+.wap i{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#25D366;color:#fff;flex:none}.wap i svg{width:25px;height:25px}
+.wap span{line-height:1.2}
