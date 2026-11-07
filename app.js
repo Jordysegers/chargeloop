@@ -1,7 +1,7 @@
 (function(){
 'use strict';
 var DEF={
- contact:{kvk:'76119890',btw:'NL003047446B03',tel:'+31 6 21135776',email:'info@chargeloop.nl',facebook:'',instagram:'',linkedin:''},
+ contact:{kvk:'76119890',btw:'NL003047446B03',tel:'+31 6 21135776',email:'info@chargeloop.nl',adres:'Piet Heinstraat 24-101, 4461 GL Goes, Nederland',facebook:'',instagram:'',linkedin:''},
  faq:[
  {id:'d1',cat:'Huren en betalen',order:1,home:true,slug:'prijs',q:'Wat kost een powerbank huren?',a:'Je betaalt €3,00 per uur. Vanaf 3 uur gaat het dagtarief in, en dat is nooit hoger dan €7,50 per dag. Daarnaast reserveren we €30 borg. Die krijg je bij het inleveren terug, min de huurkosten. Op sommige locaties kan het tarief afwijken.'},
  {id:'d2',cat:'Huren en betalen',order:2,home:true,q:'Waarom is er geen app?',a:'Omdat je er niets aan hebt. Je pinpas of telefoon is genoeg: tikken, pakken en gaan. Geen download, geen account en geen QR-code.'},
@@ -121,6 +121,7 @@ function telhref(t){return 'tel:'+t.replace(/[^+\d]/g,'')}
 var SOC={facebook:'<svg viewBox="0 0 24 24"><path d="M13.5 22v-8.2h2.8l.5-3.3h-3.3V8.4c0-.9.4-1.7 1.8-1.7h1.6V3.8S15.6 3.5 14.3 3.5c-2.700 0-4.400 1.600-4.400 4.500v2.500H7.100v3.300h2.800V22z"/></svg>',instagram:'<svg viewBox="0 0 24 24"><path d="M7.500 2h9A5.500 5.500 0 0122 7.500v9a5.500 5.500 0 01-5.500 5.500h-9A5.500 5.500 0 012 16.500v-9A5.500 5.500 0 017.500 2zm0 2A3.500 3.500 0 004 7.500v9A3.500 3.500 0 007.500 20h9a3.500 3.500 0 003.500-3.500v-9A3.500 3.500 0 0016.500 4zM12 7a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6zm5.300-3.100a1.200 1.200 0 110 2.400 1.200 1.200 0 010-2.400z"/></svg>',linkedin:'<svg viewBox="0 0 24 24"><path d="M4.500 3A1.800 1.800 0 106.300 4.800 1.800 1.800 0 004.500 3zM3 8.500h3V21H3zm5.500 0h2.900v1.700c.5-.9 1.700-2 3.600-2 3.400 0 4 2.200 4 5.100V21h-3v-6.700c0-1.600 0-3.200-2-3.200s-2.400 1.500-2.400 3.100V21h-3z"/></svg>'};
 var SOCN={facebook:'Facebook',instagram:'Instagram',linkedin:'LinkedIn'};
 function cinfo(c){return ''+
+ '<div class="ci">'+IC.pin+'<div><b>Adres</b><span>'+esc(c.adres).split(',').map(function(x){return x.trim()}).join('<br>')+'</span></div></div>'+
  '<div class="ci">'+IC.mail+'<div><b>E-mail</b><a href="mailto:'+esc(c.email)+'">'+esc(c.email)+'</a></div></div>'}
 function soc(c){return ['facebook','instagram','linkedin'].map(function(k){return '<a href="'+esc(c[k]||'#')+'" target="_blank" rel="noopener" aria-label="'+SOCN[k]+'">'+SOC[k]+'</a>'}).join('')}
 async function footer(){

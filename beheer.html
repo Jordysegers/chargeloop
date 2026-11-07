@@ -22,7 +22,7 @@ async function init(){
 function show(){({contact:vContact,faq:vFaq,stations:vStations,images:vImages,vert:vVert,leads:vLeads})[tab]()}
 /* contact */
 async function vContact(){var c=await CL.contact();
- var F=[['kvk','KvK-nummer'],['btw','BTW-nummer'],['tel','Telefoonnummer'],['email','E-mailadres'],['facebook','Facebook-link'],['instagram','Instagram-link'],['linkedin','LinkedIn-link']];
+ var F=[['kvk','KvK-nummer'],['btw','BTW-nummer'],['adres','Adres (gescheiden door komma\'s)'],['tel','Telefoonnummer'],['email','E-mailadres'],['facebook','Facebook-link'],['instagram','Instagram-link'],['linkedin','LinkedIn-link']];
  body.innerHTML='<h2 style="font-size:2rem;margin-bottom:6px">Contactgegevens</h2><p class="note">Deze gegevens staan in de footer en op de contact- en bedrijvenpagina.</p><div class="it">'+F.map(function(f){return '<label>'+f[1]+'<input data-k="'+f[0]+'" value="'+esc(c[f[0]])+'"></label>'}).join('')+'<div class="acts"><button id="sv">Opslaan</button></div></div>';
  $('#sv').onclick=async function(){var d={};body.querySelectorAll('[data-k]').forEach(function(i){d[i.dataset.k]=i.value.trim()});try{await db.doc('settings/contact').set(d);toast('Opgeslagen.')}catch(e){LE(e);toast('Opslaan lukt niet.',1)}}}
 /* faq */
