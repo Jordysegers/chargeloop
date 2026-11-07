@@ -134,7 +134,7 @@ async function footer(){
  '<div><h4>Voor bedrijven</h4><a href="voor-bedrijven">Partner worden</a><a href="voor-bedrijven#stations">Onze modellen</a><a href="festivals">Evenementen &amp; festivals</a><a href="portaal">Partner inloggen</a></div>'+
  '<div><h4>Contact</h4><a class="cl" href="'+wa+'" target="_blank" rel="noopener">'+IC.wa+'<span>WhatsApp</span></a><a class="cl" href="mailto:'+esc(c.email)+'">'+IC.mailm+'<span>'+esc(c.email)+'</span></a></div></div>'+
  '<div class="copy"><span>© 2026 ChargeLoop<a class="adm-l" href="beheer" hidden>Beheer</a></span><span>KvK '+esc(c.kvk||DEF.contact.kvk)+' · BTW '+esc(c.btw||DEF.contact.btw)+'</span></div></div>';
- document.querySelectorAll('[data-contact]').forEach(function(n){n.innerHTML=cinfo(c)});
+ document.querySelectorAll('[data-contact]').forEach(function(n){n.innerHTML=cinfo(c)});document.querySelectorAll('[data-c=adres]').forEach(function(n){n.innerHTML=esc(c.adres||DEF.contact.adres).split(',').map(function(x){return x.trim()}).join('<br>')});document.querySelectorAll('[data-c=email]').forEach(function(n){n.textContent=c.email});document.querySelectorAll('[data-mail]').forEach(function(a){a.href='mailto:'+c.email});
  try{if(window.SBAUTH&&SBAUTH.session()){var al=document.querySelector('.adm-l');if(al)al.hidden=false}}catch(e){}
  trTree(document.body);applyImgs()}
 footer();
