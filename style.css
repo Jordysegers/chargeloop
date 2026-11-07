@@ -876,3 +876,11 @@ nav.main .megai a.mg-lnk{border:0;padding:0;margin:0;font-size:14.5px;gap:8px;ju
 @media(min-width:1121px){nav.main{flex:1;margin-left:28px}nav.main>a:first-child{margin-left:auto}nav.main>.lang{margin-left:auto;margin-right:8px}}
 .cbbtn{margin:12px 0 26px}.cbbtn .btn{gap:10px}.cbbtn svg{width:18px;height:18px}
 .ci span{display:block;color:var(--muted);line-height:1.5;font-weight:500}
+
+/* v62: WhatsApp als los icoon */
+.wai{display:inline-grid;place-items:center;width:48px;height:48px;border-radius:50%;background:#25D366;color:#fff;box-shadow:0 6px 16px rgba(37,211,102,.35);transition:transform .2s,box-shadow .2s;text-decoration:none}
+.wai:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(37,211,102,.45)}.wai svg{width:26px;height:26px}
+.waline{text-align:center;margin:18px 0 0}
+p:has(>.wai){margin-top:18px}
+
+.cbbtn{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:6px 0 26px}
