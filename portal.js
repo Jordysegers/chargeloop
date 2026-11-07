@@ -39,7 +39,11 @@ function realLayer(){
    for(var k in have)if(!want[k])await rest('partner_readers?reader_id=eq.'+encodeURIComponent(k)+'&partner_id=eq.'+id,'DELETE');
    for(var i=0;i<p.readers.length;i++){var x=p.readers[i];if(have[x.reader_id])await rest('partner_readers?reader_id=eq.'+encodeURIComponent(x.reader_id),'PATCH',{label:x.label});else await rest('partner_readers','POST',{reader_id:x.reader_id,partner_id:id,label:x.label})}
    return id},
-  deletePartner:function(id){return rest('partners?id=eq.'+id,'DELETE')}
+  deletePartner:function(id){return rest('partners?id=eq.'+id,'DELETE')},
+  setPassword:function(email,pw){return call('/api/partner-account',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,password:pw})})},
+  changePassword:async function(cur,nw){var s=rd(),em=s&&s.email;if(!em){var e0=new Error('Niet ingelogd');e0.code='geen_sessie';throw e0}
+   var j;try{j=await aj('/token?grant_type=password',{email:em,password:cur})}catch(x){var e=new Error('Huidig wachtwoord klopt niet');e.code='huidig';throw e}
+   keep(j,em);await aj('/user',{password:nw},'PUT',j.access_token)}
  }}
 function demoLayer(){
  var seed=7;function rnd(){seed=(seed*9301+49297)%233280;return seed/233280}
@@ -63,7 +67,9 @@ function demoLayer(){
   readers:function(){return wait({ok:true,recent:{total:100,without_reader:6,by_reader:{tmr_demo_1:31,tmr_demo_2:22,tmr_demo_3:19,tmr_demo_4:12,tmr_demo_6:10}},readers:[{id:'tmr_demo_1',label:'Bar',status:'online',device_type:'bbpos_wisepos_e'},{id:'tmr_demo_2',label:'Terras',status:'online'},{id:'tmr_demo_3',label:'Lobby',status:'online'},{id:'tmr_demo_4',label:'Hoofdpodium',status:'online'},{id:'tmr_demo_5',label:'Camping',status:'offline'},{id:'tmr_demo_6',label:'Foodcourt',status:'online'},{id:'tmr_demo_7',label:'Nieuw station',status:'online'}],linked:[]})},
   list:function(){return wait(P)},
   savePartner:function(p){if(!p.id){p.id='d'+(P.length+1+Math.floor(Math.random()*999));P.push({id:p.id,name:p.name,email:p.email,share_pct:p.share_pct,active:p.active,partner_readers:p.readers.map(function(r){return {reader_id:r.reader_id,label:r.label}})})}else{var x=P.filter(function(q){return q.id===p.id})[0];x.name=p.name;x.email=p.email;x.share_pct=p.share_pct;x.active=p.active;x.partner_readers=p.readers.map(function(r){return {reader_id:r.reader_id,label:r.label}})}return wait(p.id)},
-  deletePartner:function(id){P=P.filter(function(x){return x.id!==id});return wait(1)}}}
+  deletePartner:function(id){P=P.filter(function(x){return x.id!==id});return wait(1)},
+  setPassword:function(){return wait({ok:true,created:true})},
+  changePassword:function(){return wait(1)}}}
 
 /* ---------- schermen ---------- */
 function shell(inner){root.innerHTML=inner}
@@ -78,12 +84,22 @@ function loginView(msg,mode){
 function passwordView(){
  stop();shell('<div class="pt-login"><div class="pt-card"><span class="label">Partnerportaal</span><h2>Kies een wachtwoord</h2><p class="pt-sub">Dit wachtwoord gebruik je voortaan om in te loggen.</p><form id="pt-pf" class="it"><label>Nieuw wachtwoord (minimaal 8 tekens)<input id="pt-n" type="password" autocomplete="new-password" minlength="8" required></label><p id="pt-m" class="pt-m" role="alert"></p><div class="acts"><button type="submit" class="btn btn-or">Opslaan</button></div></form></div></div>');
  $('#pt-pf').onsubmit=async function(e){e.preventDefault();var m=$('#pt-m');m.textContent='Bezig...';try{var t=await token();await aj('/user',{password:$('#pt-n').value},'PUT',t);start()}catch(x){m.textContent='Opslaan mislukt: '+(x.message||'probeer het opnieuw')}}}
+function pwChangeView(){
+ stop();shell('<div class="pt-login"><div class="pt-card"><span class="label">Account</span><h2>Wachtwoord wijzigen</h2><p class="pt-sub">Vul je huidige wachtwoord in en kies een nieuw wachtwoord van minimaal 8 tekens.</p><form id="pt-cf" class="it"><label>Huidig wachtwoord<input id="pt-c0" type="password" autocomplete="current-password" required></label><label>Nieuw wachtwoord<input id="pt-c1" type="password" autocomplete="new-password" minlength="8" required></label><label>Nieuw wachtwoord nogmaals<input id="pt-c2" type="password" autocomplete="new-password" minlength="8" required></label><p id="pt-m" class="pt-m" role="alert"></p><div class="acts"><button type="submit" class="btn btn-or">Opslaan</button><button type="button" class="btn btn-out" id="pt-cx">Annuleren</button></div></form></div></div>');
+ $('#pt-cx').onclick=function(){load(true)};
+ $('#pt-cf').onsubmit=async function(e){e.preventDefault();var m=$('#pt-m'),a=$('#pt-c0').value,b=$('#pt-c1').value,c=$('#pt-c2').value;
+  if(b.length<8){m.textContent='Het nieuwe wachtwoord moet minimaal 8 tekens hebben.';return}
+  if(b!==c){m.textContent='De twee nieuwe wachtwoorden zijn niet hetzelfde.';return}
+  if(b===a){m.textContent='Kies een wachtwoord dat anders is dan het huidige.';return}
+  m.className='pt-m';m.textContent='Bezig...';
+  try{await N.changePassword(a,b);toast('Wachtwoord gewijzigd.');load(true)}
+  catch(x){m.textContent=x.code==='huidig'?'Het huidige wachtwoord klopt niet.':'Wijzigen mislukt: '+(x.message||'probeer het opnieuw')}}}
 function msgView(title,text,logout){stop();shell('<div class="pt-login"><div class="pt-card"><h2>'+esc(title)+'</h2><p class="pt-sub">'+text+'</p>'+(logout?'<div class="acts"><button class="btn btn-navy" id="pt-lo2">Uitloggen</button></div>':'')+'</div></div>');if(logout)$('#pt-lo2').onclick=logoutNow}
 function logoutNow(){wr(null);st.data=null;st.partnerId=null;st.view='overview';st.first=true;DEMO?demoStart():loginView()}
 
-function bar(who,extra){return '<div class="pt-bar"><div><span class="label">'+(isAdmin()?'Beheerder':'Partner')+'</span><h2>'+esc(who)+'</h2></div><div class="pt-bar-r"><span class="pt-live" id="pt-live"><i></i><span>Live</span></span>'+(extra||'')+'<button class="pt-link" id="pt-lo">Uitloggen</button></div></div>'}
+function bar(who,extra){return '<div class="pt-bar"><div><span class="label">'+(isAdmin()?'Beheerder':'Partner')+'</span><h2>'+esc(who)+'</h2></div><div class="pt-bar-r"><span class="pt-live" id="pt-live"><i></i><span>Live</span></span>'+(extra||'')+'<button class="pt-link" id="pt-pw">Wachtwoord wijzigen</button><button class="pt-link" id="pt-lo">Uitloggen</button></div></div>'}
 function rangeTabs(){return '<div class="tabs pt-tabs" role="group" aria-label="Periode">'+RANGES.map(function(r){return '<button data-r="'+r[0]+'" class="'+(st.range===r[0]?'on':'')+'" aria-pressed="'+(st.range===r[0])+'">'+r[1]+'</button>'}).join('')+'</div>'}
-function bind(){var lo=$('#pt-lo');if(lo)lo.onclick=logoutNow;root.querySelectorAll('[data-r]').forEach(function(b){b.onclick=function(){st.range=b.getAttribute('data-r');load(true)}})}
+function bind(){var lo=$('#pt-lo');if(lo)lo.onclick=logoutNow;var pw=$('#pt-pw');if(pw)pw.onclick=pwChangeView;root.querySelectorAll('[data-r]').forEach(function(b){b.onclick=function(){st.range=b.getAttribute('data-r');load(true)}})}
 
 /* ---------- grafiek ---------- */
 var MON=['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'],DAY=['zo','ma','di','wo','do','vr','za'];
@@ -206,17 +222,28 @@ function partnerCard(p){
  '<div class="pt-row"><label>Naam<input name="name" value="'+esc(p.name||'')+'" required placeholder="Bijvoorbeeld Café De Haven"></label><label>E-mailadres (voor inloggen)<input name="email" type="email" value="'+esc(p.email||'')+'" required></label></div>'+
  '<div class="pt-row"><label>Percentage van de totale omzet<span class="pt-pct"><input name="share" type="number" min="0" max="100" step="0.5" value="'+esc(p.share_pct!=null?p.share_pct:20)+'" required><i>%</i></span></label><label class="pt-chk"><input name="active" type="checkbox"'+(p.active===false?'':' checked')+'> Actief (mag inloggen)</label></div>'+
  '<div class="pt-rd"><b>Gekoppelde terminals</b><div class="pt-rdl">'+((p.partner_readers||[]).map(function(r){return rdRow(r.reader_id,r.label,p.id)}).join(''))+'</div><button type="button" class="pt-link" data-add>+ Terminal toevoegen</button>'+(M.err?'<small class="pt-warnt">Terminals ophalen uit Stripe lukt nog niet ('+esc(M.err)+').</small>':'')+'</div>'+
- '<p class="pt-m" role="alert"></p><div class="acts"><button type="submit">Opslaan</button>'+(p.id?'<button type="button" class="del" data-del>Verwijderen</button>':'<button type="button" class="del" data-cancel>Annuleren</button>')+'</div></form>'}
+ (p.id?'<div class="pt-acc"><b>Inloggen</b><small>De partner logt in met het e-mailadres hierboven. Stel hier een wachtwoord in (minimaal 8 tekens). De partner kan het daarna zelf wijzigen.</small><div class="pt-accr"><input type="password" name="pw" autocomplete="new-password" placeholder="Nieuw wachtwoord" aria-label="Nieuw wachtwoord voor deze partner"><button type="button" class="pt-mini" data-show>Toon</button><button type="button" class="pt-mini" data-gen>Genereer</button><button type="button" class="pt-mini main" data-setpw>Wachtwoord instellen</button></div><p class="pt-m" data-pm role="status"></p></div>':'<p class="pt-sub">Sla de partner eerst op. Daarna kun je een wachtwoord instellen, zodat de partner kan inloggen.</p>')+'<p class="pt-m" role="alert"></p><div class="acts"><button type="submit">Opslaan</button>'+(p.id?'<button type="button" class="del" data-del>Verwijderen</button>':'<button type="button" class="del" data-cancel>Annuleren</button>')+'</div></form>'}
 function rdRow(rid,label,pid){return '<div class="pt-rdr"><select name="rid">'+readerOpts(rid,pid)+'</select><input name="rlabel" value="'+esc(label||'')+'" placeholder="Naam, bijv. Bar"><button type="button" class="pt-x" data-rm aria-label="Terminal loskoppelen">×</button></div>'}
 function drawManage(){
  var host=$('#pt-manage');if(!host)return;
  host.innerHTML='<div class="pt-card"><div class="pt-ch"><h3>Partners beheren</h3><button class="btn btn-or pt-sm" id="pt-new">+ Nieuwe partner</button></div>'+
- '<details class="pt-how"><summary>Hoe geef ik een partner toegang?</summary><ol><li>Maak hier de partner aan: naam, e-mailadres, percentage en de terminal(s).</li><li>Maak in Supabase een inlog aan met <b>hetzelfde e-mailadres</b>: Authentication, Users, Add user, Create new user (laat "Auto Confirm User" aan).</li><li>Stuur de partner de link naar dit portaal en het wachtwoord. Via "Wachtwoord vergeten?" kiest de partner zelf een eigen wachtwoord.</li></ol></details>'+
+ '<details class="pt-how"><summary>Hoe geef ik een partner toegang?</summary><ol><li>Maak hier de partner aan: naam, e-mailadres, percentage en de terminal(s).</li><li>Klik op Opslaan. Onder de partner verschijnt het vak <b>Inloggen</b>. Kies een wachtwoord (of klik op Genereer) en klik op <b>Wachtwoord instellen</b>. Daarmee wordt ook het inlogaccount aangemaakt.</li><li>Stuur de partner de link naar dit portaal, het e-mailadres en het wachtwoord. De partner kan het wachtwoord daarna zelf wijzigen via "Wachtwoord wijzigen".</li></ol></details>'+
  '<div id="pt-forms">'+(M.list.length?M.list.map(partnerCard).join(''):'<p class="pt-empty">Nog geen partners.</p>')+'</div></div>';
  $('#pt-new').onclick=function(){var f=$('#pt-forms');if($('.pt-pf[data-id="nieuw"]',f))return;var w=document.createElement('div');w.innerHTML=partnerCard({active:true,partner_readers:[{reader_id:'',label:''}]});f.insertBefore(w.firstChild,f.firstChild);wire(f.firstChild);f.firstChild.querySelector('input[name=name]').focus()};
  host.querySelectorAll('.pt-pf').forEach(wire)}
+function genPw(){var a='abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789',o='',b=new Uint32Array(14);(window.crypto||window.msCrypto).getRandomValues(b);for(var i=0;i<b.length;i++)o+=a[b[i]%a.length];return o}
 function wire(f){
- var id=f.getAttribute('data-id'),m=f.querySelector('.pt-m');
+ var id=f.getAttribute('data-id'),m=f.querySelector('.pt-m:not([data-pm])');
+ var sp=f.querySelector('[data-setpw]');
+ if(sp){var pi=f.querySelector('input[name=pw]'),pm=f.querySelector('[data-pm]');
+  f.querySelector('[data-show]').onclick=function(e){pi.type=pi.type==='password'?'text':'password';e.target.textContent=pi.type==='password'?'Toon':'Verberg'};
+  f.querySelector('[data-gen]').onclick=function(){pi.value=genPw();pi.type='text';f.querySelector('[data-show]').textContent='Verberg';pm.className='pt-m ok';pm.textContent='Nieuw wachtwoord gemaakt. Klik op "Wachtwoord instellen" om het te bewaren.'};
+  sp.onclick=async function(){var base=M.list.filter(function(x){return x.id===id})[0],mail=f.email.value.trim().toLowerCase();pm.className='pt-m';
+   if(!base||base.email.toLowerCase()!==mail){pm.textContent='Sla eerst het e-mailadres op voordat je een wachtwoord instelt.';return}
+   if(pi.value.length<8){pm.textContent='Het wachtwoord moet minimaal 8 tekens hebben.';return}
+   pm.textContent='Bezig...';
+   try{var r=await N.setPassword(mail,pi.value);pm.className='pt-m ok';pm.textContent=(r&&r.created===false?'Wachtwoord gewijzigd':'Account aangemaakt en wachtwoord ingesteld')+'. Geef het door aan de partner. Het staat nergens opgeslagen.'}
+   catch(x){pm.textContent=x.code==='service_sleutel_ontbreekt'?'Dit is nog niet aangezet: voeg SUPABASE_SERVICE_ROLE_KEY toe in Vercel (zie PORTAAL-STAPPEN.md).':'Mislukt: '+(x.message||'probeer het opnieuw')}}}
  f.querySelector('[data-add]').onclick=function(){var w=document.createElement('div');w.innerHTML=rdRow('','',id==='nieuw'?null:id);f.querySelector('.pt-rdl').appendChild(w.firstChild);bindRm(f)};
  bindRm(f);
  f.querySelectorAll('select[name=rid]').forEach(function(s){s.onchange=autoLabel});

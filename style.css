@@ -748,3 +748,11 @@ body[data-page=home] .hk{margin-bottom:18px}
 .pt-st{display:inline-flex;align-items:center;gap:7px;font-size:.85rem;font-weight:600}.pt-st i{width:9px;height:9px;border-radius:50%;background:#9AA7B5;flex:none}.pt-st.on i{background:#1E9E5A}.pt-st.on{color:#1E7A4B}.pt-st.off{color:var(--muted)}
 .pt-free{font-style:normal;font-size:.78rem;font-weight:700;color:#8A4B00;background:#FFF4E5;border-radius:999px;padding:3px 10px}
 .pt-tt .pt-tr small{overflow-wrap:anywhere}
+
+/* v50: wachtwoord instellen / wijzigen */
+.pt-acc{background:#fff;border-radius:16px;padding:14px 16px;display:grid;gap:8px;border:1px solid var(--line)}.pt-acc b{font-size:.9rem}.pt-acc small{color:var(--muted);font-size:.85rem;line-height:1.5}
+.pt-accr{display:flex;gap:8px;flex-wrap:wrap}.pt-accr input{flex:1 1 200px;min-width:0}
+.pt-pf .pt-mini{font:600 13px var(--b);padding:10px 16px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--navy);cursor:pointer}.pt-pf .pt-mini:hover{border-color:var(--navy)}.pt-pf .pt-mini.main{background:var(--navy);color:#fff;border-color:var(--navy)}
+.pt-login .acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.pt-login .acts .btn{padding:12px 24px;font-size:15px}
+.adm .pt-pf .pt-chk input{width:20px;height:20px;padding:0;margin:0;flex:none}
+.adm .pt-pf .pt-chk{gap:10px;white-space:nowrap}

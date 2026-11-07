@@ -78,7 +78,7 @@ if(hdr){hdr.innerHTML='<div class="pill"><a class="lg" href="/" aria-label="Char
  '<button class="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>'+
  '<nav class="main" id="nav"><a href="/#hoe-het-werkt">Hoe het werkt</a><a href="voor-bedrijven#stations">Onze modellen</a>'+
  '<div class="dd'+(bpages[page]?' on':'')+'"><button class="ddb" type="button" aria-expanded="false" aria-haspopup="true">Voor bedrijven'+CHEV+'</button><div class="ddm"><div class="ddi"><a href="voor-bedrijven">Partner worden</a><a href="festivals">Evenementen &amp; Festivals</a></div></div></div>'+
- '<a href="faq"'+(page==='faq'?' class="on"':'')+'>FAQ</a><a href="contact"'+(page==='contact'?' class="on"':'')+'>Contact</a>'+(function(){var show=!window.SB_CONFIG;try{show=show||!!localStorage.getItem('cl_session')}catch(e){}return show?'<a href="portaal"'+(page==='portaal'?' class="on"':'')+' data-i18n-skip>Portaal</a>':''})()+
+ '<a href="faq"'+(page==='faq'?' class="on"':'')+'>FAQ</a><a href="contact"'+(page==='contact'?' class="on"':'')+'>Contact</a>'+
  '<div class="lang"><button class="lb" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Taal"><span class="fl">'+FLAG[LANG]+'</span><span class="lc">'+LANG.toUpperCase()+'</span>'+CHEV+'</button><div class="lm"><div class="ddi"><button type="button" data-l="nl"><span class="fl">'+FLAG.nl+'</span>Nederlands</button><button type="button" data-l="en"><span class="fl">'+FLAG.en+'</span>English</button></div></div></div>'+
  '<a class="btn btn-or find" href="vind-een-station">'+PINI+'Vind een station</a></nav></div>';
  var bg=hdr.querySelector('.burger'),nv=document.getElementById('nav');
@@ -112,7 +112,7 @@ async function footer(){
  document.querySelectorAll('[data-soc]').forEach(function(n){n.innerHTML=soc(c)});
  if(f)f.innerHTML='<div class="wrap"><div class="fcols"><div><a class="lg" href="/"><img src="logo.png" alt="ChargeLoop"></a><p class="fp">Tap, Charge &amp; Go. Altijd en overal opgeladen.</p><div class="soc">'+soc(c)+'</div></div>'+
  '<div><h4>Voor jou</h4><a href="/#hoe-het-werkt">Hoe het werkt</a><a href="vind-een-station">Vind een station</a><a href="faq">FAQ</a><a href="contact">Contact</a></div>'+
- '<div><h4>Voor bedrijven</h4><a href="voor-bedrijven">Partner worden</a><a href="voor-bedrijven#stations">Onze modellen</a><a href="festivals">Evenementen &amp; festivals</a><a href="tip-een-locatie">Tip een locatie</a></div>'+
+ '<div><h4>Voor bedrijven</h4><a href="voor-bedrijven">Partner worden</a><a href="voor-bedrijven#stations">Onze modellen</a><a href="festivals">Evenementen &amp; festivals</a><a href="tip-een-locatie">Tip een locatie</a><a href="portaal">Partner inloggen</a></div>'+
  '<div><h4>Contact</h4><a class="cl" href="'+wa+'" target="_blank" rel="noopener">'+IC.wa+'<span>WhatsApp</span></a><a class="cl" href="mailto:'+esc(c.email)+'">'+IC.mailm+'<span>'+esc(c.email)+'</span></a></div></div>'+
  '<div class="copy"><span>© 2026 ChargeLoop</span><span>KvK '+esc(c.kvk||DEF.contact.kvk)+' · BTW '+esc(c.btw||DEF.contact.btw)+'</span></div></div>';
  document.querySelectorAll('[data-contact]').forEach(function(n){n.innerHTML=cinfo(c)});

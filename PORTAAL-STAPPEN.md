@@ -43,3 +43,9 @@ Er zijn drie stappen. Samen kost dit ongeveer 10 minuten. Je plakt nergens een g
 
 ## Als er cijfers ontbreken
 Log in als beheerder en ga naar Partners beheren. Zie je daar geen terminals in de lijst, dan is de Stripe-koppeling niet goed. Cijfers kloppen niet? Vergelijk een paar betalingen met het Stripe-dashboard. Bedragen zijn de bedragen zoals betaald via de terminal.
+
+## Stap 4: wachtwoorden instellen (beheerder)
+1. Supabase: Project Settings, API Keys, kopieer de **Secret key**.
+2. Vercel: Settings, Environment Variables, voeg `SUPABASE_SERVICE_ROLE_KEY` toe met die waarde. Daarna **Redeploy**.
+3. Portaal: Partners beheren, kies de partner, onder "Inloggen" vul je een wachtwoord in (of "Genereer") en klik "Wachtwoord instellen".
+4. Geef het wachtwoord door aan de partner. De partner kan het zelf wijzigen via "Wachtwoord wijzigen" in het portaal. Wachtwoorden worden nergens opgeslagen.
