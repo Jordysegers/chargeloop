@@ -1086,3 +1086,10 @@ p:has(>.wai){margin-top:18px}
 .cpz-ph img{border-radius:0}
 .cpz-cap{z-index:4}
 .cpz-seg{display:none}
+
+/* v84: kaart vult de hoogte van het kaartvak (geen lege ruimte eronder) */
+@media(min-width:901px){
+ .lv .box .mapc{display:flex}
+ .lv .box .mapc .cmap{flex:1;height:auto;min-height:560px}
+ .lv.tall .box .mapc .cmap{min-height:640px}
+}

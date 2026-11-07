@@ -230,7 +230,7 @@ function ChMap(box,opts){
  function setZ(n){z=Math.max(3,Math.min(18,n));draw()}
  zc.children[0].onclick=function(){setZ(z+1)};zc.children[1].onclick=function(){setZ(z-1)};
  box.addEventListener('wheel',function(e){if(!e.ctrlKey&&!e.metaKey)return;e.preventDefault();setZ(z+(e.deltaY<0?1:-1))},{passive:false});
- window.addEventListener('resize',draw);
+ window.addEventListener('resize',draw);if(window.ResizeObserver)new ResizeObserver(function(){draw()}).observe(box);
  return {draw:draw,setView:function(a,b,zz){lat=a;lng=b;if(zz)z=zz;draw()},
   set:function(list){marks.forEach(function(m){m.el.remove()});marks=list.map(function(s){var b=document.createElement('button');b.className='mk';b.type='button';b.setAttribute('aria-label',s.naam);b.innerHTML=PIN.replace('COL',s.status!=='soon'?'#FE6615':'#022943');b.addEventListener('click',function(ev){ev.stopPropagation();opts.onpick&&opts.onpick(s)});mlayer.appendChild(b);return {lat:+s.lat,lng:+s.lng,el:b,s:s}});draw()},
   fit:function(){if(!marks.length)return;var la=marks.map(function(m){return m.lat}),lo=marks.map(function(m){return m.lng});var minA=Math.min.apply(0,la),maxA=Math.max.apply(0,la),minO=Math.min.apply(0,lo),maxO=Math.max.apply(0,lo);lat=(minA+maxA)/2;lng=(minO+maxO)/2;var zz=13;while(zz>5){var a=px(maxA,minO,zz),b=px(minA,maxO,zz);if(Math.abs(b.x-a.x)<box.clientWidth*.7&&Math.abs(b.y-a.y)<box.clientHeight*.7)break;zz--}z=zz;draw()},
