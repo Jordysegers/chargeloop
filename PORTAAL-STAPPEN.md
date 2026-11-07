@@ -23,7 +23,7 @@ Er zijn drie stappen. Samen kost dit ongeveer 10 minuten. Je plakt nergens een g
    | Naam | Waarde |
    |---|---|
    | `STRIPE_SECRET_KEY` | de sleutel uit stap 2 (begint met `rk_live_`) |
-   | `DEPOSIT_CENTS` | `3000` (de borg van 30 euro telt niet mee als omzet). Zet op `0` om dit uit te zetten. |
+   | `DEPOSIT_CENTS` | `2000` (de borg van 20 euro telt niet mee als omzet). Zet op `0` om dit uit te zetten. |
 3. Ga naar **Deployments** en klik bij de nieuwste op **Redeploy**, zodat de instellingen worden meegenomen.
 
 ## Een partner toevoegen
