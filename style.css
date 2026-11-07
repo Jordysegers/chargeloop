@@ -833,3 +833,15 @@ nav.main .megai a.mg-lnk{border:0;padding:0;margin:0;font-size:14.5px;gap:8px;ju
  .mg-intro h3{font-size:1.5rem}
  .mg-act{flex-direction:row;flex-wrap:wrap;align-items:center;gap:12px 20px;margin-top:auto}
 }
+
+/* v57: powerbank-blok met kleurvlak en zwevende laadkaart */
+.cabs .cph.cpx{position:relative;display:block;background:var(--or)!important;border-radius:32px;overflow:hidden;min-height:540px;box-shadow:none!important}
+.cpx-c{position:absolute;left:50%;top:46%;width:78%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:rgba(255,255,255,.2)}
+.cabs .cph.cpx img{position:absolute;inset:6% auto auto 50%;width:auto;height:84%;max-width:none;transform:translateX(-50%);padding:0;object-fit:contain;filter:drop-shadow(0 18px 24px rgba(2,41,67,.35))}
+.cpx-card{position:absolute;left:16px;right:16px;bottom:16px;background:#fff;border-radius:24px;padding:16px 20px 18px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:6px 14px;box-shadow:0 14px 34px rgba(2,41,67,.22)}
+.cpx-i{width:44px;height:44px;border-radius:50%;background:var(--or);color:#fff;display:grid;place-items:center}.cpx-i svg{width:22px;height:22px}
+.cpx-card b{font:700 1.02rem var(--b);color:var(--navy)}.cpx-card strong{font:400 1.9rem/1 'Anton',Impact,sans-serif;color:var(--navy)}
+.cpx-bar{grid-column:1/-1;display:block;height:14px;border-radius:99px;background:#fbe3d4;overflow:hidden;margin-top:6px}.cpx-bar u{display:block;height:100%;width:100%;border-radius:99px;background:var(--or);animation:cpxfill 3.6s ease-in-out infinite}
+@keyframes cpxfill{0%{width:12%}70%,100%{width:100%}}
+@media(prefers-reduced-motion:reduce){.cpx-bar u{animation:none}}
+@media(max-width:860px){.cabs .cph.cpx{min-height:480px}}
