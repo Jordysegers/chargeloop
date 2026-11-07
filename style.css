@@ -756,3 +756,41 @@ body[data-page=home] .hk{margin-bottom:18px}
 .pt-login .acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.pt-login .acts .btn{padding:12px 24px;font-size:15px}
 .adm .pt-pf .pt-chk input{width:20px;height:20px;padding:0;margin:0;flex:none}
 .adm .pt-pf .pt-chk{gap:10px;white-space:nowrap}
+
+/* v52: mega-menu (modellen + voor bedrijven) */
+.dd.mega{position:static}
+.dd.mega .ddm{left:0;right:0;min-width:0;padding-top:14px}
+nav.main .megai{background:var(--navy);color:#fff;border-radius:30px;padding:22px;box-shadow:0 22px 54px rgba(2,41,67,.38);display:block}
+nav.main .megai a{color:#fff;font-weight:600;text-decoration:none}
+.mg-mhd{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 16px;margin:0 0 16px 4px}
+.mg-mhd b{font:400 1.45rem var(--h);text-transform:uppercase;letter-spacing:.02em}
+.mg-mhd span{font-size:14px;color:rgba(255,255,255,.72);font-weight:500}
+.mg-grid{display:grid;gap:12px}.mg-grid.mg-mm{grid-template-columns:repeat(4,1fr)}
+nav.main .megai a.mg-mc{position:relative;display:flex;flex-direction:column;gap:12px;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.1);border-radius:22px;padding:16px;transition:background .2s,transform .25s cubic-bezier(.2,.7,.2,1),border-color .2s}
+nav.main .megai a.mg-mc:hover{background:rgba(255,255,255,.14);border-color:var(--or);transform:translateY(-3px)}
+.mg-msl{display:grid;grid-template-columns:repeat(var(--c),1fr);gap:5px;height:92px;align-content:center;background:rgba(255,255,255,.06);border-radius:14px;padding:10px 12px}
+.mg-msl i{display:block;height:7px;border-radius:99px;background:var(--or)}
+.mg-msl i:nth-child(3n){background:#fff}
+.mg-mn{font-size:13px;font-weight:600;color:rgba(255,255,255,.8)}.mg-mn strong{font:400 2.1rem/1 var(--h);color:#fff;margin-right:4px;letter-spacing:.01em}
+.mg-mc small{font-size:13px;line-height:1.4;color:rgba(255,255,255,.72);font-weight:500}
+.mg-mtag{position:absolute;top:-9px;right:14px;font:700 10px var(--b);font-style:normal;text-transform:uppercase;letter-spacing:.08em;background:var(--or);color:#fff;padding:4px 10px;border-radius:99px}
+nav.main .megai a.mg-mfoot{display:inline-flex;align-items:center;gap:8px;margin:16px 0 0 4px;font-size:14px;color:#fff;border-bottom:1.5px solid rgba(255,255,255,.35);padding-bottom:2px}
+nav.main .megai a.mg-mfoot:hover{border-color:var(--or)}
+.mg-marr{width:15px;height:11px;flex:none}
+.mg-mbiz{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:14px}
+.mg-mcta{background:var(--or);border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:10px;justify-content:space-between}
+.mg-mcta b{font:400 1.9rem/1.05 var(--h);text-transform:uppercase;letter-spacing:.01em}
+.mg-mcta p{margin:0;font-size:14px;font-weight:500;color:rgba(255,255,255,.92)}
+nav.main .megai a.mg-mbtn{align-self:flex-start;display:inline-flex;align-items:center;gap:9px;background:#fff;color:var(--navy);padding:11px 18px;border-radius:999px;font-size:14px;transition:gap .2s}
+nav.main .megai a.mg-mbtn:hover{gap:14px}
+.mg-grid.mg-ml{grid-template-columns:1fr 1fr}
+nav.main .megai a.mg-ml1{display:flex;flex-direction:column;gap:3px;justify-content:center;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.1);border-radius:20px;padding:16px 18px;transition:background .2s,border-color .2s}
+nav.main .megai a.mg-ml1:hover{background:rgba(255,255,255,.14);border-color:var(--or)}
+.mg-ml1 b{font:400 1.2rem var(--h);text-transform:uppercase;letter-spacing:.02em}.mg-ml1 span{font-size:13px;color:rgba(255,255,255,.72);font-weight:500}
+@media(max-width:1120px){
+ .dd.mega .ddm{position:static;padding:0 0 6px}
+ nav.main .megai{border-radius:22px;padding:14px;box-shadow:none}
+ .mg-grid.mg-mm{grid-template-columns:1fr 1fr}.mg-mbiz{grid-template-columns:1fr}.mg-grid.mg-ml{grid-template-columns:1fr}
+ nav.main .megai a.mg-mc{padding:12px}.mg-msl{height:70px}
+ .mg-mhd span{display:none}
+}

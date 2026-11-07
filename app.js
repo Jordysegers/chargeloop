@@ -72,12 +72,26 @@ var FLAG={nl:'<svg viewBox="0 0 30 20" aria-hidden="true"><rect width="30" heigh
  en:'<svg viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="20" fill="#012169"/><path d="M0 0L30 20M30 0L0 20" stroke="#fff" stroke-width="4"/><path d="M0 0L30 20M30 0L0 20" stroke="#C8102E" stroke-width="1.6"/><path d="M15 0V20M0 10H30" stroke="#fff" stroke-width="6"/><path d="M15 0V20M0 10H30" stroke="#C8102E" stroke-width="3.4"/></svg>'};
 var CHEV='<svg class="chev" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1.5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 var PINI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></svg>';
+
 var hdr=document.getElementById('hdr');
 var bpages={bedrijven:1,festivals:1,verwijs:1};
+var hdr=document.getElementById('hdr');
+var bpages={bedrijven:1,festivals:1,verwijs:1};
+var MODELS=[[6,2,'Kleine horeca, kappers en balies'],[12,3,'Drukkere horeca, winkels en lobby’s'],[24,4,'Hotels, winkels en sportscholen'],[48,6,'Evenementen, beurzen en centra']];
+var ARR='<svg class="mg-marr" viewBox="0 0 16 12" aria-hidden="true"><path d="M1 6h13M9 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+function slotsHtml(n,c){var o='';for(var i=0;i<n;i++)o+='<i></i>';return '<span class="mg-msl" style="--c:'+c+'" aria-hidden="true">'+o+'</span>'}
+var MEGA_M='<div class="dd mega"><button class="ddb" type="button" aria-expanded="false" aria-haspopup="true">Onze modellen'+CHEV+'</button><div class="ddm"><div class="megai"><div class="mg-mhd"><b>Kies je formaat</b><span>Van een bar tot een festival. Elk station werkt op een gewoon stopcontact.</span></div><div class="mg-grid mg-mm">'+
+ MODELS.map(function(m){return '<a class="mg-mc" href="voor-bedrijven#stations">'+(m[0]===12?'<em class="mg-mtag">Meest gekozen</em>':'')+slotsHtml(m[0],m[1])+'<span class="mg-mn"><strong>'+m[0]+'</strong> powerbanks</span><small>'+m[2]+'</small></a>'}).join('')+
+ '</div><a class="mg-mfoot" href="contact">Niet zeker welk formaat past? Wij adviseren je'+ARR+'</a></div></div></div>';
+var MEGA_B='<div class="dd mega'+(bpages[page]?' on':'')+'"><button class="ddb" type="button" aria-expanded="false" aria-haspopup="true">Voor bedrijven'+CHEV+'</button><div class="ddm"><div class="megai"><div class="mg-mbiz"><div class="mg-mcta"><b>Gratis station voor jouw zaak</b><p>Wij leveren, plaatsen en beheren het station. Jij verdient mee.</p><a class="mg-mbtn" href="voor-bedrijven#aanvragen">Station aanvragen'+ARR+'</a></div><div class="mg-grid mg-ml">'+
+ '<a class="mg-ml1" href="voor-bedrijven"><b>Partner worden</b><span>Wat het oplevert en hoe het werkt</span></a>'+
+ '<a class="mg-ml1" href="festivals"><b>Evenementen &amp; festivals</b><span>Stations voor grote drukte</span></a>'+
+ '<a class="mg-ml1" href="tip-een-locatie"><b>Tip een locatie</b><span>Ken je een plek die past?</span></a>'+
+ '<a class="mg-ml1" href="portaal"><b>Partner inloggen</b><span>Bekijk je omzet en gebruik</span></a></div></div></div></div></div>';
 if(hdr){hdr.innerHTML='<div class="pill"><a class="lg" href="/" aria-label="ChargeLoop, naar de homepage"><img data-img="logo" src="logo.png" alt="ChargeLoop"></a>'+
  '<button class="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>'+
- '<nav class="main" id="nav"><a href="/#hoe-het-werkt">Hoe het werkt</a><a href="voor-bedrijven#stations">Onze modellen</a>'+
- '<div class="dd'+(bpages[page]?' on':'')+'"><button class="ddb" type="button" aria-expanded="false" aria-haspopup="true">Voor bedrijven'+CHEV+'</button><div class="ddm"><div class="ddi"><a href="voor-bedrijven">Partner worden</a><a href="festivals">Evenementen &amp; Festivals</a></div></div></div>'+
+ '<nav class="main" id="nav"><a href="/#hoe-het-werkt">Hoe het werkt</a>'+MEGA_M+''+
+ ''+MEGA_B+
  '<a href="faq"'+(page==='faq'?' class="on"':'')+'>FAQ</a><a href="contact"'+(page==='contact'?' class="on"':'')+'>Contact</a>'+
  '<div class="lang"><button class="lb" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Taal"><span class="fl">'+FLAG[LANG]+'</span><span class="lc">'+LANG.toUpperCase()+'</span>'+CHEV+'</button><div class="lm"><div class="ddi"><button type="button" data-l="nl"><span class="fl">'+FLAG.nl+'</span>Nederlands</button><button type="button" data-l="en"><span class="fl">'+FLAG.en+'</span>English</button></div></div></div>'+
  '<a class="btn btn-or find" href="vind-een-station">'+PINI+'Vind een station</a></nav></div>';
