@@ -960,3 +960,7 @@ p:has(>.wai){margin-top:18px}
 .ct-wa .ct-i,.ct-tel .ct-i,.ct-ml .ct-i{background:var(--navy)}
 .ct-n{display:block;margin-top:10px;font-size:12.5px;font-style:italic;color:rgba(255,255,255,.65)}
 .fm small.fsec{display:flex;align-items:center;justify-content:center;gap:7px;font-size:12px;text-align:center;margin-top:4px}.fm small.fsec svg{width:13px;height:13px;flex:none}
+
+/* v71: adres rustiger */
+.ct-side h3{font:700 1.05rem/1.3 var(--b);margin:0 0 8px;color:rgba(255,255,255,.9)}
+.ct-side address{font-size:.98rem;line-height:1.6;color:rgba(255,255,255,.8)}
