@@ -817,29 +817,3 @@ nav.main a.btn.find{font-size:14px;padding:10px 18px 10px 14px}
 .cbh>span.cbi{display:flex;margin:0}
 .cbcard .fm .msg:not(.on){display:none}
 
-/* v54: rustiger en professioneler: kop in gewone Montserrat, vlakkere kaarten, strakke kopregels */
-main h2,main h3,.cl-r h2,.mdl h3{font-family:var(--b);font-weight:800;text-transform:none;letter-spacing:-.025em;line-height:1.1}
-main h2{font-size:clamp(1.9rem,3.6vw,2.8rem)}
-main h3{font-size:1.2rem;letter-spacing:-.015em}
-main h2 em,main h2 i{font-style:normal;color:var(--or)}
-.why h2,.b-navy h2{color:#fff}
-footer h4{font-family:var(--b);font-weight:700;text-transform:none;letter-spacing:0;font-size:15px}
-.label{display:inline-block;background:rgba(254,102,21,.1);color:#c9490a;font-weight:700;font-size:12px;letter-spacing:.07em;padding:6px 14px;border-radius:999px;margin-bottom:16px}
-.b-navy .label,.why .label{background:rgba(255,255,255,.1);color:#ffb68f}
-.cl-r .label{margin-bottom:12px}
-@media(min-width:960px){
- section>.wrap>.head{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);column-gap:64px;row-gap:0;align-items:end;text-align:left;max-width:none;margin:0 0 48px}
- section>.wrap>.head .label{grid-column:1/-1;justify-self:start}
- section>.wrap>.head h2{grid-column:1}
- section>.wrap>.head p{grid-column:2;margin:0;max-width:52ch;padding-bottom:6px}
- section>.wrap>.head h2:last-child{grid-column:1/-1}
-}
-@media(max-width:959px){section>.wrap>.head{text-align:left;margin-left:0}}
-.tagwrap span{transform:none!important}
-.card,.evc,.br,.crow,.mdl,.lst,.mapc{box-shadow:none;border:1px solid var(--line)}
-.crow{border-radius:22px}
-.card{border-radius:24px}
-section{padding:92px 0}
-@media(max-width:700px){section{padding:64px 0}}
-.tagwrap>div{justify-content:flex-start!important;margin:0!important;max-width:none!important}
-@media(max-width:959px){.tagwrap>div{justify-content:center!important}}
