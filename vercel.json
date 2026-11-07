@@ -33,5 +33,12 @@
     }
    ]
   }
+ ],
+ "redirects": [
+  {
+   "source": "/tip-een-locatie",
+   "destination": "/voor-bedrijven",
+   "permanent": false
+  }
  ]
 }

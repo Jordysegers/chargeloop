@@ -75,19 +75,23 @@ var PINI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-widt
 
 var hdr=document.getElementById('hdr');
 var bpages={bedrijven:1,festivals:1,verwijs:1};
-var hdr=document.getElementById('hdr');
-var bpages={bedrijven:1,festivals:1,verwijs:1};
-var MODELS=[[6,2,'Kleine horeca, kappers en balies'],[12,3,'Drukkere horeca, winkels en lobby’s'],[24,4,'Hotels, winkels en sportscholen'],[48,6,'Evenementen, beurzen en centra']];
-var ARR='<svg class="mg-marr" viewBox="0 0 16 12" aria-hidden="true"><path d="M1 6h13M9 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-function slotsHtml(n,c){var o='';for(var i=0;i<n;i++)o+='<i></i>';return '<span class="mg-msl" style="--c:'+c+'" aria-hidden="true">'+o+'</span>'}
-var MEGA_M='<div class="dd mega"><button class="ddb" type="button" aria-expanded="false" aria-haspopup="true">Onze modellen'+CHEV+'</button><div class="ddm"><div class="megai"><div class="mg-mhd"><b>Kies je formaat</b><span>Van een bar tot een festival. Elk station werkt op een gewoon stopcontact.</span></div><div class="mg-grid mg-mm">'+
- MODELS.map(function(m){return '<a class="mg-mc" href="voor-bedrijven#stations">'+(m[0]===12?'<em class="mg-mtag">Meest gekozen</em>':'')+slotsHtml(m[0],m[1])+'<span class="mg-mn"><strong>'+m[0]+'</strong> powerbanks</span><small>'+m[2]+'</small></a>'}).join('')+
- '</div><a class="mg-mfoot" href="contact">Niet zeker welk formaat past? Wij adviseren je'+ARR+'</a></div></div></div>';
-var MEGA_B='<div class="dd mega'+(bpages[page]?' on':'')+'"><button class="ddb" type="button" aria-expanded="false" aria-haspopup="true">Voor bedrijven'+CHEV+'</button><div class="ddm"><div class="megai"><div class="mg-mbiz"><div class="mg-mcta"><b>Gratis station voor jouw zaak</b><p>Wij leveren, plaatsen en beheren het station. Jij verdient mee.</p><a class="mg-mbtn" href="voor-bedrijven#aanvragen">Station aanvragen'+ARR+'</a></div><div class="mg-grid mg-ml">'+
- '<a class="mg-ml1" href="voor-bedrijven"><b>Partner worden</b><span>Wat het oplevert en hoe het werkt</span></a>'+
- '<a class="mg-ml1" href="festivals"><b>Evenementen &amp; festivals</b><span>Stations voor grote drukte</span></a>'+
- '<a class="mg-ml1" href="tip-een-locatie"><b>Tip een locatie</b><span>Ken je een plek die past?</span></a>'+
- '<a class="mg-ml1" href="portaal"><b>Partner inloggen</b><span>Bekijk je omzet en gebruik</span></a></div></div></div></div></div>';
+var MODELS=[[6,'Ideaal voor kleine horeca, kappers en balies'],[12,'Ideaal voor drukkere horeca, winkels en lobby’s'],[24,'Ideaal voor hotels, winkels en sportscholen'],[48,'Ideaal voor evenementen, beurzen en centra']];
+var ARR='<svg class="mg-arr" viewBox="0 0 16 12" aria-hidden="true"><path d="M1 6h13M9 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+function stSvg(n,hl){var g={6:[52,62,2,3],12:[50,78,2,6],24:[32,90,2,12],48:[54,90,4,12]}[n],w=g[0],h=g[1],c=g[2],r=g[3],x=(100-w)/2,y=(100-h)/2,sy=y+h*.27,sh=h*.67,cw=w*.76/c,ch=sh/r,col=hl?'#FE6615':'#022943';
+ var s='<svg viewBox="0 0 100 100" aria-hidden="true"><rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="5" fill="#fff"/><rect x="'+(x+w*.14)+'" y="'+(y+h*.07)+'" width="'+(w*.72)+'" height="'+(h*.14)+'" rx="2" fill="#022943"/>';
+ for(var i=0;i<r;i++)for(var j=0;j<c;j++)s+='<rect x="'+(x+w*.12+j*cw+.7)+'" y="'+(sy+i*ch+.7)+'" width="'+(cw-1.4)+'" height="'+(ch-1.4)+'" rx="1.2" fill="'+col+'"/>';
+ return s+'</svg>'}
+var MI={shop:'<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18l3-10h30l3 10M6 18v22h36V18M6 18c0 3 2.5 5 6 5s6-2 6-5c0 3 2.500 5 6 5s6-2 6-5c0 3 2.500 5 6 5s6-2 6-5M20 40V30h8v10"/></svg>',
+ ticket:'<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 16h38v6a3 3 0 000 6v6H5v-6a3 3 0 000-6zM30 16v18" stroke-dasharray="3 3"/></svg>',
+ phone:'<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 6h6l3 9-4 3a22 22 0 0011 11l3-4 9 3v6a4 4 0 01-4 4A32 32 0 0110 10a4 4 0 014-4z"/></svg>'};
+var MEGA_M='<div class="dd mega"><button class="ddb" type="button" aria-expanded="false" aria-haspopup="true">Onze modellen'+CHEV+'</button><div class="ddm"><div class="megai"><div class="mg-wrap"><div class="mg-intro"><span class="mg-pill">Modellen</span><h3>Een station voor elke plek</h3><p>Van een compact station op de bar tot een vrijstaande zuil. Wij adviseren je gratis over het beste formaat.</p><a class="mg-lnk" href="voor-bedrijven#stations">Alle modellen vergelijken'+ARR+'</a><a class="mg-go" href="contact">Gratis advies'+ARR+'</a></div><div class="mg-cards mg-c4">'+
+ MODELS.map(function(m,i){var hl=i===0;return '<a class="mg-card'+(hl?' hl':'')+'" href="voor-bedrijven#stations"><span class="mg-tile">'+(hl?'<em class="mg-tag">Meest gekozen</em>':'')+stSvg(m[0],hl)+'</span><span class="mg-row"><b>ChargeLoop '+m[0]+'</b>'+ARR+'</span><small>'+m[1]+'</small></a>'}).join('')+
+ '</div></div></div></div></div>';
+var MEGA_B='<div class="dd mega'+(bpages[page]?' on':'')+'"><button class="ddb" type="button" aria-expanded="false" aria-haspopup="true">Voor bedrijven'+CHEV+'</button><div class="ddm"><div class="megai"><div class="mg-wrap"><div class="mg-intro"><span class="mg-pill">Voor bedrijven</span><h3>Meer gasten, nul investering</h3><p>Wij leveren, plaatsen en beheren het station. Jij verdient mee.</p><a class="mg-lnk" href="portaal">Partner inloggen'+ARR+'</a><a class="mg-go" href="voor-bedrijven#aanvragen">Station aanvragen'+ARR+'</a></div><div class="mg-cards mg-c3">'+
+ '<a class="mg-card hl" href="voor-bedrijven"><span class="mg-tile mg-ic">'+MI.shop+'</span><span class="mg-row"><b>Partner worden</b>'+ARR+'</span><small>Wat het oplevert en hoe het werkt</small></a>'+
+ '<a class="mg-card" href="festivals"><span class="mg-tile mg-ic">'+MI.ticket+'</span><span class="mg-row"><b>Evenementen &amp; festivals</b>'+ARR+'</span><small>Stations voor grote drukte</small></a>'+
+ '<a class="mg-card" href="#terugbel" data-callback><span class="mg-tile mg-ic">'+MI.phone+'</span><span class="mg-row"><b>Laat ons terugbellen</b>'+ARR+'</span><small>Laat je nummer achter</small></a>'+
+ '</div></div></div></div></div>';
 if(hdr){hdr.innerHTML='<div class="pill"><a class="lg" href="/" aria-label="ChargeLoop, naar de homepage"><img data-img="logo" src="logo.png" alt="ChargeLoop"></a>'+
  '<button class="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>'+
  '<nav class="main" id="nav"><a href="/#hoe-het-werkt">Hoe het werkt</a>'+MEGA_M+''+
@@ -116,7 +120,7 @@ var IC={pin:'<svg viewBox="0 0 24 24" fill="none" stroke="#FE6615" stroke-width=
 function telhref(t){return 'tel:'+t.replace(/[^+\d]/g,'')}
 var SOC={facebook:'<svg viewBox="0 0 24 24"><path d="M13.5 22v-8.2h2.8l.5-3.3h-3.3V8.4c0-.9.4-1.7 1.8-1.7h1.6V3.8S15.6 3.5 14.3 3.5c-2.700 0-4.400 1.600-4.400 4.500v2.500H7.100v3.300h2.800V22z"/></svg>',instagram:'<svg viewBox="0 0 24 24"><path d="M7.500 2h9A5.500 5.500 0 0122 7.500v9a5.500 5.500 0 01-5.500 5.500h-9A5.500 5.500 0 012 16.500v-9A5.500 5.500 0 017.500 2zm0 2A3.500 3.500 0 004 7.500v9A3.500 3.500 0 007.500 20h9a3.500 3.500 0 003.500-3.500v-9A3.500 3.500 0 0016.500 4zM12 7a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6zm5.300-3.100a1.200 1.200 0 110 2.400 1.200 1.200 0 010-2.400z"/></svg>',linkedin:'<svg viewBox="0 0 24 24"><path d="M4.500 3A1.800 1.800 0 106.300 4.800 1.800 1.800 0 004.500 3zM3 8.500h3V21H3zm5.500 0h2.900v1.700c.5-.9 1.700-2 3.600-2 3.400 0 4 2.200 4 5.100V21h-3v-6.700c0-1.600 0-3.200-2-3.200s-2.400 1.500-2.400 3.100V21h-3z"/></svg>'};
 var SOCN={facebook:'Facebook',instagram:'Instagram',linkedin:'LinkedIn'};
-function cinfo(c){return '<div class="ci">'+IC.tel+'<div><b>Terugbelverzoek</b><a href="#terugbel" data-callback>Laat je nummer achter</a></div></div>'+
+function cinfo(c){return ''+
  '<div class="ci">'+IC.mail+'<div><b>E-mail</b><a href="mailto:'+esc(c.email)+'">'+esc(c.email)+'</a></div></div>'}
 function soc(c){return ['facebook','instagram','linkedin'].map(function(k){return '<a href="'+esc(c[k]||'#')+'" target="_blank" rel="noopener" aria-label="'+SOCN[k]+'">'+SOC[k]+'</a>'}).join('')}
 async function footer(){
@@ -126,7 +130,7 @@ async function footer(){
  document.querySelectorAll('[data-soc]').forEach(function(n){n.innerHTML=soc(c)});
  if(f)f.innerHTML='<div class="wrap"><div class="fcols"><div><a class="lg" href="/"><img src="logo.png" alt="ChargeLoop"></a><p class="fp">Tap, Charge &amp; Go. Altijd en overal opgeladen.</p><div class="soc">'+soc(c)+'</div></div>'+
  '<div><h4>Voor jou</h4><a href="/#hoe-het-werkt">Hoe het werkt</a><a href="vind-een-station">Vind een station</a><a href="faq">FAQ</a><a href="contact">Contact</a></div>'+
- '<div><h4>Voor bedrijven</h4><a href="voor-bedrijven">Partner worden</a><a href="voor-bedrijven#stations">Onze modellen</a><a href="festivals">Evenementen &amp; festivals</a><a href="tip-een-locatie">Tip een locatie</a><a href="portaal">Partner inloggen</a></div>'+
+ '<div><h4>Voor bedrijven</h4><a href="voor-bedrijven">Partner worden</a><a href="voor-bedrijven#stations">Onze modellen</a><a href="festivals">Evenementen &amp; festivals</a><a href="portaal">Partner inloggen</a></div>'+
  '<div><h4>Contact</h4><a class="cl" href="'+wa+'" target="_blank" rel="noopener">'+IC.wa+'<span>WhatsApp</span></a><a class="cl" href="mailto:'+esc(c.email)+'">'+IC.mailm+'<span>'+esc(c.email)+'</span></a></div></div>'+
  '<div class="copy"><span>© 2026 ChargeLoop</span><span>KvK '+esc(c.kvk||DEF.contact.kvk)+' · BTW '+esc(c.btw||DEF.contact.btw)+'</span></div></div>';
  document.querySelectorAll('[data-contact]').forEach(function(n){n.innerHTML=cinfo(c)});
@@ -276,7 +280,7 @@ function u(){b.classList.toggle('on',window.scrollY>500)}window.addEventListener
   var o=open('<div class="mdp"><div class="mdi">'+img.outerHTML+'</div><div class="mdt"><span class="label">Specificaties</span><h3>'+nm+'</h3>'+card.querySelector('.mdet').innerHTML+'<div class="btnrow l"><a class="btn btn-or" href="#aanvragen" data-go>Station aanvragen</a></div></div></div>','spec');
   o.querySelector('[data-go]').addEventListener('click',function(e){e.preventDefault();close();var t=document.getElementById('aanvragen');if(t)t.scrollIntoView({behavior:'smooth'})});window.trTree&&window.trTree(o)}
  document.querySelectorAll('.mdl').forEach(function(c){c.addEventListener('click',function(){spec(c)});c.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();spec(c)}})});
- document.addEventListener('click',function(e){var a=e.target.closest('[data-callback]');if(!a)return;e.preventDefault();var o=open('<div class="mcb"><span class="label">Terugbelverzoek</span><h3>Wij bellen jou terug</h3><p>Laat je nummer achter, dan bellen we je binnen een werkdag. Je hoeft zelf niet te bellen.</p><div data-form="terugbel"></div></div>','cb');window.buildForm(o.querySelector('[data-form]'));window.trTree&&window.trTree(o)});
+ document.addEventListener('click',function(e){var a=e.target.closest('[data-callback]');if(!a)return;e.preventDefault();var o=open('<div class="mcb"><span class="label">Terugbelverzoek</span><h3>Laat ons terugbellen</h3><p>Laat je nummer achter en we bellen je terug. Je hoeft zelf niet te bellen.</p><div data-form="terugbel"></div></div>','cb');window.buildForm(o.querySelector('[data-form]'));window.trTree&&window.trTree(o)});
 })();
 /* ---------- vaste CTA-balk (mobiel) ---------- */
 (function(){var pg=document.body.dataset.page;if(pg==='beheer'||pg==='verwijs'||pg==='portaal')return;var form=document.getElementById('aanvragen');

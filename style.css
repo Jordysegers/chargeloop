@@ -757,40 +757,89 @@ body[data-page=home] .hk{margin-bottom:18px}
 .adm .pt-pf .pt-chk input{width:20px;height:20px;padding:0;margin:0;flex:none}
 .adm .pt-pf .pt-chk{gap:10px;white-space:nowrap}
 
-/* v52: mega-menu (modellen + voor bedrijven) */
+/* v53: mega-menu (wit paneel, introtekst links, kaarten rechts) */
 .dd.mega{position:static}
 .dd.mega .ddm{left:0;right:0;min-width:0;padding-top:14px}
-nav.main .megai{background:var(--navy);color:#fff;border-radius:30px;padding:22px;box-shadow:0 22px 54px rgba(2,41,67,.38);display:block}
-nav.main .megai a{color:#fff;font-weight:600;text-decoration:none}
-.mg-mhd{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 16px;margin:0 0 16px 4px}
-.mg-mhd b{font:400 1.45rem var(--h);text-transform:uppercase;letter-spacing:.02em}
-.mg-mhd span{font-size:14px;color:rgba(255,255,255,.72);font-weight:500}
-.mg-grid{display:grid;gap:12px}.mg-grid.mg-mm{grid-template-columns:repeat(4,1fr)}
-nav.main .megai a.mg-mc{position:relative;display:flex;flex-direction:column;gap:12px;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.1);border-radius:22px;padding:16px;transition:background .2s,transform .25s cubic-bezier(.2,.7,.2,1),border-color .2s}
-nav.main .megai a.mg-mc:hover{background:rgba(255,255,255,.14);border-color:var(--or);transform:translateY(-3px)}
-.mg-msl{display:grid;grid-template-columns:repeat(var(--c),1fr);gap:5px;height:92px;align-content:center;background:rgba(255,255,255,.06);border-radius:14px;padding:10px 12px}
-.mg-msl i{display:block;height:7px;border-radius:99px;background:var(--or)}
-.mg-msl i:nth-child(3n){background:#fff}
-.mg-mn{font-size:13px;font-weight:600;color:rgba(255,255,255,.8)}.mg-mn strong{font:400 2.1rem/1 var(--h);color:#fff;margin-right:4px;letter-spacing:.01em}
-.mg-mc small{font-size:13px;line-height:1.4;color:rgba(255,255,255,.72);font-weight:500}
-.mg-mtag{position:absolute;top:-9px;right:14px;font:700 10px var(--b);font-style:normal;text-transform:uppercase;letter-spacing:.08em;background:var(--or);color:#fff;padding:4px 10px;border-radius:99px}
-nav.main .megai a.mg-mfoot{display:inline-flex;align-items:center;gap:8px;margin:16px 0 0 4px;font-size:14px;color:#fff;border-bottom:1.5px solid rgba(255,255,255,.35);padding-bottom:2px}
-nav.main .megai a.mg-mfoot:hover{border-color:var(--or)}
-.mg-marr{width:15px;height:11px;flex:none}
-.mg-mbiz{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:14px}
-.mg-mcta{background:var(--or);border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:10px;justify-content:space-between}
-.mg-mcta b{font:400 1.9rem/1.05 var(--h);text-transform:uppercase;letter-spacing:.01em}
-.mg-mcta p{margin:0;font-size:14px;font-weight:500;color:rgba(255,255,255,.92)}
-nav.main .megai a.mg-mbtn{align-self:flex-start;display:inline-flex;align-items:center;gap:9px;background:#fff;color:var(--navy);padding:11px 18px;border-radius:999px;font-size:14px;transition:gap .2s}
-nav.main .megai a.mg-mbtn:hover{gap:14px}
-.mg-grid.mg-ml{grid-template-columns:1fr 1fr}
-nav.main .megai a.mg-ml1{display:flex;flex-direction:column;gap:3px;justify-content:center;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.1);border-radius:20px;padding:16px 18px;transition:background .2s,border-color .2s}
-nav.main .megai a.mg-ml1:hover{background:rgba(255,255,255,.14);border-color:var(--or)}
-.mg-ml1 b{font:400 1.2rem var(--h);text-transform:uppercase;letter-spacing:.02em}.mg-ml1 span{font-size:13px;color:rgba(255,255,255,.72);font-weight:500}
+nav.main .megai{background:#fff;color:var(--navy);border-radius:28px;padding:28px;box-shadow:0 26px 64px rgba(2,41,67,.24);border:1px solid rgba(2,41,67,.06);display:block}
+.mg-wrap{display:grid;grid-template-columns:270px minmax(0,1fr);gap:36px;align-items:start}
+.mg-intro{display:flex;flex-direction:column;gap:14px}
+.mg-pill{align-self:flex-start;background:var(--or);color:#fff;font:700 12px var(--b);letter-spacing:.04em;padding:6px 14px;border-radius:999px}
+.mg-intro h3{font:800 1.65rem/1.12 var(--b);letter-spacing:-.025em;text-transform:none;margin:2px 0 0;color:var(--navy)}
+.mg-intro p{margin:0;color:var(--muted);font-size:14.5px;line-height:1.55;font-weight:500}
+nav.main .megai a.mg-lnk{display:flex;justify-content:space-between;align-items:center;padding:14px 0;margin-top:6px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:14.5px;color:var(--navy)}
+nav.main .megai a.mg-lnk:hover{color:var(--or)}
+nav.main .megai a.mg-go{align-self:flex-start;display:inline-flex;align-items:center;gap:10px;margin-top:6px;background:var(--or);color:#fff;padding:12px 20px;border-radius:999px;font-size:14.5px;transition:gap .2s,filter .2s}
+nav.main .megai a.mg-go:hover{gap:15px;filter:brightness(1.05)}
+.mg-arr{width:15px;height:11px;flex:none}
+.mg-cards{display:grid;gap:18px}.mg-c4{grid-template-columns:repeat(4,minmax(0,1fr))}.mg-c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+nav.main .megai a.mg-card{display:flex;flex-direction:column;gap:12px;color:var(--navy);font-weight:600}
+.mg-tile{position:relative;aspect-ratio:1/1;background:var(--bg);border-radius:22px;display:grid;place-items:center;padding:14px;transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+.mg-tile svg{width:100%;height:100%;display:block}
+.mg-ic svg{width:44%;height:44%;color:var(--navy)}
+.mg-card.hl .mg-tile{background:var(--or)}.mg-card.hl .mg-ic svg{color:#fff}
+.mg-card:hover .mg-tile{transform:translateY(-4px)}
+.mg-row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.mg-row b{font:800 15.5px var(--b);letter-spacing:-.01em}.mg-row .mg-arr{color:var(--or);transition:transform .2s}.mg-card:hover .mg-arr{transform:translateX(4px)}
+.mg-card small{font-size:13px;line-height:1.45;color:var(--muted);font-weight:500}
+.mg-tag{position:absolute;top:10px;left:10px;font:700 10px var(--b);font-style:normal;letter-spacing:.06em;text-transform:uppercase;background:#fff;color:var(--or);padding:4px 9px;border-radius:99px}
 @media(max-width:1120px){
  .dd.mega .ddm{position:static;padding:0 0 6px}
- nav.main .megai{border-radius:22px;padding:14px;box-shadow:none}
- .mg-grid.mg-mm{grid-template-columns:1fr 1fr}.mg-mbiz{grid-template-columns:1fr}.mg-grid.mg-ml{grid-template-columns:1fr}
- nav.main .megai a.mg-mc{padding:12px}.mg-msl{height:70px}
- .mg-mhd span{display:none}
+ nav.main .megai{border-radius:22px;padding:14px;box-shadow:none;background:var(--bg);border:0}
+ .mg-wrap{grid-template-columns:1fr;gap:14px}.mg-intro{order:2;gap:8px}.mg-pill,.mg-intro h3,.mg-intro p{display:none}
+ .mg-c4,.mg-c3{grid-template-columns:1fr 1fr;gap:12px}.mg-tile{padding:10px;border-radius:18px;background:#fff}.mg-card.hl .mg-tile{background:var(--or)}
+ .mg-c3 .mg-card:last-child{grid-column:1/-1}.mg-c3 .mg-card:last-child .mg-tile{aspect-ratio:3/1}
+ nav.main .megai a.mg-lnk{margin-top:0}
 }
+/* v53: navbar iets compacter */
+nav.main{gap:2px}
+nav.main>a:not(.btn),.ddb{font-size:14px;padding:8px 12px}
+nav.main a.btn.find{font-size:14px;padding:10px 18px 10px 14px}
+.lb{font-size:13.5px}
+/* v53: hero-titel kleiner op desktop */
+@media(min-width:701px){body[data-page=home] .top h1{font-size:clamp(3.4rem,7.4vw,6.2rem)!important}}
+/* v53: modellenkaarten: aantal-label uit het beeld, "meest gekozen" links boven */
+.mslots{display:none!important}
+.mchip{left:14px!important;right:auto!important}
+/* v53: terugbelkaart op contactpagina */
+.cbcard{background:#fff;border:1px solid var(--line);border-radius:24px;padding:22px;margin:0 0 28px}
+.cbh{display:flex;gap:14px;align-items:center;margin-bottom:16px}
+.cbi{width:46px;height:46px;border-radius:14px;background:var(--or);display:grid;place-items:center;flex:none}.cbi svg{width:22px;height:22px}
+.cbh b{display:block;font:800 1.15rem var(--b);letter-spacing:-.015em;color:var(--navy)}
+.cbcard .fm{grid-template-columns:1fr 1fr;gap:12px}
+.cbcard .fm label:nth-of-type(3){grid-column:1/-1}
+.cbcard .fm label:nth-of-type(n+4){display:none}
+.cbcard .fm small{display:none}
+.cbcard .fm .btn{width:100%}
+@media(max-width:520px){.cbcard .fm{grid-template-columns:1fr}}
+.twocta>div:only-child{grid-column:1/-1;max-width:520px;margin:0 auto;border:0;padding:6px 0;text-align:center}
+.twocta>div:only-child:first-child{border-right:0}
+.cbi{display:flex;align-items:center;justify-content:center}.cbh div span{display:block;font-size:14px;color:var(--muted);margin-top:2px}
+.cbh>span.cbi{display:flex;margin:0}
+.cbcard .fm .msg:not(.on){display:none}
+
+/* v54: rustiger en professioneler: kop in gewone Montserrat, vlakkere kaarten, strakke kopregels */
+main h2,main h3,.cl-r h2,.mdl h3{font-family:var(--b);font-weight:800;text-transform:none;letter-spacing:-.025em;line-height:1.1}
+main h2{font-size:clamp(1.9rem,3.6vw,2.8rem)}
+main h3{font-size:1.2rem;letter-spacing:-.015em}
+main h2 em,main h2 i{font-style:normal;color:var(--or)}
+.why h2,.b-navy h2{color:#fff}
+footer h4{font-family:var(--b);font-weight:700;text-transform:none;letter-spacing:0;font-size:15px}
+.label{display:inline-block;background:rgba(254,102,21,.1);color:#c9490a;font-weight:700;font-size:12px;letter-spacing:.07em;padding:6px 14px;border-radius:999px;margin-bottom:16px}
+.b-navy .label,.why .label{background:rgba(255,255,255,.1);color:#ffb68f}
+.cl-r .label{margin-bottom:12px}
+@media(min-width:960px){
+ section>.wrap>.head{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);column-gap:64px;row-gap:0;align-items:end;text-align:left;max-width:none;margin:0 0 48px}
+ section>.wrap>.head .label{grid-column:1/-1;justify-self:start}
+ section>.wrap>.head h2{grid-column:1}
+ section>.wrap>.head p{grid-column:2;margin:0;max-width:52ch;padding-bottom:6px}
+ section>.wrap>.head h2:last-child{grid-column:1/-1}
+}
+@media(max-width:959px){section>.wrap>.head{text-align:left;margin-left:0}}
+.tagwrap span{transform:none!important}
+.card,.evc,.br,.crow,.mdl,.lst,.mapc{box-shadow:none;border:1px solid var(--line)}
+.crow{border-radius:22px}
+.card{border-radius:24px}
+section{padding:92px 0}
+@media(max-width:700px){section{padding:64px 0}}
+.tagwrap>div{justify-content:flex-start!important;margin:0!important;max-width:none!important}
+@media(max-width:959px){.tagwrap>div{justify-content:center!important}}
