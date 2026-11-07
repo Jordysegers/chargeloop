@@ -897,3 +897,18 @@ p:has(>.wai){margin-top:18px}
 .hlp-t{display:grid;gap:3px;align-content:center}
 .hlp-l{grid-column:auto;margin-top:8px;justify-self:start}
 @media(max-width:700px){.hlp-b{justify-self:stretch}}
+
+/* v65: rustiger kopbreuk, evenwichtige hero-ruimte, paginaovergang, knoppenrij contact */
+.head h2,.cl-l h2,.cl-r h2{text-wrap:balance}
+.head p{text-wrap:pretty}
+@media(min-width:701px){.top.small .hero{padding:58px 0 34px}}
+@media(max-width:700px){.top.small .hero{padding:28px 0 18px}}
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:vtout .22s ease both}
+::view-transition-new(root){animation:vtin .32s ease both}
+@keyframes vtout{to{opacity:0}}
+@keyframes vtin{from{opacity:0;transform:translateY(8px)}}
+@media(prefers-reduced-motion:no-preference){main,.top .hero{animation:pgin .45s cubic-bezier(.2,.7,.2,1) both}}
+@keyframes pgin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.cbbtn{gap:12px}.cbbtn .btn{background:var(--navy);color:#fff;border-color:var(--navy);height:52px;padding:0 26px}.cbbtn .btn:hover{filter:brightness(1.15)}
+.cbbtn .wai{width:52px;height:52px}
