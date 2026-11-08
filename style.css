@@ -1187,14 +1187,15 @@ p:has(>.wai){margin-top:18px}
 .mg-card:hover .mg-tile{transform:translateY(-4px)}
 @media(max-width:700px){.mdl .lvx{top:58px;left:8px;right:8px}.mdl h3{font-size:1.3rem}}
 .mdl .mst .mchip{top:12px;bottom:auto;left:12px}
-/* v91: modelkaarten in Tappie-stijl: vlak vlak, groot watermerk-getal, grote foto's op één lijn */
-.mdl .mst,.mdl.feat .mst{height:370px;background:#F2F1EC}
-.mdl.feat .mst{background:var(--or)}
-.mdl .mslots{display:block!important;left:auto;right:18px;top:6px;background:none;padding:0;border-radius:0;font-size:0;transform:none;z-index:0;pointer-events:none}
-.mdl .mslots b{font:400 6.2rem/1 var(--h);color:rgba(2,41,67,.08)}
-.mdl.feat .mslots b{color:rgba(255,255,255,.26)}
-.mdl .lvx{z-index:1;top:30px;left:10px;right:10px}
-.mdl .lv6 img{height:78%}.mdl .lv12 img{height:90%}.mdl .lv24 img,.mdl .lv48 img{height:100%}
-.mdl .lvx img{filter:drop-shadow(0 10px 12px rgba(2,41,67,.16))}
-.mdl .mst .mchip{background:#fff;color:var(--navy);font:700 14px var(--b);letter-spacing:0;text-transform:none;padding:9px 18px;border-radius:99px;top:16px;left:16px;z-index:2}
-@media(max-width:700px){.mdl .mst,.mdl.feat .mst{height:300px}.mdl .mslots b{font-size:4rem}.mdl .lvx{top:56px}.mdl .mst .mchip{font-size:11px;padding:6px 11px;top:10px;left:10px}.mdl .lv6 img{height:72%}.mdl .lv12 img{height:84%}.mdl .lv24 img,.mdl .lv48 img{height:100%}}
+/* v92: modelkaarten, eigen stijl: donker podium, spotlight, alle stations even hoog */
+.mdl .mst,.mdl.feat .mst{height:380px;padding:0;background:radial-gradient(ellipse 70% 55% at 50% 62%,rgba(110,170,220,.34),transparent 70%),linear-gradient(180deg,#0F3C5E,#032A44)}
+.mdl.feat .mst{background:radial-gradient(ellipse 70% 55% at 50% 62%,rgba(254,102,21,.62),transparent 70%),linear-gradient(180deg,#0F3C5E,#032A44)}
+.mdl .mst::after{content:"";position:absolute;left:50%;bottom:16px;width:62%;height:22px;transform:translateX(-50%);background:radial-gradient(ellipse at center,rgba(0,0,0,.55),transparent 70%);filter:blur(3px);z-index:0}
+.mdl .mslots{display:inline-flex!important;align-items:baseline;gap:5px;left:16px;right:auto;top:16px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(4px);color:#fff;border-radius:99px;padding:7px 14px 7px 12px;font-size:13px;font-weight:600;transform:none;z-index:3;pointer-events:none}
+.mdl .mslots b{font:400 1.5rem/1 var(--h);color:#FF8A47}
+.mdl .mst .mchip{top:16px!important;right:16px!important;left:auto!important;bottom:auto!important;background:var(--or);color:#fff;font:700 12px var(--b);letter-spacing:.04em;text-transform:uppercase;padding:8px 13px;border-radius:99px;z-index:3;box-shadow:0 6px 16px rgba(254,102,21,.4)}
+.mdl .lvx{position:absolute;z-index:1;left:10px;right:10px;top:70px;bottom:26px;display:flex;align-items:flex-end;justify-content:center;padding:0}
+.mdl .lvx img,.mdl .lv6 img,.mdl .lv12 img,.mdl .lv24 img,.mdl .lv48 img{height:100%;width:auto;max-width:100%;object-fit:contain;object-position:center bottom;filter:drop-shadow(0 12px 14px rgba(0,0,0,.35))}
+.mdl:hover .mst{background:radial-gradient(ellipse 72% 58% at 50% 62%,rgba(110,170,220,.5),transparent 70%),linear-gradient(180deg,#0F3C5E,#032A44)}
+.mdl.feat:hover .mst{background:radial-gradient(ellipse 72% 58% at 50% 62%,rgba(254,102,21,.78),transparent 70%),linear-gradient(180deg,#0F3C5E,#032A44)}
+@media(max-width:700px){.mdl .mst,.mdl.feat .mst{height:310px}.mdl .lvx{top:76px;bottom:20px;left:6px;right:6px}.mdl .mslots{left:10px;top:10px;padding:5px 10px 5px 9px;font-size:10.5px}.mdl .mslots b{font-size:1.1rem}.mdl .mst .mchip{top:44px!important;left:10px!important;right:auto!important;font-size:9px;padding:5px 8px}}
