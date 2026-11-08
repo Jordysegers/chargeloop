@@ -248,7 +248,7 @@ function loadGmaps(){if(_gp)return _gp;_gp=new Promise(function(res,rej){if(wind
  s.onerror=function(){if(!done){done=true;clearTimeout(to);rej(new Error('load'))}};document.head.appendChild(s)});_gp.catch(function(){_gp=null});return _gp}
 function ChMapG(box,opts){
  var g=document.createElement('div');g.style.cssText='position:absolute;left:0;top:0;right:0;bottom:0';box.insertBefore(g,box.firstChild);
- var m=new google.maps.Map(g,{center:{lat:opts.lat,lng:opts.lng},zoom:opts.z||9,disableDefaultUI:true,zoomControl:true,clickableIcons:false,gestureHandling:'greedy'}),marks=[],selId=null;
+ var m=new google.maps.Map(g,{center:{lat:opts.lat,lng:opts.lng},zoom:opts.z||9,disableDefaultUI:true,zoomControl:true,mapTypeControl:true,mapTypeControlOptions:{mapTypeIds:['roadmap','satellite']},clickableIcons:false,gestureHandling:'greedy'}),marks=[],selId=null;
  function icon(s,sel){var u='data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(PIN.replace('COL',s.status!=='soon'?'#FE6615':'#022943').replace('<svg ','<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" '));var k=sel?42:34;return {url:u,scaledSize:new google.maps.Size(k,k),anchor:new google.maps.Point(k/2,k)}}
  if(opts.onclick)m.addListener('click',function(e){opts.onclick(e.latLng.lat(),e.latLng.lng())});
  return {draw:function(){google.maps.event.trigger(m,'resize')},
