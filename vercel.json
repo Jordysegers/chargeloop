@@ -36,6 +36,11 @@
  ],
  "redirects": [
   {
+   "source": "/festivals",
+   "destination": "/evenementen-en-festivals",
+   "permanent": true
+  },
+  {
    "source": "/tip-een-locatie",
    "destination": "/voor-bedrijven",
    "permanent": false
