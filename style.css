@@ -1150,7 +1150,7 @@ p:has(>.wai){margin-top:18px}
 .lcard.done{border-left-color:#22A06B;opacity:.78}
 .lcard header{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
 .ltype{background:var(--bg);color:var(--navy);font:700 12px var(--b);padding:5px 11px;border-radius:99px}
-.lst{background:var(--or);color:#fff;font:700 11px var(--b);letter-spacing:.04em;text-transform:uppercase;padding:4px 9px;border-radius:99px}.lst.ok{background:#22A06B}
+.lbadge{background:var(--or);color:#fff;font:700 11px var(--b);letter-spacing:.04em;text-transform:uppercase;padding:4px 9px;border-radius:99px}.lbadge.ok{background:#22A06B}
 .lcard time{margin-left:auto;color:var(--muted);font-size:13px}
 .lcard h4{margin:0;font:800 1.15rem/1.25 var(--b);color:var(--navy);text-transform:none;letter-spacing:-.01em}.lcard h4 small{display:block;font:500 14px var(--b);color:var(--muted);margin-top:2px}
 .lcts{display:flex;flex-wrap:wrap;gap:8px 18px}.lct{color:var(--navy);font-weight:600;font-size:14.5px;text-decoration:none}.lct:hover{color:var(--or)}
