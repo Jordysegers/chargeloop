@@ -1220,3 +1220,6 @@ p:has(>.wai){margin-top:18px}
 .mg-tile .mg-st,.mg-tile .mg-st.s6,.mg-tile .mg-st.s12{height:74%;bottom:9%;z-index:1;filter:drop-shadow(0 8px 8px rgba(0,0,0,.35))}
 .mg-tag{background:var(--or)!important;color:#fff!important;z-index:2}
 @media(max-width:760px){.mdi{height:300px}.mdi .lvx{top:54px;bottom:18px}.mdi .mslots{left:10px;top:10px;font-size:10.5px;padding:4px 9px 4px 8px}.mdi .mslots b{font-size:1rem}}
+/* v95: openingstijden bij stations */
+.row small.oh{display:block;color:var(--muted);font-size:12.5px;margin-top:2px}
+.pop .oh{display:inline-block;margin-top:4px;font-size:13px;color:var(--muted);line-height:1.4}
