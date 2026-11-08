@@ -1241,3 +1241,6 @@ p:has(>.wai){margin-top:18px}
 /* v98 hero-tekst gecentreerd tussen navbar en golf */
 @media(min-width:701px){.top.small .hero{padding:79px 0 13px}}
 @media(max-width:700px){.top.small .hero{padding:46px 0 0}}
+/* v99 iets meer ruimte onder hero-tekst */
+@media(min-width:701px){.top.small .hero{padding:79px 0 27px}}
+@media(max-width:700px){.top.small .hero{padding:46px 0 14px}}
