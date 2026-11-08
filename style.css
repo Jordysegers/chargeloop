@@ -1244,3 +1244,6 @@ p:has(>.wai){margin-top:18px}
 /* v99 iets meer ruimte onder hero-tekst */
 @media(min-width:701px){.top.small .hero{padding:79px 0 27px}}
 @media(max-width:700px){.top.small .hero{padding:46px 0 14px}}
+/* v100 ruimte onder hero-tekst iets minder */
+@media(min-width:701px){.top.small .hero{padding:79px 0 19px}}
+@media(max-width:700px){.top.small .hero{padding:46px 0 7px}}
