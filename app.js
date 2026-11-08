@@ -244,7 +244,7 @@ if(mb){(async function(){
  var st=(await col('stations')).filter(function(s){return s.lat&&s.lng});
  var cm=mb.querySelector('.cmap'),rows=mb.querySelector('.rows'),q=mb.querySelector('input'),sel=null,pop=null;
  var map=ChMap(cm,{lat:51.5,lng:3.8,z:9,onpick:pick});
- var OHD={ma:1,maandag:1,di:2,dinsdag:2,wo:3,woensdag:3,do:4,donderdag:4,vr:5,vrijdag:5,za:6,zaterdag:6,zo:7,zondag:7},OHN=['Ma','Di','Wo','Do','Vr','Za','Zo'];
+ var OHD={ma:1,maandag:1,di:2,dinsdag:2,wo:3,woensdag:3,do:4,donderdag:4,vr:5,vrijdag:5,za:6,zaterdag:6,zo:7,zondag:7},OHN=['Maandag','Dinsdag','Woensdag','Donderdag','Vrijdag','Zaterdag','Zondag'];function ohFull(l){return l.replace(/[A-Za-z]+/g,function(w){var k=OHD[w.toLowerCase()];if(k)return t(OHN[k-1]);if(/^(tm|tot)$/i.test(w))return w;return w}).replace(/t\/m/gi,t('t/m')).replace(/(t\/m|\bto\b|[,&])\s+([A-Z])/g,function(m,x,y){return x+' '+y.toLowerCase()}).replace(/^./,function(c){return c.toUpperCase()})}function ohDn(i){var n=t(OHN[i-1]);return LANG==='en'?n:n.toLowerCase()}
  function ohDays(p){p=p.toLowerCase().replace(/\./g,'').trim();var all=[1,2,3,4,5,6,7];if(/dagelijks|elke dag|alle dagen/.test(p))return all;
   var m=p.match(/^([a-z]+)\s*(?:t\/m|tm|tot|-|–)\s*([a-z]+)$/);if(m&&OHD[m[1]]&&OHD[m[2]]){var a=OHD[m[1]],b=OHD[m[2]],r=[],i=a;for(var k=0;k<8;k++){r.push(i);if(i===b)break;i=i%7+1}return r}
   var r2=[];p.split(/[,&\/\s]+|\ben\b/).forEach(function(x){if(OHD[x])r2.push(OHD[x])});return r2}
@@ -261,10 +261,10 @@ if(mb){(async function(){
    var py=(n.d+5)%7+1;if(r.e<=r.s&&rng(r,py)&&n.m<r.e)open={until:r.e}});
   if(open)return {rows:rows,open:true,txt:t('Nu open')+' · '+t('tot')+' '+hm(open.until)};
   var best=null;for(var k=0;k<8&&!best;k++){var day=(n.d-1+k)%7+1,c=[];rows.forEach(function(r){if(rng(r,day)&&(k>0||r.s>n.m))c.push(r.s)});if(c.length){c.sort(function(a,b){return a-b});best={k:k,day:day,s:c[0]}}}
-  return {rows:rows,open:false,txt:t('Gesloten')+(best?' · '+t('Opent')+' '+(best.k===0?t('vandaag'):t(OHN[best.day-1]))+' '+hm(best.s):'')}}
+  return {rows:rows,open:false,txt:t('Gesloten')+(best?' · '+t('Opent')+' '+(best.k===0?t('vandaag'):ohDn(best.day))+' '+hm(best.s):'')}}
  function ohChip(s){var i=s.uren?ohInfo(s.uren):null;if(!i||i.open===undefined)return '';return '<span class="ohs '+(i.open?'on':'off')+'"><i class="dot"></i>'+esc(i.txt)+'</span>'}
  function ohBlock(s){if(!s.uren)return '';var i=ohInfo(s.uren);if(!i)return '<div class="ohb"><span class="oht">'+N('Openingstijden')+'</span>'+esc(s.uren).replace(/\n+/g,'<br>')+'</div>';
-  return '<div class="ohb">'+(i.txt?'<span class="ohs '+(i.open?'on':'off')+'"><i class="dot"></i>'+esc(i.txt)+'</span>':'')+'<ul>'+i.rows.map(function(r){var tm=r.s===null?t('Gesloten'):hm(r.s)+' – '+hm(r.e);return '<li><span>'+esc(r.label)+'</span><b>'+tm+'</b></li>'}).join('')+'</ul></div>'}
+  return '<div class="ohb">'+(i.txt?'<span class="ohs '+(i.open?'on':'off')+'"><i class="dot"></i>'+esc(i.txt)+'</span>':'')+'<ul>'+i.rows.map(function(r){var tm=r.s===null?t('Gesloten'):hm(r.s)+' – '+hm(r.e);return '<li><span>'+esc(ohFull(r.label))+'</span><b>'+tm+'</b></li>'}).join('')+'</ul></div>'}
  function stat(s){return s.status==='soon'?'<span class="pillst soon">'+N('Binnenkort')+'</span>':''}
  function pick(s){sel=s.id;map.select(s.id);rows.querySelectorAll('.row').forEach(function(r){r.classList.toggle('sel',r.dataset.id===s.id)});
   if(pop)pop.remove();pop=el('<div class="pop"><b>'+esc(s.naam)+'</b><br>'+esc(s.adres||'')+(s.adres?', ':'')+esc(s.plaats||'')+'<br>'+stat(s)+(s.slots?' <span style="color:var(--muted)">'+esc(s.slots)+' powerbanks</span>':'')+ohBlock(s)+'<br><a href="https://www.google.com/maps/dir/?api=1&destination='+s.lat+','+s.lng+'" target="_blank" rel="noopener" style="color:var(--or);font-weight:600">Route</a></div>');cm.appendChild(pop);map.setView(+s.lat,+s.lng,Math.max(12,14))}
