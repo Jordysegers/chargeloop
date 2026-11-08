@@ -1161,3 +1161,14 @@ p:has(>.wai){margin-top:18px}
 .lbtn{font:700 13.5px var(--b);padding:9px 16px;border-radius:99px;cursor:pointer;border:1.5px solid var(--line);background:#fff;color:var(--navy);text-decoration:none}
 .lbtn.btn{border-color:var(--navy);background:var(--navy);color:#fff;min-height:0}
 .lbtn.lgh:hover{border-color:#22A06B;color:#22A06B}.lbtn.ldel{margin-left:auto;color:#C0392B;border-color:transparent}.lbtn.ldel:hover{background:#FDECEA}
+/* v89: compacter op tablet/mobiel */
+@media(max-width:860px){
+ .bz2 .bzi{max-width:420px;margin:0 auto}
+ .steps{gap:14px;max-width:640px;margin-left:auto;margin-right:auto}
+ .card.step{display:grid;grid-template-columns:minmax(110px,36%) 1fr;align-items:center;gap:6px;padding:10px}
+ .card.step .ph{aspect-ratio:1/1;height:auto}
+ .step .txt{padding:6px 10px 6px 12px}
+ .step h3{font-size:1.35rem}.step h3::before{width:28px;height:28px;font-size:.95rem;margin-right:8px;vertical-align:2px}
+ .step p{font-size:14px;margin-top:6px;line-height:1.45}
+}
+@media(max-width:400px){.card.step{grid-template-columns:96px 1fr}.step p{font-size:13.5px}}
