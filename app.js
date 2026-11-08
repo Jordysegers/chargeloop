@@ -253,7 +253,7 @@ if(mb){(async function(){
   var d=ohDays(m[1]);if(!d.length)return;out.push({d:d,l:l,s:m[2]!==undefined?(+m[2])*60+(+m[3]||0):null,e:m[4]!==undefined?(+m[4])*60+(+m[5]||0):null,label:m[1].trim()})});return out}
  function ohNow(){try{var p={};new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Amsterdam',weekday:'short',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date()).forEach(function(x){p[x.type]=x.value});
   var wd={Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6,Sun:7}[p.weekday];return {d:wd,m:(+p.hour%24)*60+(+p.minute)}}catch(e){return null}}
- function hm(x){x=x%1440;var h=Math.floor(x/60),m=x%60;return h+':'+(m<10?'0':'')+m}
+ function hm(x){x=x%1440;var h=Math.floor(x/60),m=x%60;return (h<10?'0':'')+h+':'+(m<10?'0':'')+m}
  function ohInfo(txt){var rows=ohParse(txt);if(!rows.length)return null;var n=ohNow();if(!n)return {rows:rows};
   function rng(r,day){return r.d.indexOf(day)>=0&&r.s!==null}
   var open=null;rows.forEach(function(r){if(r.s===null)return;var e=r.e<=r.s?r.e+1440:r.e;
