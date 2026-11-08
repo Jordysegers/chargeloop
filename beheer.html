@@ -97,11 +97,30 @@ async function vVert(){
  $('#vl').addEventListener('input',function(e){var k=e.target.dataset.k;if(k){cur[k]=e.target.value;cnt()}});
  $('#vs').onclick=async function(){var m={};ids.forEach(function(k){if((cur[k]||'').trim())m[k]=cur[k].trim()});try{await db.doc('settings/i18n').set({m:m});toast('Vertalingen opgeslagen.')}catch(e){LE(e);toast('Opslaan lukt niet.',1)}}}
 /* leads */
+var LT={contact:'Contactformulier',bedrijf:'Station aanvragen',locatie:'Locatietip',festival:'Evenement',terugbel:'Terugbelverzoek'};
+var LK={naam:'Naam',bedrijf:'Bedrijf',email:'E-mail',telefoon:'Telefoon',plaats:'Plaats',soort:'Soort zaak',moment:'Beste moment',evenement:'Evenement',datum:'Datum',bezoekers:'Bezoekers'};
+var lfilter='all';
+function lago(ts){var s=Math.max(0,(Date.now()-ts)/1000);if(s<60)return 'zojuist';if(s<3600)return Math.floor(s/60)+' min geleden';if(s<86400)return Math.floor(s/3600)+' uur geleden';if(s<172800)return 'gisteren';return Math.floor(s/86400)+' dagen geleden'}
 async function vLeads(){
  var snap=await db.collection('leads').get(),L=snap.docs.map(function(d){var o=Object.assign({},d.data());o.id=d.id;return o}).sort(function(a,b){return (b.createdAt||0)-(a.createdAt||0)});
- var T={contact:'Contact',bedrijf:'Station aanvragen',locatie:'Locatie aangedragen',festival:'Evenement aangemeld'};
- body.innerHTML='<h2 style="font-size:2rem;margin-bottom:6px">Berichten</h2><p class="note">Alles wat via de formulieren binnenkomt. Voor een echte site koppel je de formulieren aan e-mail (bijvoorbeeld in WordPress).</p>'+(L.length?L.map(function(l){var rest=Object.keys(l).filter(function(k){return ['id','type','createdAt','status'].indexOf(k)<0&&l[k]}).map(function(k){return '<b>'+esc(k)+':</b> '+esc(l[k])}).join(' &middot; ');return '<div class="ld"><b>'+esc(T[l.type]||l.type)+'</b> &middot; '+new Date(l.createdAt||0).toLocaleString('nl-NL')+'<br>'+rest+'<div class="acts" style="margin-top:8px"><button class="del" data-del="'+esc(l.id)+'">Verwijderen</button></div></div>'}).join(''):'<p style="color:var(--muted)">Nog geen berichten.</p>');
- body._h&&body.removeEventListener('click',body._h);function h(e){var b=e.target.closest('[data-del]');if(b&&confirm('Bericht verwijderen?'))db.doc('leads/'+b.dataset.del).delete().then(vLeads)}body.addEventListener('click',h);body._h=h}
+ var nw=L.filter(function(l){return l.status!=='afgehandeld'}).length;
+ var types=[];L.forEach(function(l){if(types.indexOf(l.type)<0)types.push(l.type)});
+ var shown=L.filter(function(l){return lfilter==='all'||(lfilter==='nieuw'?l.status!=='afgehandeld':l.type===lfilter)});
+ var chips='<button class="lchip'+(lfilter==='all'?' on':'')+'" data-f="all">Alles <i>'+L.length+'</i></button><button class="lchip'+(lfilter==='nieuw'?' on':'')+'" data-f="nieuw">Open <i>'+nw+'</i></button>'+types.map(function(t){return '<button class="lchip'+(lfilter===t?' on':'')+'" data-f="'+esc(t)+'">'+esc(LT[t]||t)+' <i>'+L.filter(function(l){return l.type===t}).length+'</i></button>'}).join('');
+ function card(l){
+  var done=l.status==='afgehandeld',who=l.naam||l.bedrijf||l.evenement||'Onbekend',sub=l.naam&&l.bedrijf?l.bedrijf:'';
+  var cts=(l.email?'<a class="lct" href="mailto:'+esc(l.email)+'">&#9993; '+esc(l.email)+'</a>':'')+(l.telefoon?'<a class="lct" href="tel:'+esc(l.telefoon)+'">&#9990; '+esc(l.telefoon)+'</a>':'');
+  var det=Object.keys(LK).filter(function(k){return l[k]&&k!=='naam'&&!(k==='bedrijf'&&sub)&&k!=='email'&&k!=='telefoon'}).map(function(k){return '<div><span>'+LK[k]+'</span><b>'+esc(l[k])+'</b></div>'}).join('');
+  var d=new Date(l.createdAt||0);
+  return '<article class="lcard'+(done?' done':'')+'"><header><span class="ltype">'+esc(LT[l.type]||l.type)+'</span>'+(done?'<span class="lst ok">Afgehandeld</span>':'<span class="lst">Nieuw</span>')+'<time title="'+esc(d.toLocaleString('nl-NL'))+'">'+lago(l.createdAt||0)+'</time></header>'+
+   '<h4>'+esc(who)+(sub?'<small>'+esc(sub)+'</small>':'')+'</h4>'+(cts?'<div class="lcts">'+cts+'</div>':'')+(det?'<div class="ldet">'+det+'</div>':'')+(l.opmerking?'<blockquote>'+esc(l.opmerking)+'</blockquote>':'')+
+   '<div class="lact">'+(l.email?'<a class="btn btn-navy lbtn" href="mailto:'+esc(l.email)+'?subject='+encodeURIComponent('Re: ChargeLoop')+'">Beantwoorden</a>':'')+'<button class="lbtn lgh" data-done="'+esc(l.id)+'" data-v="'+(done?'nieuw':'afgehandeld')+'">'+(done?'Heropenen':'Markeer als afgehandeld')+'</button><button class="lbtn ldel" data-del="'+esc(l.id)+'">Verwijderen</button></div></article>'}
+ body.innerHTML='<h2 style="font-size:2rem;margin-bottom:6px">Berichten</h2><p class="note">Alles wat via de formulieren binnenkomt'+(nw?', '+nw+' nog open':'')+'. Nieuwste bovenaan.</p>'+(L.length?'<div class="lchips">'+chips+'</div><div class="llist">'+(shown.length?shown.map(card).join(''):'<p style="color:var(--muted)">Geen berichten in deze selectie.</p>')+'</div>':'<p style="color:var(--muted)">Nog geen berichten.</p>');
+ body._h&&body.removeEventListener('click',body._h);
+ function h(e){var c=e.target.closest('[data-f]');if(c){lfilter=c.dataset.f;vLeads();return}
+  var b=e.target.closest('[data-del]');if(b){if(confirm('Bericht verwijderen?'))db.doc('leads/'+b.dataset.del).delete().then(vLeads);return}
+  var g=e.target.closest('[data-done]');if(g){var l=L.filter(function(x){return x.id===g.dataset.done})[0];if(!l)return;var o=Object.assign({},l);delete o.id;o.status=g.dataset.v;db.doc('leads/'+l.id).set(o).then(vLeads).catch(function(x){LE(x);toast('Opslaan lukt niet.',1)})}}
+ body.addEventListener('click',h);body._h=h}
 init();
 })();
 </script></body></html>
