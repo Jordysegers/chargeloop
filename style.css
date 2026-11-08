@@ -1187,3 +1187,14 @@ p:has(>.wai){margin-top:18px}
 .mg-card:hover .mg-tile{transform:translateY(-4px)}
 @media(max-width:700px){.mdl .lvx{top:58px;left:8px;right:8px}.mdl h3{font-size:1.3rem}}
 .mdl .mst .mchip{top:12px;bottom:auto;left:12px}
+/* v91: modelkaarten in Tappie-stijl: vlak vlak, groot watermerk-getal, grote foto's op één lijn */
+.mdl .mst,.mdl.feat .mst{height:370px;background:#F2F1EC}
+.mdl.feat .mst{background:var(--or)}
+.mdl .mslots{display:block!important;left:auto;right:18px;top:6px;background:none;padding:0;border-radius:0;font-size:0;transform:none;z-index:0;pointer-events:none}
+.mdl .mslots b{font:400 6.2rem/1 var(--h);color:rgba(2,41,67,.08)}
+.mdl.feat .mslots b{color:rgba(255,255,255,.26)}
+.mdl .lvx{z-index:1;top:30px;left:10px;right:10px}
+.mdl .lv6 img{height:78%}.mdl .lv12 img{height:90%}.mdl .lv24 img,.mdl .lv48 img{height:100%}
+.mdl .lvx img{filter:drop-shadow(0 10px 12px rgba(2,41,67,.16))}
+.mdl .mst .mchip{background:#fff;color:var(--navy);font:700 14px var(--b);letter-spacing:0;text-transform:none;padding:9px 18px;border-radius:99px;top:16px;left:16px;z-index:2}
+@media(max-width:700px){.mdl .mst,.mdl.feat .mst{height:300px}.mdl .mslots b{font-size:4rem}.mdl .lvx{top:56px}.mdl .mst .mchip{font-size:11px;padding:6px 11px;top:10px;left:10px}.mdl .lv6 img{height:72%}.mdl .lv12 img{height:84%}.mdl .lv24 img,.mdl .lv48 img{height:100%}}
