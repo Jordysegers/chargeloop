@@ -1,4 +1,4 @@
 window.SB_CONFIG={url:'https://rekmlbiemfjjccrmdklk.supabase.co',key:'sb_publishable_zQTjz4cLuarl_qof20FJIg_5IU6QCun'};
 
 /* Google Maps API-sleutel (leeg = OpenStreetMap-kaart) */
-window.CL_GMAPS_KEY='';
+window.CL_GMAPS_KEY='AIzaSyC4oOqoNCKZ0dCdXrOjyKXvB9boQcIuF-I';
