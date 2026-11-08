@@ -1172,3 +1172,18 @@ p:has(>.wai){margin-top:18px}
  .step p{font-size:14px;margin-top:6px;line-height:1.45}
 }
 @media(max-width:400px){.card.step{grid-template-columns:96px 1fr}.step p{font-size:13.5px}}
+/* v90: modelfoto's netjes uitgelijnd (kaarten + menu) */
+.mdl .lvx{position:absolute;left:14px;right:14px;top:44px;bottom:0;width:auto;height:auto;padding:0;display:flex;align-items:flex-end;justify-content:center}
+.mdl .lvx img,.mdl .lv6 img,.mdl .lv12 img,.mdl .lv24 img,.mdl .lv48 img{width:auto;max-width:100%;height:100%;object-fit:contain;object-position:center bottom}
+.mdl .lv6 img{height:64%}.mdl .lv12 img{height:74%}.mdl .lv24 img,.mdl .lv48 img{height:100%}
+.mdl .mst{padding:0}
+.mg-tile .mg-st{width:auto;max-width:100%;height:100%;display:block;align-self:end;object-fit:contain;object-position:center bottom;filter:drop-shadow(0 8px 8px rgba(2,41,67,.12))}
+.mg-tile .mg-st.s6{height:68%}.mg-tile .mg-st.s12{height:80%}
+.mg-tile:has(.mg-st){padding:16px 14px 0}
+@media(max-width:700px){.mdl .lv6 img{height:64%}.mdl .lv12 img{height:74%}.mdl .lv24 img,.mdl .lv48 img{height:100%}}
+.mg-tile:has(.mg-st){padding:0;overflow:hidden}
+.mg-tile .mg-st{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:auto;max-width:92%;height:88%}
+.mg-tile .mg-st.s6{height:62%}.mg-tile .mg-st.s12{height:76%}
+.mg-card:hover .mg-tile{transform:translateY(-4px)}
+@media(max-width:700px){.mdl .lvx{top:58px;left:8px;right:8px}.mdl h3{font-size:1.3rem}}
+.mdl .mst .mchip{top:12px;bottom:auto;left:12px}
