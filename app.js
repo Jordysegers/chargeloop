@@ -314,7 +314,7 @@ function u(){b.classList.toggle('on',window.scrollY>500)}window.addEventListener
 (function(){var pg=document.body.dataset.page;if(pg==='beheer'||pg==='verwijs'||pg==='portaal')return;var form=document.getElementById('aanvragen');
  var lbl=pg==='festivals'?'Evenement aanmelden':'Gratis station aanvragen';
  var bar=document.createElement('div');bar.id='sbar';
- bar.innerHTML='<div class="sb-t"><b>'+(pg==='festivals'?'ChargeLoop op jouw festival':'ChargeLoop in jouw zaak')+'</b></div><a class="sb-b" href="'+(form?'#aanvragen':'voor-bedrijven#aanvragen')+'">'+(pg==='festivals'?'Evenement aanmelden':'Gratis station aanvragen')+'</a><button type="button" class="sb-x" aria-label="Sluiten">&times;</button>';
+ bar.innerHTML='<div class="sb-t"><b>'+(pg==='festivals'?'ChargeLoop op jouw evenement':'ChargeLoop in jouw zaak')+'</b></div><a class="sb-b" href="'+(form?'#aanvragen':'voor-bedrijven#aanvragen')+'">'+(pg==='festivals'?'Evenement aanmelden':'Gratis station aanvragen')+'</a><button type="button" class="sb-x" aria-label="Sluiten">&times;</button>';
  document.body.appendChild(bar);window.trTree&&window.trTree(bar);
  if(form)bar.querySelector('.sb-b').addEventListener('click',function(e){e.preventDefault();var go=function(b){window.scrollTo({top:form.getBoundingClientRect().top+window.scrollY+48,behavior:b})};go('smooth');setTimeout(function(){go('auto')},900)});
  bar.querySelector('.sb-x').addEventListener('click',function(){gone=1;upd()});
