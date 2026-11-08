@@ -244,11 +244,32 @@ if(mb){(async function(){
  var st=(await col('stations')).filter(function(s){return s.lat&&s.lng});
  var cm=mb.querySelector('.cmap'),rows=mb.querySelector('.rows'),q=mb.querySelector('input'),sel=null,pop=null;
  var map=ChMap(cm,{lat:51.5,lng:3.8,z:9,onpick:pick});
+ var OHD={ma:1,maandag:1,di:2,dinsdag:2,wo:3,woensdag:3,do:4,donderdag:4,vr:5,vrijdag:5,za:6,zaterdag:6,zo:7,zondag:7},OHN=['Ma','Di','Wo','Do','Vr','Za','Zo'];
+ function ohDays(p){p=p.toLowerCase().replace(/\./g,'').trim();var all=[1,2,3,4,5,6,7];if(/dagelijks|elke dag|alle dagen/.test(p))return all;
+  var m=p.match(/^([a-z]+)\s*(?:t\/m|tm|tot|-|–)\s*([a-z]+)$/);if(m&&OHD[m[1]]&&OHD[m[2]]){var a=OHD[m[1]],b=OHD[m[2]],r=[],i=a;for(var k=0;k<8;k++){r.push(i);if(i===b)break;i=i%7+1}return r}
+  var r2=[];p.split(/[,&\/\s]+|\ben\b/).forEach(function(x){if(OHD[x])r2.push(OHD[x])});return r2}
+ function ohParse(txt){var out=[];String(txt||'').split(/\n+/).forEach(function(l){l=l.trim();if(!l)return;
+  var m=l.match(/^(.*?)[\s:]+(?:(\d{1,2})(?:[:.](\d{2}))?\s*[-–—]\s*(\d{1,2})(?:[:.](\d{2}))?|gesloten)$/i);if(!m)return;
+  var d=ohDays(m[1]);if(!d.length)return;out.push({d:d,l:l,s:m[2]!==undefined?(+m[2])*60+(+m[3]||0):null,e:m[4]!==undefined?(+m[4])*60+(+m[5]||0):null,label:m[1].trim()})});return out}
+ function ohNow(){try{var p={};new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Amsterdam',weekday:'short',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date()).forEach(function(x){p[x.type]=x.value});
+  var wd={Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6,Sun:7}[p.weekday];return {d:wd,m:(+p.hour%24)*60+(+p.minute)}}catch(e){return null}}
+ function hm(x){x=x%1440;var h=Math.floor(x/60),m=x%60;return h+':'+(m<10?'0':'')+m}
+ function ohInfo(txt){var rows=ohParse(txt);if(!rows.length)return null;var n=ohNow();if(!n)return {rows:rows};
+  function rng(r,day){return r.d.indexOf(day)>=0&&r.s!==null}
+  var open=null;rows.forEach(function(r){if(r.s===null)return;var e=r.e<=r.s?r.e+1440:r.e;
+   if(rng(r,n.d)&&n.m>=r.s&&n.m<e)open={until:r.e};
+   var py=(n.d+5)%7+1;if(r.e<=r.s&&rng(r,py)&&n.m<r.e)open={until:r.e}});
+  if(open)return {rows:rows,open:true,txt:t('Nu open')+' · '+t('tot')+' '+hm(open.until)};
+  var best=null;for(var k=0;k<8&&!best;k++){var day=(n.d-1+k)%7+1,c=[];rows.forEach(function(r){if(rng(r,day)&&(k>0||r.s>n.m))c.push(r.s)});if(c.length){c.sort(function(a,b){return a-b});best={k:k,day:day,s:c[0]}}}
+  return {rows:rows,open:false,txt:t('Gesloten')+(best?' · '+t('Opent')+' '+(best.k===0?t('vandaag'):t(OHN[best.day-1]))+' '+hm(best.s):'')}}
+ function ohChip(s){var i=s.uren?ohInfo(s.uren):null;if(!i||i.open===undefined)return '';return '<span class="ohs '+(i.open?'on':'off')+'"><i class="dot"></i>'+esc(i.txt)+'</span>'}
+ function ohBlock(s){if(!s.uren)return '';var i=ohInfo(s.uren);if(!i)return '<div class="ohb"><span class="oht">'+N('Openingstijden')+'</span>'+esc(s.uren).replace(/\n+/g,'<br>')+'</div>';
+  return '<div class="ohb">'+(i.txt?'<span class="ohs '+(i.open?'on':'off')+'"><i class="dot"></i>'+esc(i.txt)+'</span>':'')+'<ul>'+i.rows.map(function(r){var tm=r.s===null?t('Gesloten'):hm(r.s)+' – '+hm(r.e);return '<li><span>'+esc(r.label)+'</span><b>'+tm+'</b></li>'}).join('')+'</ul></div>'}
  function stat(s){return s.status==='soon'?'<span class="pillst soon">'+N('Binnenkort')+'</span>':''}
  function pick(s){sel=s.id;map.select(s.id);rows.querySelectorAll('.row').forEach(function(r){r.classList.toggle('sel',r.dataset.id===s.id)});
-  if(pop)pop.remove();pop=el('<div class="pop"><b>'+esc(s.naam)+'</b><br>'+esc(s.adres||'')+(s.adres?', ':'')+esc(s.plaats||'')+(s.uren?'<br><span class="oh">'+N('Openingstijden')+':<br>'+esc(s.uren).replace(/\n+/g,'<br>')+'</span>':'')+'<br>'+stat(s)+(s.slots?' <span style="color:var(--muted)">'+esc(s.slots)+' powerbanks</span>':'')+'<br><a href="https://www.google.com/maps/dir/?api=1&destination='+s.lat+','+s.lng+'" target="_blank" rel="noopener" style="color:var(--or);font-weight:600">Route</a></div>');cm.appendChild(pop);map.setView(+s.lat,+s.lng,Math.max(12,14))}
+  if(pop)pop.remove();pop=el('<div class="pop"><b>'+esc(s.naam)+'</b><br>'+esc(s.adres||'')+(s.adres?', ':'')+esc(s.plaats||'')+'<br>'+stat(s)+(s.slots?' <span style="color:var(--muted)">'+esc(s.slots)+' powerbanks</span>':'')+ohBlock(s)+'<br><a href="https://www.google.com/maps/dir/?api=1&destination='+s.lat+','+s.lng+'" target="_blank" rel="noopener" style="color:var(--or);font-weight:600">Route</a></div>');cm.appendChild(pop);map.setView(+s.lat,+s.lng,Math.max(12,14))}
  function list(){var v=(q.value||'').toLowerCase(),f=st.filter(function(s){return !v||(s.naam+' '+s.plaats+' '+(s.adres||'')).toLowerCase().indexOf(v)>=0});
-  rows.innerHTML=f.length?f.map(function(s){return '<button class="row'+(s.id===sel?' sel':'')+'" data-id="'+esc(s.id)+'"><b>'+esc(s.naam)+'</b><small>'+esc(s.adres||'')+(s.adres?', ':'')+esc(s.plaats||'')+'</small>'+(s.uren?'<small class="oh">'+esc(s.uren).replace(/\n+/g,' · ')+'</small>':'')+stat(s)+'</button>'}).join(''):'<p style="color:var(--muted);padding:8px">'+N('Geen station gevonden. We breiden snel uit!')+'</p>';
+  rows.innerHTML=f.length?f.map(function(s){return '<button class="row'+(s.id===sel?' sel':'')+'" data-id="'+esc(s.id)+'"><b>'+esc(s.naam)+'</b><small>'+esc(s.adres||'')+(s.adres?', ':'')+esc(s.plaats||'')+'</small>'+(s.uren?ohChip(s)||'<small class="oh">'+esc(s.uren).replace(/\n+/g,' · ')+'</small>':'')+stat(s)+'</button>'}).join(''):'<p style="color:var(--muted);padding:8px">'+N('Geen station gevonden. We breiden snel uit!')+'</p>';
   map.set(f);map.select(sel)}
  rows.addEventListener('click',function(e){var r=e.target.closest('.row');if(!r)return;pick(st.find(function(s){return s.id===r.dataset.id}))});
  var lp=mb.querySelector('.lst');if(lp&&!st.some(function(s){return s.status!=='soon'})){if(!st.length){var sk=document.createElement('div');sk.className='skel';sk.setAttribute('aria-hidden','true');sk.innerHTML=[0,1,2,3,4].map(function(i){return '<div class="sk"><i class="sk-p"></i><span><u></u><u></u></span><em></em></div>'}).join('');lp.insertBefore(sk,lp.firstChild)}var nt=document.createElement('div');nt.className='mapnote';nt.innerHTML='<b>'+N('Binnenkort vind je hier onze eerste stations')+'</b><p>'+N('Met adres en openingstijden, zodra een station actief is.')+'</p><div class="mn-a"><a class="btn btn-or" href="voor-bedrijven#aanvragen">'+N('Station voor jouw zaak')+'</a></div>';var bt=lp.querySelector('.lstbtn');if(bt)bt.style.display='none';lp.appendChild(nt);if(!st.length){q.hidden=true;rows.hidden=true}}

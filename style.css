@@ -1223,3 +1223,14 @@ p:has(>.wai){margin-top:18px}
 /* v95: openingstijden bij stations */
 .row small.oh{display:block;color:var(--muted);font-size:12.5px;margin-top:2px}
 .pop .oh{display:inline-block;margin-top:4px;font-size:13px;color:var(--muted);line-height:1.4}
+/* v96: openingstijden met statusbolletje */
+.ohs{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;margin-top:4px}
+.ohs .dot{width:9px;height:9px;border-radius:50%;flex:none;background:#9AA5B1}
+.ohs.on{color:#1B7F3B}.ohs.on .dot{background:#22A06B;box-shadow:0 0 0 0 rgba(34,160,107,.5);animation:ohp 2s infinite}
+.ohs.off{color:#B23A2E}.ohs.off .dot{background:#D94B3F}
+@keyframes ohp{70%{box-shadow:0 0 0 7px rgba(34,160,107,0)}100%{box-shadow:0 0 0 0 rgba(34,160,107,0)}}
+.row .ohs{display:flex}
+.ohb{margin-top:8px;padding-top:8px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.ohb .oht{display:block;font-weight:700;color:var(--navy);margin-bottom:2px}
+.ohb ul{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:2px}.ohb li{display:flex;justify-content:space-between;gap:16px}.ohb li b{font-weight:600;color:var(--navy)}
+@media(prefers-reduced-motion:reduce){.ohs.on .dot{animation:none}}
