@@ -22,8 +22,8 @@ var DEF={
 {id:'d12',cat:'Voor bedrijven',order:12,q:'Hoe werkt een locatie aandragen?',a:'Ken je een zaak waar een ChargeLoop-station thuishoort? Vul het formulier in. Draait er na een maand een station, dan maken wij €50 aan jou over.'}
  ],
  stations:[
- {id:'s1',naam:'Voorbeeldlocatie 1',adres:'Wordt aangepast in beheer',plaats:'Goes',lat:51.5041,lng:3.8886,status:'soon',slots:6,demo:true},
- {id:'s2',naam:'Voorbeeldlocatie 2',adres:'Wordt aangepast in beheer',plaats:'Middelburg',lat:51.4988,lng:3.6136,status:'soon',slots:6,demo:true}
+ {id:'s1',naam:'Voorbeeldlocatie 1',adres:'Wordt aangepast in beheer',plaats:'Goes',lat:51.5041,lng:3.8886,status:'soon',slots:6,uren:'Ma t/m vr 9:00 - 17:00\nZa 10:00 - 16:00',demo:true},
+ {id:'s2',naam:'Voorbeeldlocatie 2',adres:'Wordt aangepast in beheer',plaats:'Middelburg',lat:51.4988,lng:3.6136,status:'soon',slots:6,uren:'Ma t/m vr 9:00 - 17:00\nZa 10:00 - 16:00',demo:true}
  ]};
 var C={};
 function el(h){var d=document.createElement('div');d.innerHTML=h.trim();return d.firstChild}
