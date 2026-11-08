@@ -1234,3 +1234,6 @@ p:has(>.wai){margin-top:18px}
 .ohb .oht{display:block;font-weight:700;color:var(--navy);margin-bottom:2px}
 .ohb ul{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:2px}.ohb li{display:flex;justify-content:space-between;gap:16px}.ohb li b{font-weight:600;color:var(--navy)}
 @media(prefers-reduced-motion:reduce){.ohs.on .dot{animation:none}}
+/* v97: openingstijden in grijs blokje */
+.ohb{margin-top:10px;padding:12px 14px;border-top:0;background:var(--bg);border-radius:14px}
+.ohb .ohs{margin-top:0;margin-bottom:2px}
