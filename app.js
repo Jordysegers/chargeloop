@@ -92,10 +92,11 @@ var MEGA_B='<div class="dd mega'+(bpages[page]?' on':'')+'"><button class="ddb" 
  '<a class="mg-card" href="festivals"><span class="mg-tile mg-ic"><span class="mg-pic" data-img="mega_events">'+MI.ticket+'</span></span><span class="mg-row"><b>Evenementen &amp; festivals</b>'+ARR+'</span><small>Stations voor grote drukte</small></a>'+
  '<a class="mg-card" href="#terugbel" data-callback><span class="mg-tile mg-ic"><span class="mg-pic" data-img="mega_terugbel">'+MI.phone+'</span></span><span class="mg-row"><b>Laat ons terugbellen</b>'+ARR+'</span><small>Laat je nummer achter</small></a>'+
  '</div></div></div></div></div>';
+var SIMPLE_B='<div class="dd'+(bpages[page]?' on':'')+'"><button class="ddb" type="button" aria-expanded="false" aria-haspopup="true">Voor bedrijven'+CHEV+'</button><div class="ddm"><div class="ddi"><a href="voor-bedrijven"'+(page==='bedrijven'?' class="on"':'')+'>Partner worden</a><a href="festivals"'+(page==='festivals'?' class="on"':'')+'>Evenementen &amp; festivals</a></div></div></div>';
 if(hdr){hdr.innerHTML='<div class="pill"><a class="lg" href="/" aria-label="ChargeLoop, naar de homepage"><img data-img="logo" src="logo.png" alt="ChargeLoop"></a>'+
  '<button class="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>'+
  '<nav class="main" id="nav"><a href="/#hoe-het-werkt">Hoe het werkt</a>'+MEGA_M+''+
- ''+MEGA_B+
+ SIMPLE_B+
  '<a href="faq"'+(page==='faq'?' class="on"':'')+'>FAQ</a><a href="contact"'+(page==='contact'?' class="on"':'')+'>Contact</a>'+
  '<div class="lang"><button class="lb" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Taal"><span class="fl">'+FLAG[LANG]+'</span><span class="lc">'+LANG.toUpperCase()+'</span>'+CHEV+'</button><div class="lm"><div class="ddi"><button type="button" data-l="nl"><span class="fl">'+FLAG.nl+'</span>Nederlands</button><button type="button" data-l="en"><span class="fl">'+FLAG.en+'</span>English</button></div></div></div>'+
  '<a class="btn btn-or find" href="vind-een-station">'+PINI+'Vind een station</a></nav></div>';
