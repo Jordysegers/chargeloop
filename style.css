@@ -1123,3 +1123,5 @@ p:has(>.wai){margin-top:18px}
 .sk:nth-child(n+4){display:none}
 .lv.tall .sk:nth-child(4),.lv.tall .sk:nth-child(5){display:flex}
 .lst .mapnote{padding:18px 20px}
+/* v88: foto in mega-menu Partner worden */
+.mg-card.hl .mg-tile:has(.hasimg){padding:0;overflow:hidden;background:var(--bg)}
