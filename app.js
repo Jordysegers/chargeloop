@@ -213,7 +213,7 @@ function buildForm(host){
  timer=setInterval(function(){set((cur+1)%wi.length)},4500);})();
 window.buildForm=buildForm;document.querySelectorAll('[data-form]').forEach(buildForm);
 /* ---------- map ---------- */
-function ChMap(box,opts){
+function ChMapOSM(box,opts){
  var T=256,z=opts.z||9,lat=opts.lat,lng=opts.lng,marks=[],tiles={},layer=document.createElement('div'),mlayer=document.createElement('div');
  layer.className='mlay';mlayer.className='mlay';mlayer.style.zIndex=2;box.appendChild(layer);box.appendChild(mlayer);
  var zc=el('<div class="zoom"><button aria-label="Inzoomen">+</button><button aria-label="Uitzoomen">–</button></div>');box.appendChild(zc);
@@ -238,7 +238,35 @@ function ChMap(box,opts){
   set:function(list){marks.forEach(function(m){m.el.remove()});marks=list.map(function(s){var b=document.createElement('button');b.className='mk';b.type='button';b.setAttribute('aria-label',s.naam);b.innerHTML=PIN.replace('COL',s.status!=='soon'?'#FE6615':'#022943');b.addEventListener('click',function(ev){ev.stopPropagation();opts.onpick&&opts.onpick(s)});mlayer.appendChild(b);return {lat:+s.lat,lng:+s.lng,el:b,s:s}});draw()},
   fit:function(){if(!marks.length)return;var la=marks.map(function(m){return m.lat}),lo=marks.map(function(m){return m.lng});var minA=Math.min.apply(0,la),maxA=Math.max.apply(0,la),minO=Math.min.apply(0,lo),maxO=Math.max.apply(0,lo);lat=(minA+maxA)/2;lng=(minO+maxO)/2;var zz=13;while(zz>5){var a=px(maxA,minO,zz),b=px(minA,maxO,zz);if(Math.abs(b.x-a.x)<box.clientWidth*.7&&Math.abs(b.y-a.y)<box.clientHeight*.7)break;zz--}z=zz;draw()},
   select:function(id){marks.forEach(function(m){m.el.classList.toggle('sel',m.s.id===id)})}}}
-window.CL.ChMap=ChMap;window.CL.PIN=PIN;
+
+/* ---------- Google Maps (alleen als er een sleutel is ingesteld; anders de OpenStreetMap-kaart hierboven) ---------- */
+var _gp=null;
+function loadGmaps(){if(_gp)return _gp;_gp=new Promise(function(res,rej){if(window.google&&google.maps){res();return}
+ var done=false,to=setTimeout(function(){if(!done){done=true;rej(new Error('timeout'))}},9000);
+ window.__clgm=function(){if(done)return;done=true;clearTimeout(to);res()};
+ var s=document.createElement('script');s.async=true;s.src='https://maps.googleapis.com/maps/api/js?key='+encodeURIComponent(window.CL_GMAPS_KEY)+'&callback=__clgm&language='+(LANG==='en'?'en':'nl')+'&region=NL';
+ s.onerror=function(){if(!done){done=true;clearTimeout(to);rej(new Error('load'))}};document.head.appendChild(s)});_gp.catch(function(){_gp=null});return _gp}
+function ChMapG(box,opts){
+ var g=document.createElement('div');g.style.cssText='position:absolute;left:0;top:0;right:0;bottom:0';box.insertBefore(g,box.firstChild);
+ var m=new google.maps.Map(g,{center:{lat:opts.lat,lng:opts.lng},zoom:opts.z||9,disableDefaultUI:true,zoomControl:true,clickableIcons:false,gestureHandling:'greedy'}),marks=[],selId=null;
+ function icon(s,sel){var u='data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(PIN.replace('COL',s.status!=='soon'?'#FE6615':'#022943').replace('<svg ','<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" '));var k=sel?42:34;return {url:u,scaledSize:new google.maps.Size(k,k),anchor:new google.maps.Point(k/2,k)}}
+ if(opts.onclick)m.addListener('click',function(e){opts.onclick(e.latLng.lat(),e.latLng.lng())});
+ return {draw:function(){google.maps.event.trigger(m,'resize')},
+  setView:function(a,b,zz){m.setCenter({lat:+a,lng:+b});if(zz)m.setZoom(zz)},
+  set:function(list){marks.forEach(function(x){x.mk.setMap(null)});marks=list.map(function(s){var mk=new google.maps.Marker({position:{lat:+s.lat,lng:+s.lng},map:m,title:s.naam,icon:icon(s,s.id===selId),zIndex:s.id===selId?5:3});mk.addListener('click',function(){opts.onpick&&opts.onpick(s)});return {mk:mk,s:s}})},
+  fit:function(){if(!marks.length)return;var b=new google.maps.LatLngBounds();marks.forEach(function(x){b.extend(x.mk.getPosition())});m.fitBounds(b,40);google.maps.event.addListenerOnce(m,'idle',function(){if(m.getZoom()>13)m.setZoom(13)})},
+  select:function(id){selId=id;marks.forEach(function(x){var on=x.s.id===id;x.mk.setIcon(icon(x.s,on));x.mk.setZIndex(on?5:3)})},
+  destroy:function(){g.remove()}}}
+function ChMap(box,opts){
+ if(!window.CL_GMAPS_KEY)return ChMapOSM(box,opts);
+ var impl=null,q=[],last={set:null,sel:undefined,view:null},api={};
+ function flush(){q.splice(0).forEach(function(c){impl[c[0]].apply(impl,c[1])})}
+ ['draw','setView','set','fit','select'].forEach(function(n){api[n]=function(){var a=arguments;if(n==='set')last.set=a;if(n==='select')last.sel=a;if(n==='setView')last.view=a;if(impl)return impl[n].apply(impl,a);q.push([n,a])}});
+ function osm(){if(impl&&impl.destroy)impl.destroy();[].slice.call(box.children).forEach(function(c){if(!c.classList.contains('pop'))c.remove()});impl=ChMapOSM(box,opts);if(last.set)impl.set.apply(impl,last.set);if(last.view)impl.setView.apply(impl,last.view);if(last.sel)impl.select.apply(impl,last.sel);flush()}
+ window.gm_authFailure=function(){osm()};
+ loadGmaps().then(function(){try{impl=ChMapG(box,opts);flush()}catch(e){osm()}},function(){osm()});
+ return api}
+window.CL.ChMap=ChMap;window.CL.loadGmaps=loadGmaps;window.CL.PIN=PIN;
 var mb=document.getElementById('kaartbox');
 if(mb){(async function(){
  var st=(await col('stations')).filter(function(s){return s.lat&&s.lng});
