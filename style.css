@@ -1287,3 +1287,4 @@ footer .soc a{background:rgba(255,255,255,.1)}
 .faq details,.qa{transition:box-shadow .3s,transform .3s}
 @media(prefers-reduced-motion:reduce){.nums>div:nth-child(n),.card.step .ph img{transition:none}}
 @media(max-width:700px){.b-navy::before,footer::before{width:440px;height:440px;right:-210px;top:-230px;opacity:.5}footer::before{opacity:.28}}
+footer .copy{border-top-color:rgba(255,255,255,.16)}
