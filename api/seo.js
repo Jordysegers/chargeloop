@@ -5,7 +5,7 @@ const PAGES = ['/', '/vind-een-station', '/voor-bedrijven', '/evenementen-en-fes
 
 module.exports = (req, res) => {
   const host = String(req.headers['x-forwarded-host'] || req.headers.host || '').split(',')[0].trim().replace(/[^A-Za-z0-9.:-]/g, '');
-  const site = 'https://' + host;
+  const site = 'https://' + host.replace(/^www\./i, '');
   const f = (req.query && req.query.f) || '';
   res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=3600');
   if (f === 'robots') {

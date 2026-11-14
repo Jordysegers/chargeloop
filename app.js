@@ -74,7 +74,7 @@ function setMeta(key,name,val){var m=document.head.querySelector('meta['+key+'="
 function ld(id,o){var s=document.getElementById('ld-'+id);if(!s){s=document.createElement('script');s.type='application/ld+json';s.id='ld-'+id;document.head.appendChild(s)}s.textContent=JSON.stringify(o).replace(/</g,'\\u003c')}
 window.CL.ld=ld;
 (async function(){var def=SEO[page];if(!def)return;
- var pn=location.pathname.replace(/index\.html$/,'').replace(/\.html$/,'').replace(/(.)\/$/,'$1')||'/',site=location.origin;
+ var pn=location.pathname.replace(/index\.html$/,'').replace(/\.html$/,'').replace(/(.)\/$/,'$1')||'/',site=location.origin.replace('://www.','://');
  if(pn===def.p){var l=document.head.querySelector('link[rel="canonical"]');if(!l){l=document.createElement('link');l.rel='canonical';document.head.appendChild(l)}l.href=site+def.p;setMeta('property','og:url',site+def.p)}
  var m=await imgs(),o=(m.__seo||{})[page]||{};
  if(o.t){document.title=o.t;setMeta('property','og:title',o.t)}

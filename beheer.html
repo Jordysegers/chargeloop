@@ -28,7 +28,7 @@ async function vContact(){var c=await CL.contact();
 /* seo */
 async function vSeo(){
  var S=CL.SEO,keys=Object.keys(S),cur={};try{var d=await db.doc('settings/seo').get();if(d.exists)cur=d.data()||{}}catch(e){LE(e)}
- var site=/^https?:/.test(location.origin)&&!/claude/.test(location.hostname)?location.origin:'https://chargeloop.nl',host=site.replace(/^https?:\/\//,'');
+ var site=/^https?:/.test(location.origin)&&!/claude/.test(location.hostname)?location.origin.replace('://www.','://'):'https://chargeloop.nl',host=site.replace(/^https?:\/\//,'');
  function cut(s,n){return s.length>n?s.slice(0,n-1).replace(/\s+\S*$/,'')+' ...':s}
  body.innerHTML='<h2 style="font-size:2rem;margin-bottom:6px">SEO</h2><p class="note">Bepaal per pagina hoe hij in Google en in een gedeelde link verschijnt. Laat je een veld leeg, dan gebruiken we de standaardtekst die erin staat.</p><div class="seo-l">'+keys.map(function(k,i){var v=S[k],c=cur[k]||{};
   return '<details class="seo-p" data-k="'+k+'"'+(i?'':' open')+'><summary><span class="seo-dot"></span><b>'+esc(v.n)+'</b><i>'+esc(v.p)+'</i></summary><div class="seo-b"><div class="seo-f">'
