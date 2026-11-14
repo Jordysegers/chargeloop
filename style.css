@@ -1270,11 +1270,6 @@ footer .soc a{background:rgba(255,255,255,.1)}
 .nums b{font-size:clamp(3.6rem,6vw,5.4rem)}
 .nums p{margin:0}
 @media(max-width:860px){.nums{grid-template-columns:1fr 1fr;gap:12px}.nums>div:nth-child(n){padding:20px 14px;text-align:center;border-radius:22px}}
-/* prijsregel als pil */
-.priceline{width:fit-content;max-width:100%;margin:30px auto 0;background:#fff;color:var(--navy);font-size:14px;line-height:1.5;padding:12px 24px;border-radius:999px;box-shadow:0 6px 24px rgba(2,41,67,.07);border:1px solid var(--line)}
-.priceline a{color:#B83F00;font-weight:600;text-decoration:none;white-space:nowrap}.priceline a:hover{text-decoration:underline}
-.b-navy .priceline{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.14);color:#D5E1EC;box-shadow:none}.b-navy .priceline a{color:#fff}
-@media(max-width:700px){.priceline{border-radius:22px;padding:12px 18px;font-size:13px}}
 /* blauwe kaarten krijgen hetzelfde verloop */
 #geen-app .vs-c,.hlp{background:radial-gradient(ellipse 80% 70% at 100% 0%,rgba(30,105,165,.4),transparent 70%),linear-gradient(160deg,#022943 0%,#0A3E68 100%);position:relative;overflow:hidden}
 #geen-app .vs-c::before{content:"";position:absolute;width:420px;height:420px;right:-170px;bottom:-190px;background:var(--rings) center/contain no-repeat;opacity:.7;pointer-events:none}
