@@ -63,10 +63,27 @@ function trTree(root){if(LANG!=='en'||!root)return;if(root.nodeType===3){trText(
 window.trTree=trTree;
 document.documentElement.lang=LANG;
 var imgp=null;
-function imgs(){if(!imgp)imgp=(async function(){var db=await getDb(),m={};if(!db)return m;try{var s=await db.collection('settings').get();s.docs.forEach(function(d){var x=d.data();if(d.id.indexOf('img_')===0&&x.src)m[d.id.slice(4)]=x.src;if(d.id==='i18n'&&x.m)m.__i18n=x.m})}catch(e){}return m})();return imgp}
+function imgs(){if(!imgp)imgp=(async function(){var db=await getDb(),m={};if(!db)return m;try{var s=await db.collection('settings').get();s.docs.forEach(function(d){var x=d.data();if(d.id.indexOf('img_')===0&&x.src)m[d.id.slice(4)]=x.src;if(d.id==='i18n'&&x.m)m.__i18n=x.m;if(d.id==='seo')m.__seo=x})}catch(e){}return m})();return imgp}
 async function applyImgs(){var m=await imgs();
  document.querySelectorAll('[data-img]').forEach(function(e){var k=e.dataset.img;if(!m[k])return;if(e.tagName==='IMG'){e.src=m[k]}else{e.innerHTML='<img src="'+m[k]+'" alt="" style="display:block;width:100%;height:100%;object-fit:cover;border-radius:inherit">';e.classList.add('hasimg')}});
  var fl=document.querySelector('#ftr .lg');if(fl&&m.logo_footer){fl.innerHTML='<img src="'+m.logo_footer+'" alt="ChargeLoop">';fl.classList.add('plain');trTree(fl)}}
+/* ---------- SEO ---------- */
+var SEO={"home":{"p":"/","n":"Home","t":"Powerbank huren zonder app | ChargeLoop","d":"Telefoon leeg? Huur een powerbank bij een ChargeLoop-station. Tik met je pinpas of telefoon, laad onderweg op en lever hem in bij elk station."},"faq":{"p":"/faq","n":"FAQ","t":"Veelgestelde vragen over powerbank huren | ChargeLoop","d":"Wat kost een powerbank huren, hoe betaal je en waar lever je hem in? Lees de antwoorden op de meest gestelde vragen over ChargeLoop."},"contact":{"p":"/contact","n":"Contact","t":"Contact | ChargeLoop","d":"Heb je een vraag over een station of je powerbank? Neem contact op met ChargeLoop via WhatsApp, e-mail of het formulier. We reageren binnen 24 uur."},"bedrijven":{"p":"/voor-bedrijven","n":"Voor bedrijven","t":"Powerbank station in je zaak, zonder kosten | ChargeLoop","d":"Zet een ChargeLoop-station in je horecazaak, winkel of sportschool. Geen investering: wij regelen installatie en onderhoud en jij verdient tot 20% mee."},"festivals":{"p":"/evenementen-en-festivals","n":"Evenementen en festivals","t":"Powerbank verhuur voor evenementen en festivals | ChargeLoop","d":"Houd bezoekers de hele dag opgeladen. ChargeLoop plaatst en beheert powerbank stations op jouw festival of evenement, zonder app en zonder rij."},"vind":{"p":"/vind-een-station","n":"Vind een station","t":"Vind een powerbank station bij jou in de buurt | ChargeLoop","d":"Bekijk op de kaart waar je een powerbank kunt huren en inleveren. Alle ChargeLoop-stations met adres en openingstijden op een rij."}};
+window.CL.SEO=SEO;
+function setMeta(key,name,val){var m=document.head.querySelector('meta['+key+'="'+name+'"]');if(!m){m=document.createElement('meta');m.setAttribute(key,name);document.head.appendChild(m)}m.setAttribute('content',val)}
+function ld(id,o){var s=document.getElementById('ld-'+id);if(!s){s=document.createElement('script');s.type='application/ld+json';s.id='ld-'+id;document.head.appendChild(s)}s.textContent=JSON.stringify(o).replace(/</g,'\\u003c')}
+window.CL.ld=ld;
+(async function(){var def=SEO[page];if(!def)return;
+ var pn=location.pathname.replace(/index\.html$/,'').replace(/\.html$/,'').replace(/(.)\/$/,'$1')||'/',site=location.origin;
+ if(pn===def.p){var l=document.head.querySelector('link[rel="canonical"]');if(!l){l=document.createElement('link');l.rel='canonical';document.head.appendChild(l)}l.href=site+def.p;setMeta('property','og:url',site+def.p)}
+ var m=await imgs(),o=(m.__seo||{})[page]||{};
+ if(o.t){document.title=o.t;setMeta('property','og:title',o.t)}
+ if(o.d){setMeta('name','description',o.d);setMeta('property','og:description',o.d)}
+ if(page==='home'){var c=await contact(),same=[c.facebook,c.instagram,c.linkedin].filter(function(x){return /^https?:/.test(x||'')});
+  var org={'@type':'Organization','@id':site+'/#org',name:'ChargeLoop',url:site+'/',logo:site+'/icon-512.png',slogan:'Tap, Charge & Return.',description:document.querySelector('meta[name="description"]').getAttribute('content')};
+  if(c.email)org.email=c.email;if(c.tel)org.telephone=c.tel;if(same.length)org.sameAs=same;
+  ld('org',{'@context':'https://schema.org','@graph':[org,{'@type':'WebSite','@id':site+'/#site',name:'ChargeLoop',url:site+'/',inLanguage:'nl-NL',publisher:{'@id':site+'/#org'}}]})}
+})();
 /* ---------- header / footer ---------- */
 var FLAG={nl:'<svg viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="6.67" fill="#AE1C28"/><rect y="6.67" width="30" height="6.67" fill="#fff"/><rect y="13.33" width="30" height="6.67" fill="#21468B"/></svg>',
  en:'<svg viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="20" fill="#012169"/><path d="M0 0L30 20M30 0L0 20" stroke="#fff" stroke-width="4"/><path d="M0 0L30 20M30 0L0 20" stroke="#C8102E" stroke-width="1.6"/><path d="M15 0V20M0 10H30" stroke="#fff" stroke-width="6"/><path d="M15 0V20M0 10H30" stroke="#C8102E" stroke-width="3.4"/></svg>'};
@@ -146,6 +163,8 @@ N('Huren en betalen');N('Inleveren');N('Storing en hulp');N('Voor bedrijven');N(
 (async function(){
  var hs=document.querySelectorAll('[data-faq-home]'),cs=document.querySelectorAll('[data-faq-cat]'),a=document.querySelector('[data-faq-all]');
  if(!hs.length&&!a&&!cs.length)return;var all=(await col('faq')).sort(function(x,y){return (x.order||0)-(y.order||0)});
+ var fl=page==='faq'?all:cs.length?all.filter(function(f){return [].some.call(cs,function(h){return h.dataset.faqCat===f.cat})}):[];
+ if(fl.length)ld('faq',{'@context':'https://schema.org','@type':'FAQPage',mainEntity:fl.map(function(f){return {'@type':'Question',name:LANG==='en'&&f.q_en?f.q_en:f.q,acceptedAnswer:{'@type':'Answer',text:LANG==='en'&&f.a_en?f.a_en:f.a}}})});
  cs.forEach(function(h){var c=h.dataset.faqCat;h.innerHTML=all.filter(function(f){return f.cat===c}).map(faqItem).join('')});
  hs.forEach(function(h){var s=all.filter(function(f){return f.home});if(!s.length)s=all.slice(0,5);h.innerHTML=s.map(faqItem).join('')});
  if(a){var cats=[];all.forEach(function(f){var c=f.cat||'Overig';if(cats.indexOf(c)<0)cats.push(c)});
@@ -270,6 +289,8 @@ window.CL.ChMap=ChMap;window.CL.loadGmaps=loadGmaps;window.CL.PIN=PIN;
 var mb=document.getElementById('kaartbox');
 if(mb){(async function(){
  var st=(await col('stations')).filter(function(s){return s.lat&&s.lng});
+ var lst=page==='vind'?st.filter(function(s){return !s.demo&&s.status!=='soon'&&s.naam}):[];
+ if(lst.length)ld('stations',{'@context':'https://schema.org','@type':'ItemList',name:'ChargeLoop-stations',itemListElement:lst.map(function(s,i){var a={'@type':'PostalAddress',addressCountry:'NL'};if(s.adres)a.streetAddress=s.adres;if(s.plaats)a.addressLocality=s.plaats;return {'@type':'ListItem',position:i+1,item:{'@type':'Place',name:s.naam,address:a,geo:{'@type':'GeoCoordinates',latitude:+s.lat,longitude:+s.lng}}}})});
  var cm=mb.querySelector('.cmap'),rows=mb.querySelector('.rows'),q=mb.querySelector('input'),sel=null,pop=null;
  var map=ChMap(cm,{lat:51.5,lng:3.8,z:9,onpick:pick});
  var OHD={ma:1,maandag:1,di:2,dinsdag:2,wo:3,woensdag:3,do:4,donderdag:4,vr:5,vrijdag:5,za:6,zaterdag:6,zo:7,zondag:7},OHN=['Maandag','Dinsdag','Woensdag','Donderdag','Vrijdag','Zaterdag','Zondag'];function ohFull(l){return l.replace(/[A-Za-z]+/g,function(w){var k=OHD[w.toLowerCase()];if(k)return t(OHN[k-1]);if(/^(tm|tot)$/i.test(w))return w;return w}).replace(/t\/m/gi,t('t/m')).replace(/(t\/m|\bto\b|[,&])\s+([A-Z])/g,function(m,x,y){return x+' '+y.toLowerCase()}).replace(/^./,function(c){return c.toUpperCase()})}function ohDn(i){var n=t(OHN[i-1]);return LANG==='en'?n:n.toLowerCase()}

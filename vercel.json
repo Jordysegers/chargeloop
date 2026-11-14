@@ -45,5 +45,15 @@
    "destination": "/voor-bedrijven",
    "permanent": false
   }
+ ],
+ "rewrites": [
+  {
+   "source": "/sitemap.xml",
+   "destination": "/api/seo?f=sitemap"
+  },
+  {
+   "source": "/robots.txt",
+   "destination": "/api/seo?f=robots"
+  }
  ]
 }
