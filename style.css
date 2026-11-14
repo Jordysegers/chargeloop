@@ -1341,3 +1341,17 @@ footer .copy{border-top-color:rgba(255,255,255,.16)}
 #hoe .tlwrap .tphoto{min-height:0;aspect-ratio:4/3;margin-top:4px}
 @media(max-width:1024px){#hoe .tlwrap .tphoto{position:relative;top:auto;max-width:560px;width:100%;margin:6px auto 0}}
 @media(max-width:860px){.bz2 .bzi{max-width:none;width:100%}.bzi img.bzi-ph{max-width:none;width:100%;aspect-ratio:16/10;border-radius:24px}#hoe .tlwrap .tphoto{max-width:none;aspect-ratio:16/10;border-radius:24px}}
+/* v111 evenementen: brede foto met vier stapkaarten die erover vallen */
+#hoe .tlwrap .tphoto{order:-1}
+@media(min-width:861px){
+#hoe .tlwrap{grid-template-columns:1fr;gap:0}
+#hoe .tlwrap .tphoto{aspect-ratio:2/1;margin:0;border-radius:32px;box-shadow:0 18px 44px rgba(2,41,67,.14)}
+#hoe .tlwrap .tphoto img{object-position:50% 88%!important}
+#hoe .tline{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin:-96px 28px 0;position:relative;z-index:2}
+#hoe .tline::before{display:none}
+#hoe .tline li{display:block;background:#fff;border-radius:24px;padding:24px 22px 26px;box-shadow:0 14px 36px rgba(2,41,67,.12)}
+#hoe .tline .tn{width:44px;height:44px;margin:0 0 16px;font-size:15px}
+#hoe .tline h3{padding-top:0;font-size:1.3rem}
+#hoe .tline p{margin-top:8px;font-size:15px;line-height:1.6}
+}
+@media(min-width:861px) and (max-width:1100px){#hoe .tline{grid-template-columns:1fr 1fr;margin:-80px 20px 0}}
