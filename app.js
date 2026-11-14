@@ -163,9 +163,9 @@ N('Overig');N('Voor gebruikers');var FAQT=function(x){return t(x)};var FAQCATI={
 (async function(){
  var hs=document.querySelectorAll('[data-faq-home]'),cs=document.querySelectorAll('[data-faq-cat]'),a=document.querySelector('[data-faq-all]');
  if(!hs.length&&!a&&!cs.length)return;var all=(await col('faq')).sort(function(x,y){return (x.order||0)-(y.order||0)});
- var fl=page==='faq'?all:cs.length?all.filter(function(f){return [].some.call(cs,function(h){return h.dataset.faqCat===f.cat})}):[];
+ var fl=page==='faq'?all:cs.length?all.filter(function(f){return [].some.call(cs,function(h){return h.dataset.faqCat.split('|').indexOf(f.cat)>=0})}):[];
  if(fl.length)ld('faq',{'@context':'https://schema.org','@type':'FAQPage',mainEntity:fl.map(function(f){return {'@type':'Question',name:LANG==='en'&&f.q_en?f.q_en:f.q,acceptedAnswer:{'@type':'Answer',text:LANG==='en'&&f.a_en?f.a_en:f.a}}})});
- cs.forEach(function(h){var c=h.dataset.faqCat;h.innerHTML=all.filter(function(f){return f.cat===c}).map(faqItem).join('')});
+ cs.forEach(function(h){var c=h.dataset.faqCat.split('|');h.innerHTML=all.filter(function(f){return c.indexOf(f.cat)>=0}).map(faqItem).join('')});
  hs.forEach(function(h){var s=all.filter(function(f){return f.home});if(!s.length)s=all.slice(0,5);h.innerHTML=s.map(faqItem).join('')});
  if(a){var cats=[];all.forEach(function(f){var c=f.cat||'Overig';if(cats.indexOf(c)<0)cats.push(c)});
   function draw(q){q=(q||'').toLowerCase();var out='';cats.forEach(function(c){var it=all.filter(function(f){var qq=(LANG==='en'&&f.q_en?f.q_en:f.q)+' '+(LANG==='en'&&f.a_en?f.a_en:f.a);return (f.cat||'Overig')===c&&(!q||qq.toLowerCase().indexOf(q)>=0)});if(it.length){if(!q&&FAQUSER.indexOf(c)===0)out+='<h2 class="fq-grp">'+esc(FAQT('Voor gebruikers'))+'</h2>';if(!q&&FAQCATI[c]){out+='<h2 class="fq-grp">'+esc(FAQT(c))+'</h2><div class="fq-intro"><b>'+esc(FAQT(FAQCATI[c].t))+'</b>'+FAQCATI[c].p.map(function(x){return '<p>'+esc(FAQT(x))+'</p>'}).join('')+'</div>'}else out+='<h3>'+esc(FAQT(c))+'</h3>';out+=it.map(faqItem).join('')}});a.innerHTML=out||'<p class="nores">Geen vragen gevonden. Probeer een ander woord.</p>';
