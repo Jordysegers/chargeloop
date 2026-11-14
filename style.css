@@ -1340,3 +1340,4 @@ footer .copy{border-top-color:rgba(255,255,255,.16)}
 #hoe .tlwrap{align-items:start}
 #hoe .tlwrap .tphoto{min-height:0;aspect-ratio:4/3;margin-top:4px}
 @media(max-width:1024px){#hoe .tlwrap .tphoto{position:relative;top:auto;max-width:560px;width:100%;margin:6px auto 0}}
+@media(max-width:860px){.bz2 .bzi{max-width:none;width:100%}.bzi img.bzi-ph{max-width:none;width:100%;aspect-ratio:16/10;border-radius:24px}#hoe .tlwrap .tphoto{max-width:none;aspect-ratio:16/10;border-radius:24px}}
