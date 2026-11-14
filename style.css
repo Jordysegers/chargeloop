@@ -1369,3 +1369,18 @@ footer .copy{border-top-color:rgba(255,255,255,.16)}
 .crow{cursor:default}.crow:hover{transform:none}
 @media(prefers-reduced-motion:reduce){.chg-b{animation:none}}
 @media(max-width:860px){.cph.cpz2{max-width:420px}}
+/* v113 laadanimatie als batterij die vol loopt */
+.chg{gap:6px}
+.cbat{--p:12%;position:relative;width:38%;aspect-ratio:1/1.75;border:3px solid rgba(255,255,255,.88);border-radius:16px;padding:5px;box-sizing:border-box;margin-top:8%}
+.cbat::before{content:"";position:absolute;left:50%;top:-10px;width:34%;height:7px;transform:translateX(-50%);background:rgba(255,255,255,.88);border-radius:4px 4px 0 0}
+.cbat-f{position:absolute;left:5px;right:5px;bottom:5px;height:calc((100% - 10px) * var(--p) / 100%);max-height:calc(100% - 10px);border-radius:10px;overflow:hidden;background:linear-gradient(0deg,#FE6615,#FF9A5C)}
+.cbat-f{height:calc(var(--p) - 10px * var(--p) / 100%)}
+.cbat-f::after{content:"";position:absolute;left:0;right:0;height:60%;bottom:-60%;background:linear-gradient(0deg,transparent,rgba(255,255,255,.45),transparent);animation:cbsh 1.8s ease-in-out infinite}
+@keyframes cbsh{to{bottom:110%}}
+.cbat-b{position:absolute;left:50%;top:50%;width:46%;transform:translate(-50%,-50%);filter:drop-shadow(0 2px 6px rgba(0,0,0,.35));animation:chgb 1.6s ease-in-out infinite}
+.cpz2.full .cbat-f{background:linear-gradient(0deg,#22B573,#5FD69B)}
+.cpz2.full .chg-t{color:#5FD69B}
+@media(prefers-reduced-motion:reduce){.cbat-f::after,.cbat-b{animation:none}}
+.cbat-b{animation:cbb 1.6s ease-in-out infinite}
+@keyframes cbb{0%,100%{opacity:.7;transform:translate(-50%,-50%) scale(.92)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.06)}}
+@media(prefers-reduced-motion:reduce){.cbat-b{animation:none}}
