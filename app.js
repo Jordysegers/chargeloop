@@ -210,7 +210,7 @@ function buildForm(host){
   if(bad.length){m.className='msg full on err';m.textContent=N('Vul de verplichte velden in.');bad[0].focus();return}
   var data={type:ft,createdAt:Date.now(),status:'nieuw'};fd.forEach(function(v,k){if(k!=='website')data[k]=String(v).trim().slice(0,1500)});
   var b=f.querySelector('button');b.disabled=true;m.className='msg full on';m.style.color='';m.textContent=N('Even geduld...');
-  try{var db=await getDb();if(!db)throw 0;await db.collection('leads').add(data);f.reset();if(ms)go(1);m.className='msg full';m.textContent='';showOk(d.ok)}
+  try{var db=await getDb();if(!db)throw 0;await db.collection('leads').add(data);try{fetch('/api/notify',{method:'POST',headers:{'Content-Type':'application/json'},keepalive:true,body:JSON.stringify({type:ft,naam:data.naam||'',email:data.email||'',page:location.href,fields:d.f.map(function(x){return [x[1],data[x[0]]||'']}).filter(function(x){return x[1]})})}).catch(function(){})}catch(_){}f.reset();if(ms)go(1);m.className='msg full';m.textContent='';showOk(d.ok)}
   catch(x){m.className='msg full on err';m.textContent=t(N('Versturen lukt nu niet. Mail ons via'))+' '+(C.email||DEF.contact.email)+'.'}
   b.disabled=false})}
 (function(){var wt=document.querySelector('.wt');if(!wt)return;var hs=wt.querySelectorAll('.hs'),wi=wt.querySelectorAll('.wi'),cur=0,timer=null;
