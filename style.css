@@ -1384,3 +1384,8 @@ footer .copy{border-top-color:rgba(255,255,255,.16)}
 .cbat-b{animation:cbb 1.6s ease-in-out infinite}
 @keyframes cbb{0%,100%{opacity:.7;transform:translate(-50%,-50%) scale(.92)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.06)}}
 @media(prefers-reduced-motion:reduce){.cbat-b{animation:none}}
+/* v114 FAQ-blok: knop en WhatsApp naast elkaar op mobiel */
+.cta-card .btnrow{flex-wrap:nowrap;align-items:center;justify-content:center;width:100%}
+.cta-card .btnrow .btn{flex:0 1 auto;min-width:0;white-space:nowrap}
+@media(max-width:520px){.cta-card{padding:30px 22px}.cta-card .btnrow .btn{padding:13px 22px;font-size:15px}}
+@media(max-width:560px){.cta-card .btnrow,.cta-card .btnrow.l{flex-direction:row;align-items:center;gap:10px}.cta-card .btnrow .btn{width:auto;flex:1 1 auto}.cta-card .btnrow .wai{width:52px;height:52px}}
