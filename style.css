@@ -1325,3 +1325,10 @@ footer .copy{border-top-color:rgba(255,255,255,.16)}
 .mdl .lvx,.mdi .lvx{top:44px;bottom:44px}
 .mdi .lvx{top:56px;bottom:56px}
 @media(max-width:700px){.mdl .lvx{top:40px;bottom:40px}.mdi .lvx{top:44px;bottom:44px}}
+/* v108 sitemap in SEO-beheer */
+.seo-sm{margin-top:26px;border:1px solid var(--line);border-radius:20px;background:#fff;padding:20px 22px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px 28px;align-items:center}
+.seo-sm h3{font-size:1.4rem;margin:0 0 4px}.seo-sm .note{margin:0 0 12px}
+.seo-url{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.seo-url code{background:#F6F2EC;border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:.9rem;overflow-wrap:anywhere;min-width:0}
+.seo-url button{font:inherit;font-size:.85rem;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--navy);cursor:pointer}
+.seo-smb{display:grid;gap:10px;justify-items:center}.seo-smb a{font-size:.9rem;font-weight:600;color:var(--navy)}
+@media(max-width:760px){.seo-sm{grid-template-columns:1fr}.seo-smb{justify-items:start}}
