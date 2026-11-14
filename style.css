@@ -1389,3 +1389,8 @@ footer .copy{border-top-color:rgba(255,255,255,.16)}
 .cta-card .btnrow .btn{flex:0 1 auto;min-width:0;white-space:nowrap}
 @media(max-width:520px){.cta-card{padding:30px 22px}.cta-card .btnrow .btn{padding:13px 22px;font-size:15px}}
 @media(max-width:560px){.cta-card .btnrow,.cta-card .btnrow.l{flex-direction:row;align-items:center;gap:10px}.cta-card .btnrow .btn{width:auto;flex:1 1 auto}.cta-card .btnrow .wai{width:52px;height:52px}}
+/* v115 FAQ-pagina: groepskoppen en intro's */
+.faq h2.fq-grp{font-size:clamp(1.9rem,4vw,2.5rem);margin:46px 0 10px}.faq h2.fq-grp:first-child{margin-top:0}
+.fq-intro{background:var(--navy);color:#fff;border-radius:24px;padding:24px 26px;margin:6px 0 16px}
+.fq-intro b{display:block;font:400 1.35rem/1.15 var(--h);text-transform:uppercase;margin-bottom:8px}
+.fq-intro p{color:#C9D6E2;font-size:15px;line-height:1.6;margin:0}.fq-intro p+p{margin-top:8px}
