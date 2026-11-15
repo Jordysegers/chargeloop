@@ -32,9 +32,10 @@ try{if('scrollRestoration' in history)history.scrollRestoration='manual'}catch(e
 if(!location.hash)window.scrollTo(0,0);window.addEventListener('pageshow',function(e){if(e.persisted&&!location.hash)window.scrollTo(0,0)});
 var dbp=null;
 function getDb(){return Promise.resolve(window.SBDB||null)}
+var FAQOLDCATS=['Huren en betalen','Inleveren','Storing en hulp','Voor bedrijven','Evenementen'];function faqOld(r){return r.some(function(x){return FAQOLDCATS.indexOf(x.cat)>=0})}
 async function col(name){
  var db=await getDb();
- if(db){try{var s=await db.collection(name).get();if(name==='stations'&&!s.docs.length){var o2=false;try{var d2=await db.doc('settings/demo_off').get();o2=!!(d2&&d2.exists&&d2.data().off)}catch(e){}if(o2)return []}if(s.docs.length){var r=s.docs.map(function(d){var o=Object.assign({},d.data());o.id=d.id;return o});if(name==='stations'){var off=false;try{var od=await db.doc('settings/demo_off').get();off=!!(od&&od.exists&&od.data().off)}catch(e){}if(!off){var have={};r.forEach(function(x){have[x.id]=1});DEF.stations.forEach(function(x){if(!have[x.id])r.unshift(Object.assign({},x))})}}return r}}catch(e){}}
+ if(db){try{var s=await db.collection(name).get();if(name==='stations'&&!s.docs.length){var o2=false;try{var d2=await db.doc('settings/demo_off').get();o2=!!(d2&&d2.exists&&d2.data().off)}catch(e){}if(o2)return []}if(s.docs.length){var r=s.docs.map(function(d){var o=Object.assign({},d.data());o.id=d.id;return o});if(name==='faq'&&faqOld(r))return DEF.faq.map(function(x){return Object.assign({},x)});if(name==='stations'){var off=false;try{var od=await db.doc('settings/demo_off').get();off=!!(od&&od.exists&&od.data().off)}catch(e){}if(!off){var have={};r.forEach(function(x){have[x.id]=1});DEF.stations.forEach(function(x){if(!have[x.id])r.unshift(Object.assign({},x))})}}return r}}catch(e){}}
  return DEF[name].map(function(x){return Object.assign({},x)})}
 async function contact(){
  var db=await getDb();
